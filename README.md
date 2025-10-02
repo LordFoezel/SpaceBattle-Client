@@ -3,7 +3,7 @@
 Client for the Game "Space Battle" 
 
 Quicklinks:
-- SpaceBattle: https://github.com/LordFoezel/SpaceBattle -> [SpaceBattle (Meta)](https://github.com/LordFoezel/SpaceBattle#readme)
+- SpaceBattle: https://github.com/LordFoezel/SpaceBattle -> [SpaceBattle README](https://github.com/LordFoezel/SpaceBattle#readme)
 - Client: https://github.com/LordFoezel/SpaceBattle-Server -> [Server README](https://github.com/LordFoezel/SpaceBattle-Server#readme)
 
 node module:
