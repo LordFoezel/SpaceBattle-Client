@@ -21,3 +21,43 @@
   font-size: clamp(1rem, 2vw, 1.5rem);
   opacity: 0.85;
 }
+
+.database-tables {
+  width: min(28rem, 100%);
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  text-align: left;
+}
+
+.database-tables h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.database-tables p {
+  margin: 0.25rem 0;
+}
+
+.database-tables ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.database-tables li {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: "JetBrains Mono", "Fira Mono", monospace;
+  font-size: 0.95rem;
+}
+
+.database-tables .error {
+  color: #ff7b72;
+}
