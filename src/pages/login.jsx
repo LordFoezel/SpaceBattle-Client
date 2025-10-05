@@ -34,8 +34,13 @@ export default function LoginPage() {
       if (!email || !password) {
         throw new Error("Bitte E-Mail und Passwort eingeben.");
       }
-      await login(email, password);
-      setStatus("success");
+      const user = await login(email, password);
+      if (!user) {
+        setStatus("error");
+        setError("Wrong login credentials");
+      } else {
+        setStatus("success");
+      }
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");
@@ -84,7 +89,7 @@ export default function LoginPage() {
 
         {status === "success" ? (
           <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
-            Anmeldung erfolgreich � willkommen zurueck.
+            Anmeldung erfolgreich ? willkommen zurueck.
           </p>
         ) : null}
 
