@@ -9,7 +9,6 @@ import {
 import { adaptUser, UserCreate, UserUpdate } from "../models/user.js";
 import { QueryInterface } from "../models/queryInterface.js";
 
-
 const path = '/users';
 
 export async function fetchAll(query: QueryInterface) {

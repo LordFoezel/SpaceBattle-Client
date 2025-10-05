@@ -1,9 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Black Ops One", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #0b1120;
   color: #f0f6ff;
   line-height: 1.5;
