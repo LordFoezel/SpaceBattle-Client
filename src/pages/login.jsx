@@ -6,6 +6,7 @@ import ButtonRouterRegister from "../components/buttons/ButtonRouterRegister.jsx
 import ButtonForgotPassword from "../components/buttons/ButtonForgotPassword.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
+import { fetchOne } from '../repositories/user.js'
 
 const DEFAULT_HINT = "Nutze die Demo-Zugangsdaten oder registriere dich.";
 
@@ -33,9 +34,7 @@ export default function LoginPage() {
       if (!email || !password) {
         throw new Error("Bitte E-Mail und Passwort eingeben.");
       }
-
-      // TODO: API call goes here
-      await new Promise((resolve) => setTimeout(resolve, 750));
+      await fetchOne();
       setStatus("success");
     } catch (err) {
       setStatus("error");
