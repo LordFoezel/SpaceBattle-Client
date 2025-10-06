@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
 import BaseInput from "../components/inputs/baseInput.jsx";
 import ButtonLogin from "../components/buttons/ButtonLogin.jsx";
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const isSubmitting = status === "loading";
 
@@ -47,6 +49,7 @@ export default function LoginPage() {
       }
 
       setStatus("success");
+      navigate("/template", { replace: true });
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");
@@ -108,3 +111,7 @@ export default function LoginPage() {
     </section>
   );
 }
+
+
+
+

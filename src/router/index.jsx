@@ -4,12 +4,14 @@ import LoginPage from "../pages/login.jsx";
 import RegisterPage from "../pages/register.jsx";
 import ForgotPasswordPage from "../pages/forgotPassword.jsx";
 import NotFoundPage from "../pages/notFound.jsx";
+import TemplatePage from "../pages/template.jsx";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Layout>
         <Routes>
+          <Route path="/template" element={<TemplatePage />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
