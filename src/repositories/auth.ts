@@ -1,28 +1,12 @@
 import { request } from "./base.ts";
-import type { User, UserRole } from "../models/user.js";
+import { AuthResponse, LoginPayload, RegisterPayload } from "../models/auth.ts";
 
-export interface AuthResponse {
-  access_token: string;
-  token_type: string;
-  user: User;
+const path = '/auth';
+
+export async function login(payload: LoginPayload): Promise<AuthResponse | null> {
+  return request<AuthResponse>(`${path}/login`, { method: "POST", body: payload as unknown as string });
 }
 
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-export interface RegisterPayload {
-  name: string;
-  email: string;
-  password: string;
-  role?: UserRole;
-}
-
-export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  return request<AuthResponse>("/auth/login", { method: "POST", body: payload });
-}
-
-export async function register(payload: RegisterPayload): Promise<AuthResponse> {
-  return request<AuthResponse>("/auth/register", { method: "POST", body: payload });
+export async function register(payload: RegisterPayload): Promise<AuthResponse | null> {
+  return request<AuthResponse>(`${path}/register`, { method: "POST", body: payload as unknown as string });
 }

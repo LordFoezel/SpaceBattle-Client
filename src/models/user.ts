@@ -12,6 +12,7 @@ export interface User {
   blocked: boolean;
   role: UserRole;
   created_at: Date;
+  password_hash: string;
 }
 
 export interface UserCreate {
@@ -39,5 +40,6 @@ export function adaptUser(raw: any): User {
     blocked: !!raw.blocked,
     role: raw.role as UserRole,
     created_at: new Date(raw.created_at),
+    password_hash: raw.password_hash,
   };
 }
