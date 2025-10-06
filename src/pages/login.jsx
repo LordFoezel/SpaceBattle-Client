@@ -49,7 +49,7 @@ export default function LoginPage() {
       }
 
       setStatus("success");
-      navigate("/template", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");
