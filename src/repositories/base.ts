@@ -1,5 +1,6 @@
 import { getApiBaseUrl } from "../config/api";
 import type { QueryInterface } from "../models/queryInterface";
+import { AuthTokenHelper } from "../helper/authToken.js";
 
 function normalizeHeaders(headers?: HeadersInit): Record<string, string> {
   if (!headers) return {};
@@ -10,15 +11,6 @@ function normalizeHeaders(headers?: HeadersInit): Record<string, string> {
     return Object.fromEntries(headers);
   }
   return { ...(headers as Record<string, string>) };
-}
-
-function getStoredToken(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    return window.localStorage.getItem("spacebattle.access_token");
-  } catch {
-    return null;
-  }
 }
 
 function hasAuthorizationHeader(headers: Record<string, string>): boolean {
@@ -96,7 +88,7 @@ export async function request<T = any>(
   const headerMap = normalizeHeaders(headers);
   const initHeaders: Record<string, string> = { Accept: "application/json", ...headerMap };
 
-  const token = getStoredToken();
+  const token = AuthTokenHelper.getStoredToken();
   if (token && !hasAuthorizationHeader(initHeaders)) {
     initHeaders.Authorization = `Bearer ${token}`;
   }
