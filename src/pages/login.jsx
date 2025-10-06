@@ -6,7 +6,7 @@ import ButtonRouterRegister from "../components/buttons/ButtonRouterRegister.jsx
 import ButtonForgotPassword from "../components/buttons/ButtonForgotPassword.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
-import { login } from '../repositories/user.ts'
+import { login as loginRequest } from "../repositories/auth.ts";
 
 const DEFAULT_HINT = "Nutze die Demo-Zugangsdaten oder registriere dich.";
 
@@ -34,13 +34,16 @@ export default function LoginPage() {
       if (!email || !password) {
         throw new Error("Bitte E-Mail und Passwort eingeben.");
       }
-      const user = await login(email, password);
-      if (!user) {
-        setStatus("error");
-        setError("Wrong login credentials");
-      } else {
-        setStatus("success");
+      const auth = await loginRequest({ email, password });
+
+      try {
+        window.localStorage.setItem("spacebattle.access_token", auth.access_token);
+        window.localStorage.setItem("spacebattle.user", JSON.stringify(auth.user));
+      } catch {
+        /* ignore storage errors */
       }
+
+      setStatus("success");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");

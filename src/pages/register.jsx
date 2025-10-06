@@ -5,7 +5,7 @@ import ButtonRegister from "../components/buttons/ButtonRegister.jsx";
 import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
-import { createOne } from "../repositories/user.ts";
+import { register as registerRequest } from "../repositories/auth.ts";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: "", displayName: "", password: "" });
@@ -34,7 +34,7 @@ export default function RegisterPage() {
         throw new Error("Bitte alle Felder ausfuellen.");
       }
 
-      await createOne({
+      await registerRequest({
         email: form.email,
         password: form.password,
         name: form.displayName,

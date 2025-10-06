@@ -4,7 +4,7 @@ import {
   updateOne as updateOneBase,
   deleteOne as deleteOneBase,
   fetchById as fetchByIdBase,
-  createOne as createOneBase
+  createOne as createOneBase,
 } from "./base.js";
 import { adaptUser, UserCreate, UserUpdate } from "../models/user.js";
 import { QueryInterface } from "../models/queryInterface.js";
@@ -38,18 +38,4 @@ export async function updateOne(id: string, payload: UserUpdate) {
 
 export async function deleteOne(id: string) {
   await deleteOneBase(path, id);
-}
-
-export async function login(email: string, password: string) {
-  const query = {
-    email: email,
-    password: password
-  };
-  const user = await fetchOneBase(path, { query });
-  return user ? adaptUser(user) : null;
-}
-
-export async function register(payload: UserCreate) {
-  const user = await createOneBase(path, payload);
-  return user ? adaptUser(user) : null;
 }

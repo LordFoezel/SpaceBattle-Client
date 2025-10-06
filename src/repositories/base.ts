@@ -1,6 +1,30 @@
 import { getApiBaseUrl } from "../config/api";
 import type { QueryInterface } from "../models/queryInterface";
 
+function normalizeHeaders(headers?: HeadersInit): Record<string, string> {
+  if (!headers) return {};
+  if (headers instanceof Headers) {
+    return Object.fromEntries(headers.entries());
+  }
+  if (Array.isArray(headers)) {
+    return Object.fromEntries(headers);
+  }
+  return { ...(headers as Record<string, string>) };
+}
+
+function getStoredToken(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem("spacebattle.access_token");
+  } catch {
+    return null;
+  }
+}
+
+function hasAuthorizationHeader(headers: Record<string, string>): boolean {
+  return Object.keys(headers).some((key) => key.toLowerCase() === "authorization");
+}
+
 function isFormData(v: unknown): v is FormData {
   return typeof FormData !== "undefined" && v instanceof FormData;
 }
@@ -67,11 +91,19 @@ export async function request<T = any>(
   const rel = String(path).replace(/^\//, "");
   const url = new URL(rel, `${base}/`).toString();
 
-  const { method = "GET", headers = {}, body, ...rest } = options;
+  const { method = "GET", headers, body, ...rest } = options;
+
+  const headerMap = normalizeHeaders(headers);
+  const initHeaders: Record<string, string> = { Accept: "application/json", ...headerMap };
+
+  const token = getStoredToken();
+  if (token && !hasAuthorizationHeader(initHeaders)) {
+    initHeaders.Authorization = `Bearer ${token}`;
+  }
 
   const init: RequestInit = {
     method,
-    headers: { Accept: "application/json", ...headers },
+    headers: initHeaders,
     ...rest,
   };
 
