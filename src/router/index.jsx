@@ -3,6 +3,7 @@ import Layout from "../components/layout/layout.jsx";
 import LoginPage from "../pages/login.jsx";
 import RegisterPage from "../pages/register.jsx";
 import ForgotPasswordPage from "../pages/forgotPassword.jsx";
+import ResetPasswordPage from "../pages/resetPassword.jsx";
 import NotFoundPage from "../pages/notFound.jsx";
 import DashboardPage from "../pages/dashboard.jsx";
 
@@ -16,6 +17,7 @@ export default function AppRouter() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>

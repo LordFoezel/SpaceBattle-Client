@@ -37,8 +37,6 @@ export default function LoginPage() {
         throw new Error("Bitte E-Mail und Passwort eingeben.");
       }
 
-      console.log({ email, password });
-      
       const auth = await loginRequest({ email, password });
 
       try {

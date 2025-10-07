@@ -43,7 +43,7 @@ export default function RegisterPage() {
       setSuccessMessage("Registrierung erfolgreich. Du kannst dich jetzt anmelden.");
       setForm({ email: "", displayName: "", password: "" });
       setStatus("success");
-      navigate("/login", { replace: true });
+      setTimeout(() => navigate("/login"), 1200);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");

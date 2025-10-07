@@ -3,22 +3,29 @@ import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
 import BaseButton from "../components/buttons/BaseButton.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
+import { requestPasswordResetEmail } from "../repositories/auth.ts";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState(null);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     if (!email) {
       setFeedback({ type: "error", message: "Bitte E-Mail-Adresse eingeben." });
       return;
     }
-    setFeedback({
-      type: "success",
-      message: "Wenn ein Account existiert, senden wir dir in Kuerze eine E-Mail.",
-    });
-    setEmail("");
+    try {
+      await requestPasswordResetEmail({ email });
+      setFeedback({
+        type: "success",
+        message: "Wenn ein Account existiert, senden wir dir in Kürze eine E-Mail.",
+      });
+      setEmail("");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Fehler beim Senden der E-Mail.";
+      setFeedback({ type: "error", message: msg });
+    }
   }
 
   return (
