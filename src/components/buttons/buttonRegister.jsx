@@ -2,7 +2,7 @@
 
 export default function ButtonRegister(props) {
   return (
-    <BaseButton variant="secondary" type="submit" {...props}>
+    <BaseButton type="submit" {...props}>
       Konto erstellen
     </BaseButton>
   );

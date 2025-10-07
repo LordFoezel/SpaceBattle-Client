@@ -5,7 +5,7 @@ import ButtonRegister from "../components/buttons/ButtonRegister.jsx";
 import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
-import { register as registerRequest } from "../repositories/auth.ts";
+import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: "", displayName: "", password: "" });
@@ -43,6 +43,7 @@ export default function RegisterPage() {
       setSuccessMessage("Registrierung erfolgreich. Du kannst dich jetzt anmelden.");
       setForm({ email: "", displayName: "", password: "" });
       setStatus("success");
+      await requestVerificationEmail({ email: form.email });
       setTimeout(() => navigate("/login"), 1200);
     } catch (err) {
       setStatus("error");

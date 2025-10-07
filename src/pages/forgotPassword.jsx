@@ -1,6 +1,7 @@
 ﻿import { useState } from "react";
 import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
 import BaseButton from "../components/buttons/BaseButton.jsx";
+import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { requestPasswordResetEmail } from "../repositories/auth.ts";
@@ -45,14 +46,15 @@ export default function ForgotPasswordPage() {
         <BaseButton type="submit" className="w-full">
           Link anfordern
         </BaseButton>
+        
+        <ButtonRouterLogin variant="ghost" size="sm" className="w-full" />
 
         {feedback ? (
           <p
-            className={`rounded-lg border px-3 py-2 text-sm ${
-              feedback.type === "success"
+            className={`rounded-lg border px-3 py-2 text-sm ${feedback.type === "success"
                 ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
                 : "border-rose-500/40 bg-rose-500/10 text-rose-200"
-            }`}
+              }`}
           >
             {feedback.message}
           </p>
