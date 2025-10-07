@@ -8,6 +8,7 @@ import ButtonForgotPassword from "../components/buttons/ButtonForgotPassword.jsx
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";
+import { requestVerificationEmail } from "../repositories/auth.ts";
 
 const DEFAULT_HINT = "Nutze die Demo-Zugangsdaten oder registriere dich.";
 
@@ -50,7 +51,15 @@ export default function LoginPage() {
       navigate("/dashboard", { replace: true });
     } catch (err) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Unbekannter Fehler");
+      const anyErr = err ?? {};
+      const code = (anyErr && typeof anyErr === "object" && anyErr.payload && anyErr.payload.code) ? anyErr.payload.code : undefined;
+
+      if (code === "USER_NOT_VALIDATED") {
+        try { await requestVerificationEmail({ email }); } catch { /* ignore */ }
+        setError("Dein Konto ist noch nicht verifiziert. Wir haben dir eine Bestätigungs-E-Mail gesendet.");
+      } else {
+        setError(err instanceof Error ? err.message : "Unbekannter Fehler");
+      }
     }
   }
 

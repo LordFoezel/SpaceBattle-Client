@@ -9,6 +9,7 @@ import { requestPasswordResetEmail } from "../repositories/auth.ts";
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState(null);
+  const isSubmitting = false;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -17,6 +18,7 @@ export default function ForgotPasswordPage() {
       return;
     }
     try {
+      isSubmitting = true
       await requestPasswordResetEmail({ email });
       setFeedback({
         type: "success",
@@ -26,6 +28,8 @@ export default function ForgotPasswordPage() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Fehler beim Senden der E-Mail.";
       setFeedback({ type: "error", message: msg });
+    } finally {
+      setTimeout(() => isSubmitting = false, 1200);
     }
   }
 
@@ -43,23 +47,24 @@ export default function ForgotPasswordPage() {
           placeholder="dein.name@example.com"
         />
 
-        <BaseButton type="submit" className="w-full">
+        <BaseButton type="submit" className="w-full" disabled={isSubmitting}>
           Link anfordern
         </BaseButton>
-        
-        <ButtonRouterLogin variant="ghost" size="sm" className="w-full" />
 
         {feedback ? (
           <p
             className={`rounded-lg border px-3 py-2 text-sm ${feedback.type === "success"
-                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
-                : "border-rose-500/40 bg-rose-500/10 text-rose-200"
+              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+              : "border-rose-500/40 bg-rose-500/10 text-rose-200"
               }`}
           >
             {feedback.message}
           </p>
         ) : null}
       </form>
+
+      <ButtonRouterLogin variant="ghost" size="sm" className="w-full max-w-md" />
+
     </section>
   );
 }
