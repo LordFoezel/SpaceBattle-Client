@@ -21,7 +21,7 @@ export async function fetchOne(query: QueryInterface) {
   return user ? adaptUser(user) : null;
 }
 
-export async function fetchById(id:string) {
+export async function fetchById(id: number) {
   const user = await fetchByIdBase(path, id);
   return user ? adaptUser(user) : null;
 }
@@ -31,11 +31,11 @@ export async function createOne(payload: UserCreate) {
   return adaptUser(user);
 }
 
-export async function updateOne(id: string, payload: UserUpdate) {
+export async function updateOne(id: number, payload: UserUpdate) {
   const user = await updateOneBase(path, id, payload);
   return adaptUser(user);
 }
 
-export async function deleteOne(id: string) {
+export async function deleteOne(id: number) {
   await deleteOneBase(path, id);
 }
