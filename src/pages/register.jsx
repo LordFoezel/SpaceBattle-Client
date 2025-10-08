@@ -6,12 +6,14 @@ import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: "", displayName: "", password: "" });
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate();
 
   const isSubmitting = status === "loading";
 
@@ -44,7 +46,7 @@ export default function RegisterPage() {
       setForm({ email: "", displayName: "", password: "" });
       setStatus("success");
       await requestVerificationEmail({ email: form.email });
-      setTimeout(() => navigate("/login"), 1200);
+      setTimeout(() => navigate("/login"), 3500);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");

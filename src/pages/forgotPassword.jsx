@@ -9,7 +9,7 @@ import { requestPasswordResetEmail } from "../repositories/auth.ts";
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState(null);
-  const isSubmitting = false;
+  let isSubmitting = false;
 
   async function handleSubmit(event) {
     event.preventDefault();

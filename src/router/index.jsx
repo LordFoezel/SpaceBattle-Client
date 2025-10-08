@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "../components/layout/layout.jsx";
 import LoginPage from "../pages/login.jsx";
 import RegisterPage from "../pages/register.jsx";
@@ -11,7 +11,8 @@ import VerifyPage from "../pages/verify.jsx";
 import { checkRole } from "../auth/auth.ts";
 
 function NavigateLogin() {
-  return <Navigate to="/login" replace state={{ from: loc }} />;
+  const location = useLocation();
+  return <Navigate to="/login" replace state={{ from: location }} />;
 }
 
 export default function AppRouter() {
@@ -20,7 +21,7 @@ export default function AppRouter() {
       <Layout>
         <Routes>
           {/* Admin */}
-          <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : NavigateLogin()} />
+          <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : <NavigateLogin />} />
           {/* Core */}
           <Route path="/dashboard" element={<DashboardPage />} />
           {/* Auth */}
