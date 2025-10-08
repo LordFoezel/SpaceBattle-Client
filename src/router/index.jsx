@@ -8,7 +8,7 @@ import NotFoundPage from "../pages/notFound.jsx";
 import DashboardPage from "../pages/dashboard.jsx";
 import AdminPage from "../pages/admin.jsx";
 import VerifyPage from "../pages/verify.jsx";
-import { checkRole } from "../auth/auth.js";
+import { checkRole } from "../auth/auth.ts";
 
 function NavigateLogin() {
   return <Navigate to="/login" replace state={{ from: loc }} />;
