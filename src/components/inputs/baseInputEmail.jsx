@@ -1,18 +1,32 @@
-﻿import { forwardRef } from "react";
-import BaseInput from "./baseInput.jsx";
+import { forwardRef } from "react";
+import { BaseInput } from "./baseInput.jsx";
 
-const BaseInputEmail = forwardRef(function BaseInputEmail(props, ref) {
+const BaseInputEmail = forwardRef(function BaseInputEmail({
+  name, // for forms
+  value,
+  variant = 'outline', // outline, subtle, flushed
+  size = 'md', // xs, sm, md, lg
+  isDisabled = false,
+  placeholder = 'e.mail@example.com',
+  onBlur, // on leave
+  onFocus, // on enter
+}, ref) {
   return (
     <BaseInput
       ref={ref}
-      type="email"
-      autoComplete="email"
+      name={name}
+      value={value}
+      variant={variant}
+      size={size}
+      isDisabled={isDisabled}
       inputMode="email"
-      label={t("login.email")}
-      placeholder="dein.name@example.com"
-      {...props}
+      placeholder={placeholder}
+      autoComplete="email"
+      type="email"
+      onBlur={onBlur}
+      onFocus={onFocus}
     />
   );
 });
 
-export default BaseInputEmail;
+export { BaseInputEmail };

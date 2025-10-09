@@ -1,8 +1,8 @@
 ﻿import { forwardRef } from "react";
-import { Input } from "@chakra-ui/react";
+import { Textarea  } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
 
-const BaseInput = forwardRef(function BaseInput({
+const BaseTextarea = forwardRef(function BaseTextarea({
   name, // for forms
   value,
   variant = 'outline', // outline, subtle, flushed
@@ -11,14 +11,14 @@ const BaseInput = forwardRef(function BaseInput({
   inputMode = 'text', // text, numeric, decimal, email, tel, url, search
   placeholder = '',
   autoComplete = 'off', // on, off, email, username, current-password, new-password, name, tel
-  type = 'text', // text, email, password, number, tel, url
+  resize = "none", // none, vertival, horizontal, both
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {
 
   const className = "w-full rounded-lg border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40";
   return (
-    <Input
+    <Textarea 
       ref={ref}
       name={name}
       value={value}
@@ -28,7 +28,8 @@ const BaseInput = forwardRef(function BaseInput({
       inputMode={inputMode}
       placeholder={placeholder}
       autoComplete={autoComplete}
-      type={type}
+      type="text"
+      resize={resize}
       className={cn(className)}
       onBlur={onBlur}
       onFocus={onFocus}
@@ -36,4 +37,4 @@ const BaseInput = forwardRef(function BaseInput({
   );
 });
 
-export { BaseInput };
+export { BaseTextarea };

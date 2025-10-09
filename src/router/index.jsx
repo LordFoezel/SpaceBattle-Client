@@ -8,6 +8,7 @@ import NotFoundPage from "../pages/notFound.jsx";
 import DashboardPage from "../pages/dashboard.jsx";
 import AdminPage from "../pages/admin.jsx";
 import VerifyPage from "../pages/verify.jsx";
+import TestPage from "../pages/test.jsx";
 import { checkRole } from "../auth/auth.ts";
 
 function NavigateLogin() {
@@ -33,6 +34,8 @@ export default function AppRouter() {
           {/* Base */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<NotFoundPage />} />
+          {/* Test */}
+          <Route path="/test" element={<TestPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
