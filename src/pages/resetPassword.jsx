@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import BaseInput from "../components/inputs/baseInput.jsx";
-import BaseButton from "../components/buttons/BaseButton.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { resetPassword } from "../repositories/auth.ts";
+import BaseInputPassword from "../components/base/BaseInputPassword.jsx";
+import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
 export default function ResetPasswordPage() {
   const [search] = useSearchParams();
@@ -57,35 +58,28 @@ export default function ResetPasswordPage() {
       />
 
       <form onSubmit={handleSubmit} className={`${panelClass} w-full max-w-md space-y-6`}>
-        <BaseInput
-          type="password"
+        <BaseInputPassword
           autoFocus
-          label="Neues Passwort"
-          placeholder="••••••••"
+          label={"Neues Passwort"}
+          placeholder={"••••••••"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <BaseInput
-          type="password"
-          label="Passwort bestätigen"
-          placeholder="••••••••"
+        <BaseInputPassword
+          label={"Passwort bestätigen"}
+          placeholder={"••••••••"}
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
         />
-        <BaseButton type="submit" disabled={submitting} className="w-full">
-          {submitting ? "Speichere…" : "Passwort speichern"}
-        </BaseButton>
+        <BaseSubmitButton isLoading={submitting} loadingText={"Speichere…"}>
+          Passwort speichern
+        </BaseSubmitButton>
 
         {feedback ? (
-          <p
-            className={`rounded-lg border px-3 py-2 text-sm ${
-              feedback.type === "success"
-                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
-                : "border-rose-500/40 bg-rose-500/10 text-rose-200"
-            }`}
-          >
+          <Alert status={feedback.type === "success" ? "success" : "error"} borderRadius="lg">
+            <AlertIcon />
             {feedback.message}
-          </p>
+          </Alert>
         ) : null}
       </form>
     </section>

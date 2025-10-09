@@ -1,6 +1,7 @@
 ﻿import { useState } from "react";
-import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
-import BaseButton from "../components/buttons/BaseButton.jsx";
+import BaseInputEmail from "../components/base/BaseInputEmail.jsx";
+import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
@@ -44,22 +45,19 @@ export default function ForgotPasswordPage() {
         <BaseInputEmail
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="dein.name@example.com"
+          isDisabled={isSubmitting}
+          hint={"Wir senden dir einen Link zum Zurücksetzen."}
         />
 
-        <BaseButton type="submit" className="w-full" disabled={isSubmitting}>
+        <BaseSubmitButton isLoading={isSubmitting} loadingText={"Sende…"}>
           Link anfordern
-        </BaseButton>
+        </BaseSubmitButton>
 
         {feedback ? (
-          <p
-            className={`rounded-lg border px-3 py-2 text-sm ${feedback.type === "success"
-              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
-              : "border-rose-500/40 bg-rose-500/10 text-rose-200"
-              }`}
-          >
+          <Alert status={feedback.type === "success" ? "success" : "error"} borderRadius="lg">
+            <AlertIcon />
             {feedback.message}
-          </p>
+          </Alert>
         ) : null}
       </form>
 

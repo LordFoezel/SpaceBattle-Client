@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
-import BaseInput from "../components/inputs/baseInput.jsx";
-import ButtonLogin from "../components/buttons/ButtonLogin.jsx";
+import { FormControl, FormLabel, Input, FormHelperText, Button, Alert, AlertIcon } from "@chakra-ui/react";
+// Legacy components kept for secondary actions
 import ButtonRouterRegister from "../components/buttons/ButtonRouterRegister.jsx";
 import ButtonForgotPassword from "../components/buttons/ButtonForgotPassword.jsx";
 import Title from "../components/layout/title.jsx";
@@ -75,28 +74,40 @@ export default function LoginPage() {
         className={`${panelClass} w-full max-w-md space-y-6`}
       >
         <div className="space-y-4">
-          <BaseInputEmail
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            hint={DEFAULT_HINT}
-            disabled={isSubmitting}
-          />
-          <BaseInput
-            label={t("login.password")}
-            type="password"
-            name="password"
-            autoComplete="current-password"
-            placeholder="********"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            disabled={isSubmitting}
-          />
+          <FormControl isDisabled={isSubmitting}>
+            <FormLabel>{t("login.email")}</FormLabel>
+            <Input
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={(() => {
+                const key = "login.email.placeholder";
+                const val = t(key);
+                return val === key ? "dein.name@example.com" : val;
+              })()}
+            />
+            <FormHelperText>{DEFAULT_HINT}</FormHelperText>
+          </FormControl>
+
+          <FormControl isDisabled={isSubmitting}>
+            <FormLabel>{t("login.password")}</FormLabel>
+            <Input
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
         </div>
 
         <div className="flex flex-col gap-3">
-          <ButtonLogin className="w-full" disabled={isSubmitting}>
+          <Button type="submit" colorScheme="blue" width="100%" isLoading={isSubmitting} loadingText={t("login.login")}>
             {buttonLabel}
-          </ButtonLogin>
+          </Button>
           <div className="flex items-center justify-between text-xs text-slate-400">
             <ButtonForgotPassword className="px-0 text-xs" />
             <ButtonRouterRegister variant="ghost" size="sm" />
@@ -104,15 +115,17 @@ export default function LoginPage() {
         </div>
 
         {status === "success" ? (
-          <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
-            Anmeldung erfolgreich ? willkommen zurueck.
-          </p>
+          <Alert status="success" borderRadius="lg">
+            <AlertIcon />
+            Anmeldung erfolgreich – willkommen zurück.
+          </Alert>
         ) : null}
 
         {error ? (
-          <p className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">
+          <Alert status="error" borderRadius="lg">
+            <AlertIcon />
             {error}
-          </p>
+          </Alert>
         ) : null}
       </form>
     </section>

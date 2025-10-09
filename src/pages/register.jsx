@@ -1,12 +1,14 @@
 import { useState } from "react";
-import BaseInputEmail from "../components/inputs/baseInputEmail.jsx";
-import BaseInput from "../components/inputs/baseInput.jsx";
-import ButtonRegister from "../components/buttons/ButtonRegister.jsx";
 import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 import { useNavigate } from "react-router-dom";
+import BaseInputEmail from "../components/base/BaseInputEmail.jsx";
+import BaseInputText from "../components/base/BaseInputText.jsx";
+import BaseInputPassword from "../components/base/BaseInputPassword.jsx";
+import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: "", displayName: "", password: "" });
@@ -66,48 +68,48 @@ export default function RegisterPage() {
       >
         <div className="space-y-4">
           <BaseInputEmail
-            label="E-Mail-Adresse"
+            label={t("login.email")}
             value={form.email}
             onChange={updateField("email")}
-            disabled={isSubmitting}
+            isDisabled={isSubmitting}
           />
-          <BaseInput
-            label="Anzeigename"
+          <BaseInputText
+            label={"Anzeigename"}
             name="displayName"
             placeholder="Captain Jane"
             value={form.displayName}
             onChange={updateField("displayName")}
-            disabled={isSubmitting}
+            isDisabled={isSubmitting}
           />
-          <BaseInput
-            label="Passwort"
-            type="password"
-            name="password"
+          <BaseInputPassword
+            label={t("login.password")}
             autoComplete="new-password"
-            placeholder="Sicheres Passwort"
+            placeholder={"Sicheres Passwort"}
             value={form.password}
             onChange={updateField("password")}
-            disabled={isSubmitting}
+            isDisabled={isSubmitting}
           />
         </div>
 
         <div className="space-y-3">
-          <ButtonRegister className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Erstelle Konto..." : "Konto erstellen"}
-          </ButtonRegister>
+          <BaseSubmitButton isLoading={isSubmitting} loadingText={"Erstelle Konto..."}>
+            Konto erstellen
+          </BaseSubmitButton>
           <ButtonRouterLogin variant="ghost" size="sm" className="w-full" />
         </div>
 
         {successMessage ? (
-          <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+          <Alert status="success" borderRadius="lg">
+            <AlertIcon />
             {successMessage}
-          </p>
+          </Alert>
         ) : null}
 
         {error ? (
-          <p className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">
+          <Alert status="error" borderRadius="lg">
+            <AlertIcon />
             {error}
-          </p>
+          </Alert>
         ) : null}
       </form>
     </section>
