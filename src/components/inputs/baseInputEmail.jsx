@@ -8,7 +8,7 @@ const BaseInputEmail = forwardRef(function BaseInputEmail(props, ref) {
       type="email"
       autoComplete="email"
       inputMode="email"
-      label="E-Mail-Adresse"
+      label={t("login.email")}
       placeholder="dein.name@example.com"
       {...props}
     />

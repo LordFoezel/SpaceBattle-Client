@@ -25,7 +25,7 @@ export default function LoginPage() {
     if (isSubmitting) {
       return "Wird eingeloggt...";
     }
-    return "Log in";
+    return t("login.login");
   }, [isSubmitting]);
 
   async function handleSubmit(event) {
@@ -66,7 +66,7 @@ export default function LoginPage() {
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
       <Title
-        title="Willkommen im SpaceBattle Cockpit"
+        title={t("login.welcome")}
         subtitle="Melde dich an, um deine Flotte zu verwalten."
       />
 
@@ -82,7 +82,7 @@ export default function LoginPage() {
             disabled={isSubmitting}
           />
           <BaseInput
-            label="Passwort"
+            label={t("login.password")}
             type="password"
             name="password"
             autoComplete="current-password"
