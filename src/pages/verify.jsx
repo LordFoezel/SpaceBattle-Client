@@ -18,7 +18,7 @@ export default function VerifyPage() {
         const user = await fetchUser({ where: { email } });
         if (!user || cancelled) return;
         if (!user.verified) {
-          await updateUser(user.id, { email: user.email, verified: true });
+          await updateUser(user.id, { verified: true });
         }
       } catch {
         if (!cancelled) setHasError(true);
