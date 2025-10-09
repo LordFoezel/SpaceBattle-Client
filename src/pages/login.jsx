@@ -65,8 +65,8 @@ export default function LoginPage() {
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
       <Title
-        title={t("login.welcome")}
-        subtitle="Melde dich an, um deine Flotte zu verwalten."
+        title={t("app.welcome")}
+        subtitle="Melde dich an, um deine Flotte zu verwalten.  234523"
       />
 
       <form

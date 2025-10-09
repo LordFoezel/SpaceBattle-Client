@@ -4,8 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Use Tailwind's default font-sans globally */
+@layer base {
+  html, body {
+    @apply font-sans;
+  }
+}
+
 :root {
-  font-family: "Black Ops One", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #0b1120;
   color: #f0f6ff;
   line-height: 1.5;
