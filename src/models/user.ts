@@ -4,6 +4,12 @@ export enum UserRole {
   PLAYER = "player",
 }
 
+export enum UserLanguage {
+  DE = "de",
+  EN = "en",
+}
+
+
 export interface User {
   id: number;
   name: string;
@@ -11,6 +17,7 @@ export interface User {
   verified: boolean;
   blocked: boolean;
   role: UserRole;
+  language: UserLanguage;
   created_at: Date;
   password_hash: string;
 }
@@ -20,6 +27,7 @@ export interface UserCreate {
   email: string;
   password_hash: string;
   role?: UserRole;
+  language?: UserLanguage;
 }
 
 export interface UserUpdate {
@@ -29,6 +37,7 @@ export interface UserUpdate {
   verified?: boolean | null;
   blocked?: boolean | null;
   role?: UserRole | null;
+  language?: UserLanguage | null;
 }
 
 export function adaptUser(raw: any): User {
@@ -41,5 +50,6 @@ export function adaptUser(raw: any): User {
     role: raw.role as UserRole,
     created_at: new Date(raw.created_at),
     password_hash: raw.password_hash,
+    language: raw.language,
   };
 }
