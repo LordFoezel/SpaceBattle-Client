@@ -1,5 +1,11 @@
 {
-  "login.title": "Anmelden",
-  "login.email": "E-Mail",
-  "login.password": "Passwort"
+  "app.title": "SpaceBattle",
+  "app.welcome": "Welcome to SpaceBattle",
+  "login.email": "Email",
+  "login.password": "Password",
+  "login.login": "Log in",
+  "login.logout": "Log out",
+  "login.forgotPassword": "Forgot password",
+  "login.toRegistration": "Go to registration",
+  "error.unauthorized": "Unauthorized"
 }
