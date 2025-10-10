@@ -2,7 +2,7 @@
 import BaseInputEmail from "../components/base/BaseInputEmail.jsx";
 import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
 import { Alert, AlertIcon } from "@chakra-ui/react";
-import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
+import ButtonRouterLogin from "../components/buttonsOld/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { requestPasswordResetEmail } from "../repositories/auth.ts";

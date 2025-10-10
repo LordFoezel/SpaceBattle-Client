@@ -1,51 +1,54 @@
-﻿import { forwardRef } from "react";
+import { forwardRef } from "react";
+import { Button } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
-
-const VARIANTS = {
-  primary:
-    "bg-sky-500 text-white shadow-sky-500/40 hover:bg-sky-400 focus-visible:ring-sky-300",
-  secondary:
-    "bg-slate-800/80 text-slate-100 hover:bg-slate-700/80 focus-visible:ring-slate-400",
-  ghost:
-    "bg-transparent text-slate-300 hover:bg-slate-800/50 focus-visible:ring-slate-500",
-};
-
-const SIZES = {
-  sm: "px-3 py-2 text-sm",
-  md: "px-4 py-2.5 text-sm",
-  lg: "px-5 py-3 text-base",
-};
 
 const BaseButton = forwardRef(function BaseButton(
   {
-    as: Component = "button",
+    name, // for forms
     children,
-    className,
-    type = "button",
-    variant = "primary",
-    size = "md",
-    ...props
-  },
-  ref
-) {
-  const variantClasses = VARIANTS[variant] ?? VARIANTS.primary;
-  const sizeClasses = SIZES[size] ?? SIZES.md;
+    isDisabled = false,
+    variant = 'solid', // solid, subtle, surface, outline, ghost, plain
+    size = 'md', // xs, sm, md, lg
+    color = "bg-gray-800", // tailwind color
+    colorPalette, // mapped to Chakra colorScheme
+    onClick,
+  }, ref) {
+
+  function buildClassName() {
+    if (!color) return "";
+    const tokens = String(color).trim().split(/\s+/).filter(Boolean);
+    const result = [];
+    let hasTextColor = false;
+
+    for (const t of tokens) {
+      const token = t.startsWith("!") ? t : "!" + t;
+      result.push(token);
+
+      if (/^!?bg-/.test(t)) {
+        const base = t.replace(/^!/, "");
+        result.push("!hover:" + base);
+      }
+
+      if (/-?text-/.test(t)) hasTextColor = true;
+    }
+
+    if (!hasTextColor) result.push("!text-white");
+
+    return result.join(" ");
+  }
 
   return (
-    <Component
+    <Button
       ref={ref}
-      type={Component === "button" ? type : undefined}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg border border-transparent font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-60",
-        variantClasses,
-        sizeClasses,
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </Component>
+      name={name}
+      variant={variant}
+      isDisabled={isDisabled}
+      size={size}
+      colorScheme={colorPalette}
+      className={cn('w-full', buildClassName())}
+      onClick={onClick}
+    >{children}</Button>
   );
 });
 
-export default BaseButton;
+export { BaseButton };

@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormControl, FormLabel, Input, FormHelperText, Button, Alert, AlertIcon } from "@chakra-ui/react";
 // Legacy components kept for secondary actions
-import ButtonRouterRegister from "../components/buttons/ButtonRouterRegister.jsx";
-import ButtonForgotPassword from "../components/buttons/ButtonForgotPassword.jsx";
+import ButtonRouterRegister from "../components/buttonsOld/ButtonRouterRegister.jsx";
+import ButtonForgotPassword from "../components/buttonsOld/ButtonForgotPassword.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";

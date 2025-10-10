@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ButtonRouterLogin from "../components/buttons/ButtonRouterLogin.jsx";
+import ButtonRouterLogin from "../components/buttonsOld/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
