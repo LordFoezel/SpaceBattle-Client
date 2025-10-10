@@ -12,6 +12,7 @@ import { BaseSwitch } from '../components/base/checkbox/BaseSwitch.jsx'
 import { BaseModal } from '../components/base/dialog/BaseModal.jsx'
 import { BaseCard } from '../components/base/layout/BaseCard.jsx'
 import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
+import { BaseSeparator } from '../components/base/text/BaseSeparator.jsx'
 
 export default function TestPage() {
   const options = [
@@ -42,11 +43,11 @@ export default function TestPage() {
         <BaseLabel label='Password' variant='transparent'>
           <BaseInputPassword />
         </BaseLabel>
-
-              <BaseLabel label='Password' variant='transparent' direction="horizontal">
+        <BaseSeparator />
+        <BaseLabel label='Password' variant='transparent' direction="horizontal">
           <BaseInputPassword />
         </BaseLabel>
-                <BaseLabel label='Password' info='Enter your E-Mail' variant='transparent' direction="horizontal">
+        <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent' direction="horizontal">
           <BaseInputPassword />
         </BaseLabel>
 

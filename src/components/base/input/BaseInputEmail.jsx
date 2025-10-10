@@ -7,7 +7,7 @@ const BaseInputEmail = forwardRef(function BaseInputEmail({
   variant = 'outline', // outline, subtle, flushed
   size = 'md', // xs, sm, md, lg
   isDisabled = false,
-  placeholder = 'e.mail@example.com',
+  placeholder = '',
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {

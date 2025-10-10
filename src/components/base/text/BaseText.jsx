@@ -9,13 +9,19 @@ const BaseText = forwardRef(function BaseText({
   truncate, // cut on single line
   uppercase=false,
   lowercase=false,
-  color="red-500", // tailwind color 
+  color="gray-100", // tailwind color 
   children,
 }, ref) {
-// todo tailwind color funktioniert nicht mehr
+  // Convert tailwind-like color (e.g., red-500) to Chakra token (red.500)
+  function toChakraColor(token) {
+    if (!token) return undefined;
+    const idx = token.lastIndexOf("-");
+    if (idx === -1) return token;
+    return token.slice(0, idx) + "." + token.slice(idx + 1);
+  }
 
   function className() {
-    const classes = [`text-${color}`, "!important"];
+    const classes = [];
     if(uppercase) classes.push("uppercase");
     if(lowercase) classes.push("lowercase");
     return classes.join(" ");
@@ -28,6 +34,7 @@ const BaseText = forwardRef(function BaseText({
       fontSize={fontSize}
       fontWeight={fontWeight}
       truncate={truncate}
+      color={toChakraColor(color)}
       className={cn(className())}
     >{ children }</Text>
   );
