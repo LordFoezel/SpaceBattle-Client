@@ -1,6 +1,6 @@
 import { forwardRef, useState } from "react";
 import { InputGroup, InputRightElement, IconButton } from "@chakra-ui/react";
-import { BaseInput } from "./baseInput.jsx";
+import { BaseInput } from "./BaseInput.jsx";
 
 const BaseInputPassword = forwardRef(function BaseInputPassword({
   name, // for forms

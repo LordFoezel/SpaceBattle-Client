@@ -1,7 +1,7 @@
 import { forwardRef, useRef, useLayoutEffect, useState, useMemo } from "react";
 import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, Button, MenuDivider } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
-import colors from "../../theme/colors.js";
+import { cn } from "../../../helper/classNames.js";
+import colors from "../../../theme/colors.js";
 
 const BaseSelectMulti = forwardRef(function BaseSelectMulti({
   name, // for forms

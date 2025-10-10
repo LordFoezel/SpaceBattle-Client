@@ -1,6 +1,6 @@
 ﻿import { forwardRef } from "react";
 import { Button } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
+import { cn } from "../../../helper/classNames.js";
 
 const BaseButton = forwardRef(function BaseButton(
   {

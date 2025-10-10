@@ -1,7 +1,7 @@
 ﻿import { forwardRef } from "react";
 import { Input } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
-import colors from "../../theme/colors.js";
+import { cn } from "../../../helper/classNames.js";
+import colors from "../../../theme/colors.js";
 
 const BaseInput = forwardRef(function BaseInput({
   name, // for forms

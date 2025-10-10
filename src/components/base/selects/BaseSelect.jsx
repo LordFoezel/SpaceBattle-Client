@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { Select   } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
-import colors from "../../theme/colors.js";
+import { cn } from "../../../helper/classNames.js";
+import colors from "../../../theme/colors.js";
 
 const BaseSelect = forwardRef(function BaseSelect({
   name, // for forms

@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { Text  } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
+import { cn } from "../../../helper/classNames.js";
 
 const BaseText = forwardRef(function BaseText({
   name, // for forms

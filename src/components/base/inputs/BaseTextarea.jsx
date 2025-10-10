@@ -1,7 +1,7 @@
 ﻿import { forwardRef } from "react";
 import { Textarea  } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
-import colors from "../../theme/colors.js";
+import { cn } from "../../../helper/classNames.js";
+import colors from "../../../theme/colors.js";
 
 const BaseTextarea = forwardRef(function BaseTextarea({
   name, // for forms

@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { BaseInput } from "./baseInput.jsx";
+import { BaseInput } from "./BaseInput.jsx";
 
 const BaseInputEmail = forwardRef(function BaseInputEmail({
   name, // for forms

@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
-import { cn } from "../../helper/classNames.js";
-import colors from "../../theme/colors.js";
+import { cn } from "../../../helper/classNames.js";
+import colors from "../../../theme/colors.js";
 
 const BaseInputNumber = forwardRef(function BaseInputNumber({
   name,
