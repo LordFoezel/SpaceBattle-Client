@@ -1,12 +1,12 @@
-import { BaseInput } from '../components/base/inputs/BaseInput.jsx'
-import { BaseInputNumber } from '../components/base/inputs/BaseInputNumber.jsx'
-import { BaseInputEmail } from '../components/base/inputs/BaseInputEmail.jsx'
-import { BaseInputPassword } from '../components/base/inputs/BaseInputPassword.jsx'
-import { BaseTextarea } from '../components/base/inputs/BaseTextarea.jsx'
+import { BaseInput } from '../components/base/input/BaseInput.jsx'
+import { BaseInputNumber } from '../components/base/input/BaseInputNumber.jsx'
+import { BaseInputEmail } from '../components/base/input/BaseInputEmail.jsx'
+import { BaseInputPassword } from '../components/base/input/BaseInputPassword.jsx'
+import { BaseTextarea } from '../components/base/input/BaseTextarea.jsx'
 import { BaseText } from '../components/base/text/BaseText.jsx'
-import { BaseButton } from '../components/base/buttons/BaseButton.jsx'
-import { BaseSelect } from '../components/base/selects/BaseSelect.jsx'
-import { BaseSelectMulti } from '../components/base/selects/BaseSelectMulti.jsx'
+import { BaseButton } from '../components/base/button/BaseButton.jsx'
+import { BaseSelect } from '../components/base/select/BaseSelect.jsx'
+import { BaseSelectMulti } from '../components/base/select/BaseSelectMulti.jsx'
 
 export default function TestPage() {
   const options = [

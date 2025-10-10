@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BaseInputEmail } from "../components/base/inputs/BaseInputEmail.jsx";
-import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
+import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
+import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { Alert, AlertIcon, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";

@@ -3,8 +3,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { resetPassword } from "../repositories/auth.ts";
-import { BaseInputPassword } from "../components/base/inputs/BaseInputPassword.jsx";
-import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
+import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
+import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
 
 export default function ResetPasswordPage() {

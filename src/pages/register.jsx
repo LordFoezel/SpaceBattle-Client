@@ -3,10 +3,10 @@ import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 import { useNavigate } from "react-router-dom";
-import { BaseInputEmail } from "../components/base/inputs/BaseInputEmail.jsx";
-import { BaseInput } from "../components/base/inputs/BaseInput.jsx";
-import { BaseInputPassword } from "../components/base/inputs/BaseInputPassword.jsx";
-import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
+import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
+import { BaseInput } from "../components/base/input/BaseInput.jsx";
+import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
+import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
 
 export default function RegisterPage() {
