@@ -7,18 +7,20 @@ import { BaseText } from '../components/base/text/BaseText.jsx'
 import { BaseButton } from '../components/base/button/BaseButton.jsx'
 import { BaseSelect } from '../components/base/select/BaseSelect.jsx'
 import { BaseSelectMulti } from '../components/base/select/BaseSelectMulti.jsx'
+import { BaseCheckbox } from '../components/base/checkbox/BaseCheckbox.jsx'
+import { BaseSwitch } from '../components/base/checkbox/BaseSwitch.jsx'
 
 export default function TestPage() {
   const options = [
     { label: "Element 1", value: "1", selectable: true },
-    { label: "Element 2", value: "2", selectable: true},
-    { label: "Element 3", value: "3", selectable: false},
+    { label: "Element 2", value: "2", selectable: true },
+    { label: "Element 3", value: "3", selectable: false },
     { label: "element 4", value: "11", selectable: true },
     { label: "element 5", value: "10", selectable: true },
     { label: "element 6", value: "100", selectable: true },
   ];
 
-   const optionsCategory = [
+  const optionsCategory = [
     { label: "Core Element 1", value: "1", selectable: true, category: "Core" },
     { label: "Core Element 2", value: "2", selectable: true, category: "Core" },
     { label: "Core Element 1", value: "3", selectable: false, category: "Core" },
@@ -40,6 +42,8 @@ export default function TestPage() {
       <BaseSelect options={optionsCategory} />
       <BaseSelectMulti options={options} />
       <BaseSelectMulti options={optionsCategory} />
+      <BaseSwitch /><BaseSwitch isDisabled={false} value={1} />
+      <BaseCheckbox value="1" /><BaseCheckbox value={true} />
     </section>
   );
 }
