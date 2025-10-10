@@ -1,0 +1,25 @@
+// Centralized color tokens for UI consistency
+export const colors = {
+  // Surfaces and text
+  surface: '#0f172a', // slate-900
+  text: '#f1f5f9', // slate-100
+  textMuted: '#64748b', // slate-500
+
+  // Borders
+  border: '#cbd5e1', // slate-300
+  borderSubtle: '#1e293b', // slate-800
+
+  // Focus
+  focusBorder: '#38bdf8', // sky-400
+  focusRing: 'rgba(56,189,248,0.4)',
+
+  // Select / menu specifics
+  optionHover: '#2563eb', // blue-600 (hover highlight)
+  optionCheckedBg: '#075985', // sky-700 (selected bg)
+  optionCheckedText: '#f8fafc', // slate-50
+  groupTitle: '#cbd5e1', // slate-300
+  iconMuted: '#94a3b8', // slate-400
+};
+
+export default colors;
+

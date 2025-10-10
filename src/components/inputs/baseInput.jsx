@@ -1,6 +1,7 @@
 ﻿import { forwardRef } from "react";
 import { Input } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
+import colors from "../../theme/colors.js";
 
 const BaseInput = forwardRef(function BaseInput({
   name, // for forms
@@ -30,7 +31,7 @@ const BaseInput = forwardRef(function BaseInput({
       placeholder={placeholder}
       autoComplete={autoComplete}
       type={type}
-      bg="#0f172a"
+      bg={colors.surface}
       className={cn(className)}
       onBlur={onBlur}
       onFocus={onFocus}

@@ -1,6 +1,7 @@
 ﻿import { forwardRef } from "react";
 import { Textarea  } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
+import colors from "../../theme/colors.js";
 
 const BaseTextarea = forwardRef(function BaseTextarea({
   name, // for forms
@@ -30,7 +31,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
       autoComplete={autoComplete}
       type="text"
       resize={resize}
-      bg="#0f172a"
+      bg={colors.surface}
       className={cn(className)}
       onBlur={onBlur}
       onFocus={onFocus}

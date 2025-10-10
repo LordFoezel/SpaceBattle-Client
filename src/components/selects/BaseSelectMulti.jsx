@@ -1,6 +1,7 @@
 import { forwardRef, useRef, useLayoutEffect, useState, useMemo } from "react";
 import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, Button, MenuDivider } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
+import colors from "../../theme/colors.js";
 
 const BaseSelectMulti = forwardRef(function BaseSelectMulti({
   name, // for forms
@@ -84,13 +85,13 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
           size={size}
           isDisabled={isDisabled}
           className={cn(className)}
-          bg="#0f172a"
-          color={hasSelection ? "#f1f5f9" : "#64748b"}
+          bg={colors.surface}
+          color={hasSelection ? colors.text : colors.textMuted}
           fontWeight={400}
-          borderColor="#cbd5e1"
-          _hover={{ bg: "#0f172a" }}
-          _active={{ bg: "#0f172a" }}
-          _focusVisible={{ boxShadow: "0 0 0 2px rgba(56,189,248,0.4)", borderColor: "#38bdf8" }}
+          borderColor={colors.border}
+          _hover={{ bg: colors.surface }}
+          _active={{ bg: colors.surface }}
+          _focusVisible={{ boxShadow: `0 0 0 2px ${colors.focusRing}` , borderColor: colors.focusBorder }}
           justifyContent="flex-start"
           textAlign="left"
           rightIcon={undefined}
@@ -100,9 +101,9 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
         <MenuList
           maxH="240px"
           overflowY="auto"
-          bg="#0f172a"
-          color="#f1f5f9"
-          borderColor="#1e293b"
+          bg={colors.surface}
+          color={colors.text}
+          borderColor={colors.borderSubtle}
           minW="unset"
           w={menuW ? `${menuW}px` : undefined}
         >
@@ -112,7 +113,7 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
             type="checkbox"
             value={selectedValues.filter((v) => (groupMap.get("__ungrouped__") || []).some((o) => String(o.value) === String(v)))}
             onChange={handleGroupChange("__ungrouped__")}
-            sx={{ '.chakra-menu__group__title': { color: '#cbd5e1' } }}
+            sx={{ '.chakra-menu__group__title': { color: colors.groupTitle } }}
           >
             {(groupMap.get("__ungrouped__") || []).map((opt) => (
               <MenuItemOption
@@ -120,12 +121,12 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
                 value={String(opt.value)}
                 isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
                 bg="transparent"
-                color="#f1f5f9"
-                _hover={{ bg: '#2563eb' }}
-                _focus={{ bg: '#2563eb' }}
-                _checked={{ bg: '#075985', color: '#f8fafc' }}
-                sx={{ '&[data-checked=true] svg': { color: '#38bdf8' } }}
-                _disabled={{ color: '#64748b', opacity: 1, cursor: 'not-allowed' }}
+                color={colors.text}
+                _hover={{ bg: colors.optionHover }}
+                _focus={{ bg: colors.optionHover }}
+                _checked={{ bg: colors.optionCheckedBg, color: colors.optionCheckedText }}
+                sx={{ '&[data-checked=true] svg': { color: colors.focusBorder } }}
+                _disabled={{ color: colors.textMuted, opacity: 1, cursor: 'not-allowed' }}
               >
                 {opt.label ?? String(opt.value)}
               </MenuItemOption>
@@ -141,7 +142,7 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
               type="checkbox"
               value={selectedValues.filter((v) => (groupMap.get(String(cat)) || []).some((o) => String(o.value) === String(v)))}
               onChange={handleGroupChange(String(cat))}
-              sx={{ '.chakra-menu__group__title': { color: '#cbd5e1' } }}
+              sx={{ '.chakra-menu__group__title': { color: colors.groupTitle } }}
             >
               {(groupMap.get(String(cat)) || []).map((opt) => (
                 <MenuItemOption
@@ -149,12 +150,12 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
                   value={String(opt.value)}
                   isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
                   bg="transparent"
-                  color="#f1f5f9"
-                  _hover={{ bg: '#2563eb' }}
-                  _focus={{ bg: '#2563eb' }}
-                  _checked={{ bg: '#075985', color: '#f8fafc' }}
-                  sx={{ '&[data-checked=true] svg': { color: '#38bdf8' } }}
-                  _disabled={{ color: '#64748b', opacity: 1, cursor: 'not-allowed' }}
+                  color={colors.text}
+                  _hover={{ bg: colors.optionHover }}
+                  _focus={{ bg: colors.optionHover }}
+                  _checked={{ bg: colors.optionCheckedBg, color: colors.optionCheckedText }}
+                  sx={{ '&[data-checked=true] svg': { color: colors.focusBorder } }}
+                  _disabled={{ color: colors.textMuted, opacity: 1, cursor: 'not-allowed' }}
                 >
                   {opt.label ?? String(opt.value)}
                 </MenuItemOption>

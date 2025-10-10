@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { Select   } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
+import colors from "../../theme/colors.js";
 
 const BaseSelect = forwardRef(function BaseSelect({
   name, // for forms
@@ -32,26 +33,26 @@ const BaseSelect = forwardRef(function BaseSelect({
       placeholder={placeholder}
       onChange={onChange}
       className={cn(className)}
-      iconColor="#94a3b8" // slate-400
-      bg="#0f172a" // slate-900
-      color="#f1f5f9" // slate-100
-      borderColor="#cbd5e1" // slate-300
-      focusBorderColor="#38bdf8" // sky-400
+      iconColor={colors.iconMuted}
+      bg={colors.surface}
+      color={colors.text}
+      borderColor={colors.border}
+      focusBorderColor={colors.focusBorder}
       sx={{
         option: {
-          backgroundColor: '#0f172a', // slate-900
-          color: '#f1f5f9', // slate-100
+          backgroundColor: colors.surface,
+          color: colors.text,
         },
         'option:checked': {
-          backgroundColor: '#075985', // sky-700
-          color: '#f8fafc', // slate-50
+          backgroundColor: colors.optionCheckedBg,
+          color: colors.optionCheckedText,
         },
         'option:disabled': {
-          color: '#64748b', // slate-500
+          color: colors.textMuted,
         },
         optgroup: {
-          color: '#cbd5e1', // slate-300
-          backgroundColor: '#0f172a', // make category header dark as well
+          color: colors.groupTitle,
+          backgroundColor: colors.surface, // make category header dark as well
         },
       }}
     >

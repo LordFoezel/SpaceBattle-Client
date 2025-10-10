@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { cn } from "../../helper/classNames.js";
+import colors from "../../theme/colors.js";
 
 const BaseInputNumber = forwardRef(function BaseInputNumber({
   name,
@@ -28,7 +29,7 @@ const BaseInputNumber = forwardRef(function BaseInputNumber({
       size={size}
     >
       <NumberInputField
-        bg="#0f172a"
+        bg={colors.surface}
         className={cn(className)}
         onBlur={onBlur}
         onFocus={onFocus}
