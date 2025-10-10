@@ -10,6 +10,7 @@ const BaseButton = forwardRef(function BaseButton(
     variant = 'solid', // solid, subtle, surface, outline, ghost, plain
     size = 'md', // xs, sm, md, lg
     colorScheme = "blue", // 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'cyan' | 'purple' | 'pink'
+    type = 'button', // button, submit, reset
     onClick,
   }, ref) {
 
@@ -26,6 +27,7 @@ const BaseButton = forwardRef(function BaseButton(
       isDisabled={isDisabled}
       size={size}
       colorScheme={colorScheme}
+      type={type}
       className={cn('w-full', buildClassName())}
       onClick={onClick}
     >{children}</Button>

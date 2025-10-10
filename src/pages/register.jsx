@@ -1,31 +1,21 @@
 import { useState } from "react";
-import ButtonRouterLogin from "../components/buttonsOld/ButtonRouterLogin.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 import { useNavigate } from "react-router-dom";
-import BaseInputEmail from "../components/base/BaseInputEmail.jsx";
-import BaseInputText from "../components/base/BaseInputText.jsx";
-import BaseInputPassword from "../components/base/BaseInputPassword.jsx";
-import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
-import { Alert, AlertIcon } from "@chakra-ui/react";
+import { BaseInputEmail } from "../components/base/inputs/BaseInputEmail.jsx";
+import { BaseInput } from "../components/base/inputs/BaseInput.jsx";
+import { BaseInputPassword } from "../components/base/inputs/BaseInputPassword.jsx";
+import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
+import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ email: "", displayName: "", password: "" });
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
 
   const isSubmitting = status === "loading";
-
-  function updateField(field) {
-    return (event) =>
-      setForm((current) => ({
-        ...current,
-        [field]: event.target.value,
-      }));
-  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -34,20 +24,25 @@ export default function RegisterPage() {
     setSuccessMessage(null);
 
     try {
-      if (!form.email || !form.password || !form.displayName) {
+      const formData = new FormData(event.currentTarget);
+      const email = String(formData.get("email") || "").trim();
+      const password = String(formData.get("password") || "");
+      const displayName = String(formData.get("displayName") || "").trim();
+
+      if (!email || !password || !displayName) {
         throw new Error("Bitte alle Felder ausfuellen.");
       }
 
       await registerRequest({
-        email: form.email,
-        password: form.password,
-        name: form.displayName,
+        email,
+        password,
+        name: displayName,
       });
 
       setSuccessMessage("Registrierung erfolgreich. Du kannst dich jetzt anmelden.");
-      setForm({ email: "", displayName: "", password: "" });
       setStatus("success");
-      await requestVerificationEmail({ email: form.email });
+      try { (event.currentTarget).reset(); } catch {}
+      await requestVerificationEmail({ email });
       setTimeout(() => navigate("/login"), 3500);
     } catch (err) {
       setStatus("error");
@@ -67,35 +62,25 @@ export default function RegisterPage() {
         className={`${panelClass} w-full max-w-md space-y-6`}
       >
         <div className="space-y-4">
-          <BaseInputEmail
-            label={t("login.email")}
-            value={form.email}
-            onChange={updateField("email")}
-            isDisabled={isSubmitting}
-          />
-          <BaseInputText
-            label={"Anzeigename"}
-            name="displayName"
-            placeholder="Captain Jane"
-            value={form.displayName}
-            onChange={updateField("displayName")}
-            isDisabled={isSubmitting}
-          />
-          <BaseInputPassword
-            label={t("login.password")}
-            autoComplete="new-password"
-            placeholder={"Sicheres Passwort"}
-            value={form.password}
-            onChange={updateField("password")}
-            isDisabled={isSubmitting}
-          />
+          <FormControl isDisabled={isSubmitting}>
+            <FormLabel>{t("login.email")}</FormLabel>
+            <BaseInputEmail name="email" placeholder={"dein.name@example.com"} />
+          </FormControl>
+          <FormControl isDisabled={isSubmitting}>
+            <FormLabel>{"Anzeigename"}</FormLabel>
+            <BaseInput name="displayName" placeholder="Captain Jane" />
+          </FormControl>
+          <FormControl isDisabled={isSubmitting}>
+            <FormLabel>{t("login.password")}</FormLabel>
+            <BaseInputPassword name="password" autoComplete="new-password" placeholder={"Sicheres Passwort"} />
+          </FormControl>
         </div>
 
         <div className="space-y-3">
-          <BaseSubmitButton isLoading={isSubmitting} loadingText={"Erstelle Konto..."}>
-            Konto erstellen
-          </BaseSubmitButton>
-          <ButtonRouterLogin variant="ghost" size="sm" className="w-full" />
+          <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
+            {isSubmitting ? "Erstelle Konto..." : "Konto erstellen"}
+          </BaseButton>
+          <BaseButton variant="ghost" size="sm" onClick={() => navigate("/login")}>Zum Login</BaseButton>
         </div>
 
         {successMessage ? (

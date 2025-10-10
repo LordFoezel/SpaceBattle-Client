@@ -1,36 +1,41 @@
 ﻿import { useState } from "react";
-import BaseInputEmail from "../components/base/BaseInputEmail.jsx";
-import BaseSubmitButton from "../components/base/BaseSubmitButton.jsx";
-import { Alert, AlertIcon } from "@chakra-ui/react";
-import ButtonRouterLogin from "../components/buttonsOld/ButtonRouterLogin.jsx";
+import { useNavigate } from "react-router-dom";
+import { BaseInputEmail } from "../components/base/inputs/BaseInputEmail.jsx";
+import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
+import { Alert, AlertIcon, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { requestPasswordResetEmail } from "../repositories/auth.ts";
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState(null);
-  let isSubmitting = false;
+  const [status, setStatus] = useState("idle");
+  const navigate = useNavigate();
+  const isSubmitting = status === "loading";
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (!email) {
-      setFeedback({ type: "error", message: "Bitte E-Mail-Adresse eingeben." });
-      return;
-    }
+    setStatus("loading");
+    setFeedback(null);
     try {
-      isSubmitting = true
+      const formData = new FormData(event.currentTarget);
+      const email = String(formData.get("email") || "").trim();
+      if (!email) {
+        throw new Error("Bitte E-Mail-Adresse eingeben.");
+      }
       await requestPasswordResetEmail({ email });
       setFeedback({
         type: "success",
         message: "Wenn ein Account existiert, senden wir dir in Kürze eine E-Mail.",
       });
-      setEmail("");
+      try { (event.currentTarget).reset(); } catch {}
+      setStatus("success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Fehler beim Senden der E-Mail.";
       setFeedback({ type: "error", message: msg });
+      setStatus("error");
     } finally {
-      setTimeout(() => isSubmitting = false, 1200);
+      /* no-op */
     }
   }
 
@@ -42,16 +47,15 @@ export default function ForgotPasswordPage() {
       />
 
       <form onSubmit={handleSubmit} className={`${panelClass} w-full max-w-md space-y-6`}>
-        <BaseInputEmail
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          isDisabled={isSubmitting}
-          hint={"Wir senden dir einen Link zum Zurücksetzen."}
-        />
+        <FormControl isDisabled={isSubmitting}>
+          <FormLabel>{t("login.email")}</FormLabel>
+          <BaseInputEmail name="email" placeholder={"dein.name@example.com"} />
+          <FormHelperText>Wir senden dir einen Link zum Zurücksetzen.</FormHelperText>
+        </FormControl>
 
-        <BaseSubmitButton isLoading={isSubmitting} loadingText={"Sende…"}>
-          Link anfordern
-        </BaseSubmitButton>
+        <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
+          {isSubmitting ? "Sende…" : "Link anfordern"}
+        </BaseButton>
 
         {feedback ? (
           <Alert status={feedback.type === "success" ? "success" : "error"} borderRadius="lg">
@@ -61,7 +65,11 @@ export default function ForgotPasswordPage() {
         ) : null}
       </form>
 
-      <ButtonRouterLogin variant="ghost" size="sm" className="w-full max-w-md" />
+      <div className="w-full max-w-md">
+        <BaseButton variant="ghost" size="sm" onClick={() => navigate("/login")}>
+          Zum Login
+        </BaseButton>
+      </div>
 
     </section>
   );
