@@ -9,6 +9,9 @@ import { BaseSelect } from '../components/base/select/BaseSelect.jsx'
 import { BaseSelectMulti } from '../components/base/select/BaseSelectMulti.jsx'
 import { BaseCheckbox } from '../components/base/checkbox/BaseCheckbox.jsx'
 import { BaseSwitch } from '../components/base/checkbox/BaseSwitch.jsx'
+import { BaseModal } from '../components/base/dialog/BaseModal.jsx'
+import { BaseCard } from '../components/base/layout/BaseCard.jsx'
+import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
 
 export default function TestPage() {
   const options = [
@@ -28,22 +31,54 @@ export default function TestPage() {
     { label: "Test element 2", value: "10", selectable: true, category: "Test" },
     { label: "Single element", value: "100", selectable: true, category: "Single" },
   ];
+
   return (
     <section className="testing-page">
-      <BaseText uppercase fontSize="3xl" >Test Page</BaseText>
-      <BaseText color="text-red-300">To Test New Components</BaseText>
-      <BaseInput />
-      <BaseInputNumber />
-      <BaseInputEmail />
-      <BaseInputPassword />
-      <BaseTextarea />
-      <BaseButton> <BaseText color="text-gray-900">TextBase</BaseText></BaseButton>
-      <BaseSelect variant="subtle" options={options} />
-      <BaseSelect options={optionsCategory} />
-      <BaseSelectMulti options={options} />
-      <BaseSelectMulti options={optionsCategory} />
-      <BaseSwitch /><BaseSwitch isDisabled={false} value={1} />
-      <BaseCheckbox value="1" /><BaseCheckbox value={true} />
+
+      <BaseCard direction="col" variant='medium' >
+        <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent'>
+          <BaseInputEmail />
+        </BaseLabel>
+        <BaseLabel label='Password' variant='transparent'>
+          <BaseInputPassword />
+        </BaseLabel>
+
+              <BaseLabel label='Password' variant='transparent' direction="horizontal">
+          <BaseInputPassword />
+        </BaseLabel>
+                <BaseLabel label='Password' info='Enter your E-Mail' variant='transparent' direction="horizontal">
+          <BaseInputPassword />
+        </BaseLabel>
+
+      </BaseCard>
+      <BaseCard direction="col" >
+        <BaseText uppercase fontSize="3xl" >Test Page</BaseText>
+        <BaseText color="text-red-300">To Test New Components</BaseText>
+        <BaseInput />
+        <BaseInputNumber />
+        <BaseInputEmail />
+        <BaseInputPassword />
+        <BaseTextarea />
+        <BaseButton> <BaseText color="text-gray-900">TextBase</BaseText></BaseButton>
+        <BaseSelect variant="subtle" options={options} />
+        <BaseSelect options={optionsCategory} />
+        <BaseSelectMulti options={options} />
+        <BaseSelectMulti options={optionsCategory} />
+      </BaseCard>
+      <BaseCard>
+        <BaseSwitch />
+        <BaseSwitch isDisabled={false} value={1} />
+        <BaseCheckbox value="1" />
+        <BaseCheckbox value={true} />
+      </BaseCard>
+      <BaseCard>
+        <BaseModal placement="top" buttonText="Open Top" title="Top Dialog" />
+        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
+        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
+        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
+      </BaseCard>
+
+
     </section>
   );
 }

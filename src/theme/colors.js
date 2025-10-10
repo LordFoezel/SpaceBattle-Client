@@ -1,6 +1,7 @@
 // Centralized color tokens for UI consistency
 export const colors = {
   // Surfaces and text
+  background: "#030217", // blue-500
   surface: '#0f172a', // slate-900
   text: '#f1f5f9', // slate-100
   textMuted: '#64748b', // slate-500

@@ -9,13 +9,13 @@ const BaseText = forwardRef(function BaseText({
   truncate, // cut on single line
   uppercase=false,
   lowercase=false,
-  color="text-gray-100", // tailwind color
+  color="red-500", // tailwind color 
   children,
 }, ref) {
-
+// todo tailwind color funktioniert nicht mehr
 
   function className() {
-    const classes = [color];
+    const classes = [`text-${color}`, "!important"];
     if(uppercase) classes.push("uppercase");
     if(lowercase) classes.push("lowercase");
     return classes.join(" ");
