@@ -86,6 +86,7 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
           className={cn(className)}
           bg="#0f172a"
           color={hasSelection ? "#f1f5f9" : "#64748b"}
+          fontWeight={400}
           borderColor="#cbd5e1"
           _hover={{ bg: "#0f172a" }}
           _active={{ bg: "#0f172a" }}
@@ -107,7 +108,7 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
         >
           {/* Ungrouped first */}
           <MenuOptionGroup
-            title={!hasCategories ? undefined : "Ungrouped"}
+            title={undefined}
             type="checkbox"
             value={selectedValues.filter((v) => (groupMap.get("__ungrouped__") || []).some((o) => String(o.value) === String(v)))}
             onChange={handleGroupChange("__ungrouped__")}
@@ -120,8 +121,8 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
                 isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
                 bg="transparent"
                 color="#f1f5f9"
-                _hover={{ bg: '#1e293b' }}
-                _focus={{ bg: '#1e293b' }}
+                _hover={{ bg: '#2563eb' }}
+                _focus={{ bg: '#2563eb' }}
                 _checked={{ bg: '#075985', color: '#f8fafc' }}
                 sx={{ '&[data-checked=true] svg': { color: '#38bdf8' } }}
                 _disabled={{ color: '#64748b', opacity: 1, cursor: 'not-allowed' }}
@@ -149,8 +150,8 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
                   isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
                   bg="transparent"
                   color="#f1f5f9"
-                  _hover={{ bg: '#1e293b' }}
-                  _focus={{ bg: '#1e293b' }}
+                  _hover={{ bg: '#2563eb' }}
+                  _focus={{ bg: '#2563eb' }}
                   _checked={{ bg: '#075985', color: '#f8fafc' }}
                   sx={{ '&[data-checked=true] svg': { color: '#38bdf8' } }}
                   _disabled={{ color: '#64748b', opacity: 1, cursor: 'not-allowed' }}
