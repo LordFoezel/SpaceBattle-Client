@@ -28,6 +28,7 @@ const BaseInputNumber = forwardRef(function BaseInputNumber({
       size={size}
     >
       <NumberInputField
+        bg="#0f172a"
         className={cn(className)}
         onBlur={onBlur}
         onFocus={onFocus}

@@ -30,6 +30,7 @@ const BaseInput = forwardRef(function BaseInput({
       placeholder={placeholder}
       autoComplete={autoComplete}
       type={type}
+      bg="#0f172a"
       className={cn(className)}
       onBlur={onBlur}
       onFocus={onFocus}

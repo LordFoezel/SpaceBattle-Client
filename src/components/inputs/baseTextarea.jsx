@@ -30,6 +30,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
       autoComplete={autoComplete}
       type="text"
       resize={resize}
+      bg="#0f172a"
       className={cn(className)}
       onBlur={onBlur}
       onFocus={onFocus}
