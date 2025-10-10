@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FormControl, FormLabel, Input, FormHelperText, Button, Alert, AlertIcon } from "@chakra-ui/react";
-// Legacy components kept for secondary actions
-import ButtonRouterRegister from "../components/buttonsOld/ButtonRouterRegister.jsx";
-import ButtonForgotPassword from "../components/buttonsOld/ButtonForgotPassword.jsx";
+import { FormControl, FormLabel, FormHelperText, Alert, AlertIcon } from "@chakra-ui/react";
+import { BaseInputEmail } from "../components/base/inputs/BaseInputEmail.jsx";
+import { BaseInputPassword } from "../components/base/inputs/BaseInputPassword.jsx";
+import { BaseButton } from "../components/base/buttons/BaseButton.jsx";
 import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";
@@ -12,8 +12,7 @@ import { requestVerificationEmail } from "../repositories/auth.ts";
 const DEFAULT_HINT = "Nutze die Demo-Zugangsdaten oder registriere dich.";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Using FormData; no controlled inputs needed
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -33,6 +32,10 @@ export default function LoginPage() {
     setError(null);
 
     try {
+      const formData = new FormData(event.currentTarget);
+      const email = String(formData.get("email") || "").trim();
+      const password = String(formData.get("password") || "");
+
       if (!email || !password) {
         throw new Error("Bitte E-Mail und Passwort eingeben.");
       }
@@ -54,7 +57,11 @@ export default function LoginPage() {
       const code = (anyErr && typeof anyErr === "object" && anyErr.payload && anyErr.payload.code) ? anyErr.payload.code : undefined;
 
       if (code === "USER_NOT_VALIDATED") {
-        try { await requestVerificationEmail({ email }); } catch { /* ignore */ }
+        try {
+          const formData = new FormData(event.currentTarget);
+          const email = String(formData.get("email") || "").trim();
+          await requestVerificationEmail({ email });
+        } catch { /* ignore */ }
         setError("Dein Konto ist noch nicht verifiziert. Wir haben dir eine Bestätigungs-E-Mail gesendet.");
       } else {
         setError(err instanceof Error ? err.message : "Unbekannter Fehler");
@@ -76,41 +83,27 @@ export default function LoginPage() {
         <div className="space-y-4">
           <FormControl isDisabled={isSubmitting}>
             <FormLabel>{t("login.email")}</FormLabel>
-            <Input
-              type="email"
-              autoComplete="email"
-              inputMode="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={(() => {
-                const key = "login.email.placeholder";
-                const val = t(key);
-                return val === key ? "dein.name@example.com" : val;
-              })()}
-            />
+            <BaseInputEmail name="email" placeholder={(() => {
+              const key = "login.email.placeholder";
+              const val = t(key);
+              return val === key ? "dein.name@example.com" : val;
+            })()} />
             <FormHelperText>{DEFAULT_HINT}</FormHelperText>
           </FormControl>
 
           <FormControl isDisabled={isSubmitting}>
             <FormLabel>{t("login.password")}</FormLabel>
-            <Input
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <BaseInputPassword name="password" autoComplete="current-password" placeholder="********" />
           </FormControl>
         </div>
 
         <div className="flex flex-col gap-3">
-          <Button type="submit" colorScheme="blue" width="100%" isLoading={isSubmitting} loadingText={t("login.login")}>
-            {buttonLabel}
-          </Button>
+          <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
+            {isSubmitting ? "Wird eingeloggt..." : t("login.login")}
+          </BaseButton>
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <ButtonForgotPassword className="px-0 text-xs" />
-            <ButtonRouterRegister variant="ghost" size="sm" />
+            <BaseButton variant="ghost" size="sm" onClick={() => navigate("/forgot-password")}>Passwort vergessen?</BaseButton>
+            <BaseButton variant="ghost" size="sm" onClick={() => navigate("/register")}>{t("login.register")}</BaseButton>
           </div>
         </div>
 
