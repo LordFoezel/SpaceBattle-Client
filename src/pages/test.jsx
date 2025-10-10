@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { BaseInput } from '../components/base/input/BaseInput.jsx'
 import { BaseInputNumber } from '../components/base/input/BaseInputNumber.jsx'
 import { BaseInputEmail } from '../components/base/input/BaseInputEmail.jsx'
@@ -13,6 +14,7 @@ import { BaseModal } from '../components/base/dialog/BaseModal.jsx'
 import { BaseCard } from '../components/base/layout/BaseCard.jsx'
 import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
 import { BaseSeparator } from '../components/base/text/BaseSeparator.jsx'
+import notify from '../services/toastService.js'
 
 export default function TestPage() {
   const options = [
@@ -32,6 +34,11 @@ export default function TestPage() {
     { label: "Test element 2", value: "10", selectable: true, category: "Test" },
     { label: "Single element", value: "100", selectable: true, category: "Single" },
   ];
+
+  useEffect(() => {
+    const t = setTimeout(() => notify.error(), 3500);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <section className="testing-page">

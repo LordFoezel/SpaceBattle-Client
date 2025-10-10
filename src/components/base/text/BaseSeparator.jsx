@@ -24,6 +24,7 @@ const BaseSeparator = function BaseSeparator({
   return (
     <Divider 
       name={name}
+      size={size}
       orientation={orientation}
       borderColor={toChakraColor(color)}
       borderStyle={variant}

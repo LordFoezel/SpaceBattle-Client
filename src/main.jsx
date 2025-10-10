@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./chakraTheme.js";
+import { notify } from "./services/toastService.js";
 import { t as translate } from "./helper/translate.ts";
 
 import "./index.css";
@@ -24,3 +25,4 @@ ReactDOM.createRoot(rootElement).render(
 // Expose translation helper globally
 // Allows calling t("key", {param: "value"}) anywhere without import
 globalThis.t = translate;
+globalThis.notify = notify;
