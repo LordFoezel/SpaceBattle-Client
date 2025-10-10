@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 import { useNavigate } from "react-router-dom";
@@ -52,11 +51,6 @@ export default function RegisterPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <Title
-        title="Neue Besatzung registrieren"
-        subtitle="Lege ein neues SpaceBattle-Konto an."
-      />
-
       <form
         onSubmit={handleSubmit}
         className={`${panelClass} w-full max-w-md space-y-6`}

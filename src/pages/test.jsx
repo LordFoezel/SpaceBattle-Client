@@ -14,7 +14,7 @@ import { BaseModal } from '../components/base/dialog/BaseModal.jsx'
 import { BaseCard } from '../components/base/layout/BaseCard.jsx'
 import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
 import { BaseSeparator } from '../components/base/text/BaseSeparator.jsx'
-import notify from '../services/toastService.js'
+import { MainCard } from '../components/layout/MainCard.jsx';
 
 export default function TestPage() {
   const options = [
@@ -42,8 +42,25 @@ export default function TestPage() {
 
   return (
     <section className="testing-page">
-
-      <BaseCard direction="col" variant='medium' >
+      <MainCard>
+        <BaseText uppercase fontSize="3xl" >Test Page</BaseText>
+        <BaseText color="text-red-300">To Test New Components</BaseText>
+        <BaseInput />
+        <BaseInputNumber />
+        <BaseInputEmail />
+        <BaseInputPassword />
+        <BaseTextarea />
+        <BaseButton> <BaseText color="text-gray-900">TextBase</BaseText></BaseButton>
+        <BaseSelect variant="subtle" options={options} />
+        <BaseSelect options={optionsCategory} />
+        <BaseSelectMulti options={options} />
+        <BaseSelectMulti options={optionsCategory} />
+        <BaseSwitch />
+        <BaseSwitch isDisabled={false} value={1} />
+        <BaseCheckbox value="1" />
+        <BaseCheckbox value={true} />
+        <BaseModal placement="top" buttonText="Open Top" title="Top Dialog" />
+        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
         <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent'>
           <BaseInputEmail />
         </BaseLabel>
@@ -57,36 +74,7 @@ export default function TestPage() {
         <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent' direction="horizontal">
           <BaseInputPassword />
         </BaseLabel>
-
-      </BaseCard>
-      <BaseCard direction="col" >
-        <BaseText uppercase fontSize="3xl" >Test Page</BaseText>
-        <BaseText color="text-red-300">To Test New Components</BaseText>
-        <BaseInput />
-        <BaseInputNumber />
-        <BaseInputEmail />
-        <BaseInputPassword />
-        <BaseTextarea />
-        <BaseButton> <BaseText color="text-gray-900">TextBase</BaseText></BaseButton>
-        <BaseSelect variant="subtle" options={options} />
-        <BaseSelect options={optionsCategory} />
-        <BaseSelectMulti options={options} />
-        <BaseSelectMulti options={optionsCategory} />
-      </BaseCard>
-      <BaseCard>
-        <BaseSwitch />
-        <BaseSwitch isDisabled={false} value={1} />
-        <BaseCheckbox value="1" />
-        <BaseCheckbox value={true} />
-      </BaseCard>
-      <BaseCard>
-        <BaseModal placement="top" buttonText="Open Top" title="Top Dialog" />
-        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
-        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
-        <BaseModal placement="center" buttonText="Open Center" title="Center Dialog" />
-      </BaseCard>
-
-
+      </MainCard>
     </section>
   );
 }

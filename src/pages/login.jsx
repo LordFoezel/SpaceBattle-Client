@@ -4,7 +4,6 @@ import { FormControl, FormLabel, FormHelperText, Alert, AlertIcon } from "@chakr
 import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
 import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
 import { BaseButton } from "../components/base/button/BaseButton.jsx";
-import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
@@ -71,11 +70,6 @@ export default function LoginPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <Title
-        title={t("app.welcome")}
-        subtitle="Melde dich an, um deine Flotte zu verwalten.  234523"
-      />
-
       <form
         onSubmit={handleSubmit}
         className={`${panelClass} w-full max-w-md space-y-6`}

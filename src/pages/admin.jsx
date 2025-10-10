@@ -1,5 +1,4 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { getApiBaseUrl } from "../config/api.js";
 
@@ -44,11 +43,6 @@ export default function DashboardPage() {
 
   return (
     <section className="flex flex-1 flex-col gap-10">
-      <Title
-        title="SpaceBattle Admin Uebersicht"
-        subtitle="Ueberblick ueber deine Datenbanken und Ressourcen."
-      />
-
       <div className={`${panelClass} space-y-4`}>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold text-slate-100">Database Tables</h2>

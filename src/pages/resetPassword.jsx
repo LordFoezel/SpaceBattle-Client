@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Title from "../components/layout/title.jsx";
 import { panelClass } from "../styles/theme.js";
 import { resetPassword } from "../repositories/auth.ts";
 import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
@@ -52,11 +51,6 @@ export default function ResetPasswordPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <Title
-        title="Neues Passwort setzen"
-        subtitle={email ? `Für ${email}` : "Bitte nutze den Link aus der E‑Mail."}
-      />
-
       <form onSubmit={handleSubmit} className={`${panelClass} w-full max-w-md space-y-6`}>
         <FormControl isDisabled={isSubmitting}>
           <FormLabel>Neues Passwort</FormLabel>

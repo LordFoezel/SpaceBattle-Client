@@ -10,11 +10,13 @@ const BaseCard = function BaseCard({
     children,
     justify = "around",
     content = "center",
-    width = "full"
+    width = "full",
+    height,
 }) {
 
     function className() {
-        const classes = ["flex", `flex-${direction}`, `gap-${gap}`, `p-${padding}`, `m-${margin}`, `content-${content}`, "rounded-md", `justify-${justify}`, `w-${width}`];
+        const classes = ["flex", `flex-${direction}`, `gap-${gap}`, `p-${padding}`, `m-${margin}`, `content-${content}`, "rounded-md", `justify-${justify}`, `w-${width}` ];
+        if(height) classes.push(`h-${height}`);
         return classes.join(" ");
     }
 
