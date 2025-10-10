@@ -1,18 +1,15 @@
 ﻿import { BaseText } from "../base/text/BaseText";
 
-const TitleText = function TitleText({
-  children,
-}) {
-
+const Title = function Title() {
 
   return (
-    <BaseText 
-      fontSize="2xl"
+    <BaseText
+      fontSize="xl"
       text="center"
-      color="red-800"
+      color="blue-300"
       uppercase={true}
-    >{ children }</BaseText>
+    >{t("app.title")}</BaseText>
   );
 };
 
-export { TitleText };
+export { Title };

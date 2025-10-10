@@ -20,7 +20,6 @@ const BaseText = function BaseText({
     if (lowercase) classes.push("lowercase");
     if (alligment) classes.push(`justify-${alligment}`);
     if (text) classes.push(`text-${text}`);
-    console.log(text, classes.join(" "));
     return classes.join(" ");
   }
 

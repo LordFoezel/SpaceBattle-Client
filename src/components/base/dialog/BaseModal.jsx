@@ -23,7 +23,7 @@ const BaseModal = function BaseModal({
   placement = "center", // 'top' | 'center' 
   buttonText = "Open Dialog",
   title = "Dialog Title",
-  subTitle = "Dialog Sub-Title",
+  PageTitle = "Dialog Sub-Title",
   confirmText = "Save",
   cancelText = "Cancel",
   onConfirm,
@@ -57,7 +57,7 @@ const BaseModal = function BaseModal({
         >
           <ModalHeader borderBottomWidth="1px" borderColor={colors.borderSubtle}>
             <BaseText>{title}</BaseText>
-            <BaseText>{subTitle}</BaseText>
+            <BaseText>{PageTitle}</BaseText>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>

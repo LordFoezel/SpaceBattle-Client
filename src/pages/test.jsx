@@ -11,10 +11,10 @@ import { BaseSelectMulti } from '../components/base/select/BaseSelectMulti.jsx'
 import { BaseCheckbox } from '../components/base/checkbox/BaseCheckbox.jsx'
 import { BaseSwitch } from '../components/base/checkbox/BaseSwitch.jsx'
 import { BaseModal } from '../components/base/dialog/BaseModal.jsx'
-import { BaseCard } from '../components/base/layout/BaseCard.jsx'
 import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
 import { BaseSeparator } from '../components/base/text/BaseSeparator.jsx'
 import { MainCard } from '../components/layout/MainCard.jsx';
+import { PageHeader } from '../components/layout/PageHeader.jsx';
 
 export default function TestPage() {
   const options = [
@@ -43,8 +43,7 @@ export default function TestPage() {
   return (
     <section className="testing-page">
       <MainCard>
-        <BaseText uppercase fontSize="3xl" >Test Page</BaseText>
-        <BaseText color="text-red-300">To Test New Components</BaseText>
+        <PageHeader title={t("page.test.title")} info={t("page.test.info")} />
         <BaseInput />
         <BaseInputNumber />
         <BaseInputEmail />
