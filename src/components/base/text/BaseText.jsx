@@ -5,7 +5,7 @@ import { toChakraColor } from "../../../helper/toChakraColor.js";
 const BaseText = function BaseText({
   name, // for forms
   fontSize = "md", // xs, sm, md, lg, xl, 2-7xl
-  fontWeight = "normal", // light, normal, medium, semibold, bold
+  fontWeight = "light", // light, normal, medium, semibold, bold
   truncate, // cut on single line
   uppercase = false,
   lowercase = false,

@@ -5,11 +5,13 @@ import { BaseInput } from "./BaseInput.jsx";
 const BaseInputPassword = forwardRef(function BaseInputPassword({
   name, // for forms
   value,
+  defaultValue = '',
   variant = 'outline', // outline, subtle, flushed
   size = 'md', // xs, sm, md, lg
   isDisabled = false,
   placeholder = '',
   autoComplete = 'current-password', // current-password, new-password
+  onChange, // on input
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {
@@ -21,12 +23,14 @@ const BaseInputPassword = forwardRef(function BaseInputPassword({
         ref={ref}
         name={name}
         value={value}
+        defaultValue={defaultValue}
         variant={variant}
         size={size}
         isDisabled={isDisabled}
         placeholder={placeholder}
         autoComplete={autoComplete}
         type={show ? "text" : "password"}
+        onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
       />

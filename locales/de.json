@@ -8,9 +8,11 @@
   "login.logout": "Ausloggen",
   "login.forgotPassword": "Passwort vergessen",
   "login.toRegistration": "Zur Registrierung",
-  "error.unauthorized": "Nicht Authorisiert",
   "page.test.title": "Test-Seite",
   "page.test.info": "Seite um zu sehen, wie sich de Komponenten verhalten.",
   "page.login.title": "Login",
-  "page.login.info": "Willkommen bei SpaceBattle"
+  "page.login.info": "Willkommen bei SpaceBattle",
+  "warning.noEmail": "Keine E-Mail Adresse angegeben!",
+  "warning.noPassword": "Kein Password angegeben!",
+  "error.unauthorized": "Nicht Authorisiert"
 }

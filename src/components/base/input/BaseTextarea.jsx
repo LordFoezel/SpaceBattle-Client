@@ -6,6 +6,7 @@ import colors from "../../../theme/colors.js";
 const BaseTextarea = forwardRef(function BaseTextarea({
   name, // for forms
   value,
+  defaultValue = '',
   variant = 'outline', // outline, subtle, flushed
   size = 'md', // xs, sm, md, lg
   isDisabled = false,
@@ -13,6 +14,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
   placeholder = '',
   autoComplete = 'off', // on, off, email, username, current-password, new-password, name, tel
   resize = "none", // none, vertical, horizontal, both
+  onChange, // on input
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {
@@ -23,6 +25,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
       ref={ref}
       name={name}
       value={value}
+      defaultValue={defaultValue}
       variant={variant}
       size={size}
       isDisabled={isDisabled}
@@ -33,6 +36,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
       resize={resize}
       bg={colors.surface}
       className={cn(className)}
+      onChange={onChange}
       onBlur={onBlur}
       onFocus={onFocus}
     />

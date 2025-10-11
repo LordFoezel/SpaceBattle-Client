@@ -6,12 +6,14 @@ import colors from "../../../theme/colors.js";
 const BaseInputNumber = forwardRef(function BaseInputNumber({
   name,
   value,
+  defaultValue,
   size = 'md', // xs, sm, md, lg
   min = 0,
   max,
   precision = 0,
   isDisabled = false,
   placeholder = "",
+  onChange, // (e) => set(...)
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {
@@ -22,11 +24,17 @@ const BaseInputNumber = forwardRef(function BaseInputNumber({
       ref={ref}
       name={name}
       value={value}
+      defaultValue={defaultValue}
       min={min}
       max={max}
       precision={precision}
       isDisabled={isDisabled}
       size={size}
+      onChange={(valStr, valNum) => {
+        if (!onChange) return;
+        const syntheticEvent = { target: { value: valStr, valueAsNumber: valNum } };
+        onChange(syntheticEvent);
+      }}
     >
       <NumberInputField
         bg={colors.surface}

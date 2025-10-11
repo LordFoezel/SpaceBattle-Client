@@ -20,6 +20,13 @@ export const colors = {
   optionCheckedText: '#f8fafc', // slate-50
   groupTitle: '#cbd5e1', // slate-300
   iconMuted: '#94a3b8', // slate-400
+
+  alert: {
+    info: { bg: "#0f172a", text: "#e2e8f0", border: "#334155", icon: "#93c5fd" }, // slate/blue tint
+    success: { bg: "#052e23", text: "#d1fae5", border: "#14532d", icon: "#34d399" }, // emerald tint
+    warning: { bg: "#2a1f07", text: "#fde68a", border: "#a16207", icon: "#f59e0b" }, // amber tint
+    error: { bg: "#2a0f12", text: "#fecdd3", border: "#7f1d1d", icon: "#fca5a5" }, // red/rose tint
+  },
 };
 
 export default colors;
