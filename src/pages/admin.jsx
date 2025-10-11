@@ -1,5 +1,4 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { panelClass } from "../styles/theme.js";
 import { getApiBaseUrl } from "../config/api.js";
 
 export default function DashboardPage() {
@@ -43,7 +42,7 @@ export default function DashboardPage() {
 
   return (
     <section className="flex flex-1 flex-col gap-10">
-      <div className={`${panelClass} space-y-4`}>
+      <div className={`space-y-4`}>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold text-slate-100">Database Tables</h2>
           <p className="text-sm text-slate-400">

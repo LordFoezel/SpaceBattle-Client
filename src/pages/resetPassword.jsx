@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { panelClass } from "../styles/theme.js";
 import { resetPassword } from "../repositories/auth.ts";
 import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
 import { BaseButton } from "../components/base/button/BaseButton.jsx";
@@ -51,7 +50,7 @@ export default function ResetPasswordPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form onSubmit={handleSubmit} className={`${panelClass} w-full max-w-md space-y-6`}>
+      <form onSubmit={handleSubmit} className={`w-full max-w-md space-y-6`}>
         <FormControl isDisabled={isSubmitting}>
           <FormLabel>Neues Passwort</FormLabel>
           <BaseInputPassword name="password" autoComplete="new-password" placeholder={"••••••••"} />

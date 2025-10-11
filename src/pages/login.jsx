@@ -1,10 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormControl, FormLabel, FormHelperText, Alert, AlertIcon } from "@chakra-ui/react";
-import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
-import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
-import { BaseButton } from "../components/base/button/BaseButton.jsx";
-import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
 import { SmallCard } from '../components/layout/SmallCard.jsx';

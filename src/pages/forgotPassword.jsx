@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
 import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { Alert, AlertIcon, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
-import { panelClass } from "../styles/theme.js";
 import { requestPasswordResetEmail } from "../repositories/auth.ts";
 
 export default function ForgotPasswordPage() {
@@ -40,7 +39,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form onSubmit={handleSubmit} className={`${panelClass} w-full max-w-md space-y-6`}>
+      <form onSubmit={handleSubmit} className={`w-full max-w-md space-y-6`}>
         <FormControl isDisabled={isSubmitting}>
           <FormLabel>{t("login.email")}</FormLabel>
           <BaseInputEmail name="email" placeholder={"dein.name@example.com"} />

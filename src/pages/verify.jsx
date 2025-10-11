@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { panelClass } from "../styles/theme.js";
 import { fetchOne as fetchUser, updateOne as updateUser } from "../repositories/user.ts";
 
 export default function VerifyPage() {
@@ -37,7 +36,7 @@ export default function VerifyPage() {
 
   return (
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <div className={`${panelClass} w-full max-w-md space-y-4`}>
+      <div className={`w-full max-w-md space-y-4`}>
         {hasError ? (
           <p className="rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
             verifying goes werong, please contact support at: info.spacebattle@gmail.com

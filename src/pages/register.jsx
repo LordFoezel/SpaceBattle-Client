@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { panelClass } from "../styles/theme.js";
 import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
 import { useNavigate } from "react-router-dom";
 import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
@@ -53,7 +52,7 @@ export default function RegisterPage() {
     <section className="flex flex-1 flex-col items-center justify-center gap-10">
       <form
         onSubmit={handleSubmit}
-        className={`${panelClass} w-full max-w-md space-y-6`}
+        className={`w-full max-w-md space-y-6`}
       >
         <div className="space-y-4">
           <FormControl isDisabled={isSubmitting}>
