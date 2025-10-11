@@ -1,13 +1,16 @@
 {
   "app.title": "SpaceBattle",
-  "app.welcome": "Willkommen bei SpaceBattle",
-  "login.email": "E-Mail",
-  "login.password": "Passwort",
+  "login.email.label": "E-Mail",
+  "login.email.info": "Gib eine gültige E-Mail adresse an.",
+  "login.password.label": "Passwort",
+  "login.password.info": "",
   "login.login": "Einloggen",
   "login.logout": "Ausloggen",
   "login.forgotPassword": "Passwort vergessen",
   "login.toRegistration": "Zur Registrierung",
   "error.unauthorized": "Nicht Authorisiert",
-  "page.test.title":"Test-Seite",
-  "page.test.info":"Seite um zu sehen, wie sich de Komponenten verhalten."
+  "page.test.title": "Test-Seite",
+  "page.test.info": "Seite um zu sehen, wie sich de Komponenten verhalten.",
+  "page.login.title": "Login",
+  "page.login.info": "Willkommen bei SpaceBattle"
 }

@@ -5,7 +5,7 @@ import { BaseText } from "../text/BaseText.jsx";
 const BaseLabel = function BaseLabel({
     label = "",
     info = "",
-    direction = "vertival", // horizontal, vertival
+    direction = "vertical", // horizontal, vertical
     style = "transparent", // transparent, dark, medium, light 
     variant = "dark", // transparent, dark, medium, light 
     children,
@@ -16,7 +16,7 @@ const BaseLabel = function BaseLabel({
         return classes.join(" ");
     }
 
-    if (direction === "vertival") {
+    if (direction === "vertical") {
         return (
             <BaseCard direction="col" margin="0" padding="0" variant={variant} style={style} gap="2">
                 <BaseText fontSize="lg">{label}</BaseText>

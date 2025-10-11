@@ -7,6 +7,10 @@ import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { panelClass } from "../styles/theme.js";
 import { login as loginRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
+import { SmallCard } from '../components/layout/SmallCard.jsx';
+import { PageHeader } from '../components/layout/PageHeader.jsx';
+import { EmailLabel } from '../components/label/EmailLabel.jsx';
+import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
 
 const DEFAULT_HINT = "Nutze die Demo-Zugangsdaten oder registriere dich.";
 
@@ -69,8 +73,13 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form
+    <section className="login-page">
+      <SmallCard>
+        <PageHeader title={t("page.login.title")} info={t("page.login.info")} />
+        <EmailLabel />
+        <PasswordLabel />
+      </SmallCard>
+      {/* <form
         onSubmit={handleSubmit}
         className={`${panelClass} w-full max-w-md space-y-6`}
       >
@@ -114,7 +123,7 @@ export default function LoginPage() {
             {error}
           </Alert>
         ) : null}
-      </form>
+      </form> */}
     </section>
   );
 }

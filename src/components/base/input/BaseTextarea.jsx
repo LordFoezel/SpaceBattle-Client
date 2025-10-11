@@ -12,7 +12,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
   inputMode = 'text', // text, numeric, decimal, email, tel, url, search
   placeholder = '',
   autoComplete = 'off', // on, off, email, username, current-password, new-password, name, tel
-  resize = "none", // none, vertival, horizontal, both
+  resize = "none", // none, vertical, horizontal, both
   onBlur, // on leave
   onFocus, // on enter
 }, ref) {
