@@ -54,8 +54,7 @@ const BaseCard = function BaseCard({
     };
 
     return (
-        <div className={cn(className())
-        } style={variantStyles[variant]} > {children}</div>
+        <div className={className()} style={variantStyles[variant]} > {children}</div>
     );
 };
 

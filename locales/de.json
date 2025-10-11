@@ -14,5 +14,6 @@
   "page.login.info": "Willkommen bei SpaceBattle",
   "warning.noEmail": "Keine E-Mail Adresse angegeben!",
   "warning.noPassword": "Kein Password angegeben!",
-  "error.unauthorized": "Nicht Authorisiert"
+  "error.code.USER_NOT_VALIDATED": "Benutzer ist nicht validiert, checke deine E-Mails!",
+  "error.code.INVALID_CREDENTIALS": "E-Mail oder Passwort falsch!"
 }

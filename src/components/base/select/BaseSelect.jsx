@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import { Select   } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 const BaseSelect = forwardRef(function BaseSelect({
@@ -32,7 +31,7 @@ const BaseSelect = forwardRef(function BaseSelect({
       isDisabled={isDisabled}
       placeholder={placeholder}
       onChange={onChange}
-      className={cn(className)}
+      className={className}
       iconColor={colors.iconMuted}
       bg={colors.surface}
       color={colors.text}

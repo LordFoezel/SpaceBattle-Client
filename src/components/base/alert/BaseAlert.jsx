@@ -1,6 +1,5 @@
 import { forwardRef, useState } from "react";
 import { Alert, AlertIcon, CloseButton } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import { BaseText } from "../text/BaseText";
 import colors from "../../../theme/colors.js";
 
@@ -8,7 +7,6 @@ const BaseAlert = forwardRef(function BaseAlert(
     {
         state = "info", // 'info' | 'error' | 'warning' | 'success'
         text = "",
-        className = "",
     },
     ref
 ) {
@@ -20,8 +18,7 @@ const BaseAlert = forwardRef(function BaseAlert(
             status={state}
             ref={ref}
             variant="subtle"
-            className={cn(`allert-${state}`, "rounded-md", className, "flex", "flex-row", "justify-between", "items-center")}
-            size="sm"
+            className={`allert-${state} rounded-md flex flex-row justify-between items-center h-5`}
             sx={{
                 bg: palette.bg,
                 color: palette.text,

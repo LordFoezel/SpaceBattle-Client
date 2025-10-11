@@ -1,5 +1,4 @@
 import { Text } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import { toChakraColor } from "../../../helper/toChakraColor.js";
 
 const BaseText = function BaseText({
@@ -30,7 +29,7 @@ const BaseText = function BaseText({
       fontWeight={fontWeight}
       truncate={truncate}
       color={toChakraColor(color)}
-      className={cn(className())}
+      className={className()}
     >{children}</Text>
   );
 };

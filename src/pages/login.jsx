@@ -45,16 +45,17 @@ export default function LoginPage() {
       navigate("/dashboard", { replace: true });
 
     } catch (error) {
-      const anyErr = error ?? {};
-      const code = (anyErr && typeof anyErr === "object" && anyErr.payload && anyErr.payload.code) ? anyErr.payload.code : undefined;
-      if (code === "USER_NOT_VALIDATED") {
-        try {
-          await requestVerificationEmail({ email });
-        } catch { /* ignore */ }
-        notify.warning("Dein Konto ist noch nicht verifiziert. Wir haben dir eine Bestätigungs-E-Mail gesendet.");
-      } else { 
-        notify.warning(error instanceof Error ? error.message : "Unbekannter Fehler");
+      const code = error?.payload?.code || "";
+      switch (code) {
+        case "USER_NOT_VALIDATED":
+          try {
+            await requestVerificationEmail({ email });
+          } catch { /* ignore */ }
+          break;
+        default:
+          break
       }
+      notify.warning(t(`error.code.${code}`));
     }
   }
 

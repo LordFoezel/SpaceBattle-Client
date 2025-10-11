@@ -1,6 +1,5 @@
 ﻿import { forwardRef } from "react";
 import { Button } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 
 const BaseButton = forwardRef(function BaseButton(
   {
@@ -14,10 +13,6 @@ const BaseButton = forwardRef(function BaseButton(
     onClick,
   }, ref) {
 
-  function buildClassName() {
-    const result = [];
-    return result.join(" ");
-  }
 
   return (
     <Button
@@ -28,7 +23,7 @@ const BaseButton = forwardRef(function BaseButton(
       size={size}
       colorScheme={colorScheme}
       type={type}
-      className={cn('w-full', buildClassName())}
+      className='w-full'
       onClick={onClick}
     >{children}</Button>
   );

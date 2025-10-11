@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import { Checkbox } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 const BaseCheckbox = forwardRef(function BaseCheckbox(
@@ -13,11 +12,6 @@ const BaseCheckbox = forwardRef(function BaseCheckbox(
         onClick,
         onChange,
     }, ref) {
-
-    function buildClassName() {
-        const result = [];
-        return result.join(" ");
-    }
 
     const hasHandler = typeof onChange === 'function' || typeof onClick === 'function';
     const isControlled = hasHandler && value !== undefined && value !== null;
@@ -46,7 +40,7 @@ const BaseCheckbox = forwardRef(function BaseCheckbox(
             variant={variant}
             isDisabled={isDisabled}
             size={size}
-            className={cn(buildClassName())}
+            className={name}
             iconColor={colors.optionCheckedText}
             color={colors.text}
             sx={{

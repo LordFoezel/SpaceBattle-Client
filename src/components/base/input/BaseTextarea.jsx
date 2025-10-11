@@ -1,6 +1,5 @@
 ﻿import { forwardRef } from "react";
 import { Textarea  } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 const BaseTextarea = forwardRef(function BaseTextarea({
@@ -19,7 +18,6 @@ const BaseTextarea = forwardRef(function BaseTextarea({
   onFocus, // on enter
 }, ref) {
 
-  const className = "w-full rounded-lg border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40";
   return (
     <Textarea 
       ref={ref}
@@ -35,7 +33,7 @@ const BaseTextarea = forwardRef(function BaseTextarea({
       type="text"
       resize={resize}
       bg={colors.surface}
-      className={cn(className)}
+      className={name}
       onChange={onChange}
       onBlur={onBlur}
       onFocus={onFocus}

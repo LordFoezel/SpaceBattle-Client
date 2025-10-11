@@ -16,11 +16,6 @@ const BaseSeparator = function BaseSeparator({
     return token.slice(0, idx) + "." + token.slice(idx + 1);
   }
 
-  function className() {
-    const classes = [];
-    return classes.join(" ");
-  }
-
   return (
     <Divider 
       name={name}
@@ -28,7 +23,6 @@ const BaseSeparator = function BaseSeparator({
       orientation={orientation}
       borderColor={toChakraColor(color)}
       borderStyle={variant}
-      className={cn(className())}
     />
   );
 };
