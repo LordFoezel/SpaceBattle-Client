@@ -31,7 +31,6 @@ export default function LoginPage() {
       return;
     }
 
-    
     try {
       const auth = await loginRequest({ email, password });
 
@@ -53,8 +52,8 @@ export default function LoginPage() {
           await requestVerificationEmail({ email });
         } catch { /* ignore */ }
         notify.warning("Dein Konto ist noch nicht verifiziert. Wir haben dir eine Bestätigungs-E-Mail gesendet.");
-      } else {
-        notify.warning(err instanceof Error ? err.message : "Unbekannter Fehler");
+      } else { 
+        notify.warning(error instanceof Error ? error.message : "Unbekannter Fehler");
       }
     }
   }
