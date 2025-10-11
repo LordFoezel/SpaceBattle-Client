@@ -4,7 +4,7 @@ const PageTitle = function PageTitle({text}) {
 
   return (
     <BaseText
-      fontSize="4xl"
+      fontSize="2xl"
       text="center"
     >{text}</BaseText>
   );

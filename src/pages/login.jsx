@@ -69,7 +69,7 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="login-page">
+    <section className="login-page pt-20">
       <SmallCard>
         <PageHeader title={t("page.login.title")} info={t("page.login.info")} />
         <EmailLabel />

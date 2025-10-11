@@ -5,8 +5,8 @@ const SmallCard = function SmallCard({
 }) {
 
   return (
-    <BaseCard direction="col" variant='medium'>
-      {children}
+      <BaseCard name="small-card" direction="col" variant='medium' padding="5" margin="5" gap="3" width="96">
+        {children}
     </BaseCard>
   );
 };

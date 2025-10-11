@@ -1,7 +1,7 @@
 ﻿
 export default function Background({ children }) {
   return (
-    <div className="bg-black h-screen" >
+    <div className="background bg-black h-screen" >
         {children}
     </div>
   );

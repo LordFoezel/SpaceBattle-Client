@@ -4,7 +4,7 @@ const Title = function Title() {
 
   return (
     <BaseText
-      fontSize="xl"
+      fontSize="md"
       text="center"
       color="blue-300"
       uppercase={true}

@@ -21,7 +21,6 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Layout>
-        <BaseCard variant="dark" padding="0" margin="0" content="center" justify="center">
         <Routes>
           {/* Admin */}
           <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : <NavigateLogin />} />
@@ -39,7 +38,6 @@ export default function AppRouter() {
           {/* Test */}
           <Route path="/test" element={<TestPage />} />
         </Routes>
-        </BaseCard>
       </Layout>
     </BrowserRouter>
   );

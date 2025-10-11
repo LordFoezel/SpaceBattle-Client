@@ -2,21 +2,31 @@ import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 const BaseCard = function BaseCard({
-    direction = "row", // row, col
-    gap = "5",
-    padding = "5",
-    margin = "5",
-    variant = "dark", // transparent, dark, medium, light  bright
+    name,
+    direction, // row, col
+    gap,
+    padding,
+    margin,
+    variant = "transparent", // transparent, dark, medium, light  bright
     children,
-    justify = "around",
-    content = "center",
+    justify,
+    items,
     width = "full",
     height,
 }) {
 
     function className() {
-        const classes = ["flex", `flex-${direction}`, `gap-${gap}`, `p-${padding}`, `m-${margin}`, `content-${content}`, "rounded-md", `justify-${justify}`, `w-${width}` ];
-        if(height) classes.push(`h-${height}`);
+        const classes = []; 
+        if (name) classes.push(name);
+        if (direction) classes.push(`flex flex-${direction}`);
+        if (gap) classes.push(`gap-${gap}`);
+        if (padding) classes.push(`p-${padding}`);
+        if (margin) classes.push(`m-${margin}`);
+        if (items) classes.push(`items-${items}`);
+        if (justify) classes.push(`justify-${justify}`);
+        if (width) classes.push(`w-${width}`);
+        if (height) classes.push(`h-${height}`);
+        classes.push("rounded-md")
         return classes.join(" ");
     }
 

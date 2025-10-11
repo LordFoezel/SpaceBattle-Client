@@ -4,7 +4,7 @@ import { BaseCard } from "../base/layout/BaseCard.jsx";
 export default function Layout({ children }) {
   return (
     <Background>
-      <BaseCard variant="dark" padding="0" margin="0" height="screen" content="center">
+      <BaseCard name="layout" variant="dark" height="screen" direction="row" justify="center">
           {children}
       </BaseCard>
     </Background>

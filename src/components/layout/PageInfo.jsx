@@ -4,7 +4,7 @@ const PageInfo = function PageInfo({text}) {
 
   return (
     <BaseText
-      fontSize="lg"
+      fontSize="xs"
       text="center"
       color="gray-500"
     >{text}</BaseText>

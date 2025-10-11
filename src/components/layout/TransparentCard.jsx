@@ -1,15 +1,19 @@
 ﻿import { BaseCard } from "../base/layout/BaseCard";
 
 const TransparentCard = function TransparentCard({
-  padding = "0",
-  margin = "0",
-  gap = "0",
-  direction = "col",
+  padding,
+  margin,
+  gap,
+  direction,
+  justify,
+  items,
   children,
+  width,
+  height,
 }) {
 
   return (
-    <BaseCard direction={direction} variant="transparent" padding={padding} margin={margin} gap={gap}>
+    <BaseCard name="transparent-card" direction={direction} variant="transparent" width={width} padding={padding} margin={margin} gap={gap} items={items} justify={justify} height={height}>
       {children}
     </BaseCard>
   );
