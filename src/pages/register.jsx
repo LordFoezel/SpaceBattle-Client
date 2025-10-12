@@ -27,6 +27,8 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
+  const disabled = !email || !password || !name;
+
   async function onClickRegister() {
     if (!email) {
       notify.warning(t("message.noEmail"));
@@ -76,7 +78,7 @@ export default function RegisterPage() {
         <NameLabel value={name} onChange={(e) => setName(e.target.value)} />
         <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
         <TransparentCard direction="col">
-          <RegisterButton onClick={onClickRegister} />
+          <RegisterButton onClick={onClickRegister} isDisabled={disabled} />
           <TransparentCard direction="row">
             <ToLoginButton />
             <ToForgotButton />

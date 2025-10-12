@@ -26,6 +26,8 @@ export default function LoginPage() {
 
   const [password, setPassword] = useState("");
 
+  const disabled = !email || !password;
+
   useEffect(() => {
     try {
       const token = AuthTokenHelper.getStoredToken();
@@ -33,8 +35,8 @@ export default function LoginPage() {
       const payload = AuthTokenHelper.decode(token);
       const exp = Number(payload?.exp);
       if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
-      notify.warning(t("message.alreadyLoggedIn"));
-      setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
+        notify.warning(t("message.alreadyLoggedIn"));
+        setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
       }
     } catch {
       /* ignore token errors */
@@ -89,7 +91,7 @@ export default function LoginPage() {
         <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
         <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
         <TransparentCard direction="col">
-          <LoginButton onClick={onClickLogin} />
+          <LoginButton onClick={onClickLogin} isDisabled={disabled} />
           <TransparentCard direction="row">
             <ToForgotButton />
             <ToRegisterButton />

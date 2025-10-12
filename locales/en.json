@@ -43,6 +43,10 @@
     "register": {
       "title": "Register",
       "info": ""
+    },
+    "notFound": {
+      "title": "Page not found",
+      "info": "The page you try to enter doesnt exist"
     }
   },
   "message": {
@@ -51,7 +55,8 @@
     "noPassword": "No password provided!",
     "resetPasswordSent": "Mail to reset Password sent!",
     "alreadyLoggedIn": "You're already logged in!",
-    "registerSuccess": "Register successfuly"
+    "registerSuccess": "Register successfuly",
+    "routeBack": "Redirect on page back!"
   },
   "error": {
     "code": {

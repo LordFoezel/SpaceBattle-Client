@@ -21,6 +21,8 @@ export default function ForgotPasswordPage() {
     }
   });
 
+  const disabled = !email;
+
   async function onClickSendMail() {
     if (!email) {
       notify.warning(t("message.noEmail"));
@@ -45,7 +47,7 @@ export default function ForgotPasswordPage() {
         <PageHeader title={t("page.passwordForgot.title")} info={t("page.passwordForgot.info")} />
         <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
         <TransparentCard direction="col">
-          <SendMailForgotPasswordButton onClick={onClickSendMail} />
+          <SendMailForgotPasswordButton onClick={onClickSendMail} isDisabled={disabled} />
           <TransparentCard direction="row">
             <ToLoginButton />
             <ToRegisterButton />
