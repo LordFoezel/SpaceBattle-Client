@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login as loginRequest } from "../repositories/auth.ts";
+import { register as registerRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
 import { SmallCard } from '../components/layout/SmallCard.jsx';
 import { PageHeader } from '../components/layout/PageHeader.jsx';
@@ -9,7 +9,6 @@ import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
 import { NameLabel } from '../components/label/NameLabel.jsx';
 import { RegisterButton } from "../components/button/RegisterButton.jsx";
 import { TransparentCard } from "../components/layout/TransparentCard.jsx";
-import { AuthTokenHelper } from "../helper/authToken.js";
 import { ErrorHelper } from "../helper/errorHelper.js";
 import { ToLoginButton } from "../components/button/ToLoginButton.jsx";
 import { ToForgotButton } from "../components/button/ToForgotButton.jsx";
@@ -41,7 +40,7 @@ export default function RegisterPage() {
       notify.warning(t("message.noName"));
       return;
     }
-
+// todo: registerRequest geht auch in den catch wenn die registrierung funktioniert hat, probleme in der server route?
     try {
       await registerRequest({
         email,
@@ -56,11 +55,18 @@ export default function RegisterPage() {
       setTimeout(() => navigate("/login", { replace: true }), 2500);
     } catch (error) {
       const code = ErrorHelper.handleError(error);
-      setEmail("");
-      setName("");
-      setPassword("");
+      switch (code) {
+        case "ALREADY_EXISTS":
+          setEmail("");
+          break;
+        case "422":
+          setEmail("");
+          setPassword("");
+          break;
+        default:
+          break
+      }
     }
-
   }
 
   return (

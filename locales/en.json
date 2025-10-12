@@ -57,7 +57,8 @@
     "code": {
       "USER_NOT_VALIDATED": "User is not verified. Check your email!",
       "INVALID_CREDENTIALS": "Incorrect email or password!",
-      "422": "Enter a valid email address!"
+      "422": "Invalide input!",
+      "ALREADY_EXISTS": "Email address allready exisst!"
     }
   }
 }
