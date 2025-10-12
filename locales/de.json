@@ -1,19 +1,39 @@
 {
-  "app.title": "SpaceBattle",
-  "login.email.label": "E-Mail",
-  "login.email.info": "Gib eine gültige E-Mail adresse an.",
-  "login.password.label": "Passwort",
-  "login.password.info": "",
-  "login.login": "Einloggen",
-  "login.logout": "Ausloggen",
-  "login.forgotPassword": "Passwort vergessen",
-  "login.toRegistration": "Zur Registrierung",
-  "page.test.title": "Test-Seite",
-  "page.test.info": "Seite um zu sehen, wie sich de Komponenten verhalten.",
-  "page.login.title": "Login",
-  "page.login.info": "Willkommen bei SpaceBattle",
-  "warning.noEmail": "Keine E-Mail Adresse angegeben!",
-  "warning.noPassword": "Kein Password angegeben!",
-  "error.code.USER_NOT_VALIDATED": "Benutzer ist nicht validiert, checke deine E-Mails!",
-  "error.code.INVALID_CREDENTIALS": "E-Mail oder Passwort falsch!"
+  "app": {
+    "title": "SpaceBattle"
+  },
+  "login": {
+    "email": {
+      "label": "E-Mail",
+      "info": "Gib eine gültige E-Mail-Adresse an."
+    },
+    "password": {
+      "label": "Passwort",
+      "info": ""
+    },
+    "login": "Einloggen",
+    "logout": "Ausloggen",
+    "forgotPassword": "Passwort vergessen",
+    "toRegistration": "Zur Registrierung"
+  },
+  "page": {
+    "test": {
+      "title": "Test-Seite",
+      "info": "Seite, um zu sehen, wie sich die Komponenten verhalten."
+    },
+    "login": {
+      "title": "Login",
+      "info": "Willkommen bei SpaceBattle"
+    }
+  },
+  "warning": {
+    "noEmail": "Keine E-Mail-Adresse angegeben!",
+    "noPassword": "Kein Passwort angegeben!"
+  },
+  "error": {
+    "code": {
+      "USER_NOT_VALIDATED": "Benutzer ist nicht verifiziert. Prüfe deine E-Mails!",
+      "INVALID_CREDENTIALS": "E-Mail oder Passwort ist falsch!"
+    }
+  }
 }

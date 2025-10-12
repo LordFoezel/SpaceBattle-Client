@@ -7,15 +7,15 @@ type Lang = "de" | "en";
 export type TranslationParams = Record<string, string | number | boolean>;
 
 const LOCALES: Record<Lang, Dict> = {
-  de: de as Dict,
-  en: en as Dict,
+  de: de as unknown as Dict,
+  en: en as unknown as Dict,
 };
 
 function normalizeLang(raw?: unknown): Lang {
   const s = String(raw || "").toLowerCase();
   if (s.startsWith("de")) return "de";
   if (s.startsWith("en")) return "en";
-  return "en";
+  return "de";
 }
 
 export function getCurrentLanguage(): Lang {
@@ -30,7 +30,7 @@ export function getCurrentLanguage(): Lang {
     const candidate = nav.language || (Array.isArray(nav.languages) && nav.languages[0]);
     return normalizeLang(candidate);
   }
-  return "en";
+  return "de";
 }
 
 function format(template: string, params?: TranslationParams): string {
@@ -38,10 +38,25 @@ function format(template: string, params?: TranslationParams): string {
   return template.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? ""));
 }
 
+function getFromDict(dict: Dict, key: string): unknown {
+  if (key in dict) return dict[key];
+  return key.split(".").reduce<unknown>((acc, part) => {
+    if (acc && typeof acc === "object" && part in (acc as any)) {
+      return (acc as any)[part];
+    }
+    acc = undefined;
+    return acc;
+  }, dict);
+}
+
 export function t(key: string, params?: TranslationParams, lang?: Lang): string {
   const lng = lang ?? getCurrentLanguage();
   const dict = LOCALES[lng] ?? LOCALES.en;
-  const fallback = LOCALES.en[key] ?? key;
-  const template = dict[key] ?? fallback;
-  return format(template, params);
+
+  const tmpl =
+    (getFromDict(dict, key) as string | undefined) ??
+    (getFromDict(LOCALES.en, key) as string | undefined) ??
+    key;
+
+  return format(tmpl, params);
 }

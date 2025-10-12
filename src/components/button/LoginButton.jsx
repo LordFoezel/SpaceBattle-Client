@@ -1,4 +1,4 @@
-﻿import { BaseButton } from "../base/button/BaseButton.jsx";
+import { BaseButton } from "../base/button/BaseButton.jsx";
 import { ButtonText } from "../text/ButtonText.jsx";
 
 const LoginButton = function LoginButton({ onClick }) {
@@ -13,3 +13,4 @@ const LoginButton = function LoginButton({ onClick }) {
 };
 
 export { LoginButton };
+

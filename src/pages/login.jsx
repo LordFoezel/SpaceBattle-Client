@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
@@ -7,6 +7,9 @@ import { PageHeader } from '../components/layout/PageHeader.jsx';
 import { EmailLabel } from '../components/label/EmailLabel.jsx';
 import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
 import { LoginButton } from "../components/button/LoginButton.jsx";
+import { RegisterButton } from "../components/button/RegisterButton.jsx";
+import { ForgotButton } from "../components/button/ForgotButton.jsx";
+import { TransparentCard } from "../components/layout/TransparentCard.jsx";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -46,6 +49,8 @@ export default function LoginPage() {
 
     } catch (error) {
       const code = error?.payload?.code || "";
+      if(!code) console.log(error.message);
+      
       switch (code) {
         case "USER_NOT_VALIDATED":
           try {
@@ -55,8 +60,17 @@ export default function LoginPage() {
         default:
           break
       }
+      setPassword("");
       notify.warning(t(`error.code.${code}`));
     }
+  }
+
+  function onClickForgot() {
+    navigate("/forgot-password")
+  }
+
+  function onClickRegister() {
+    navigate("/register")
   }
 
   return (
@@ -66,6 +80,10 @@ export default function LoginPage() {
         <EmailLabel defaultValue={email} onBlur={(e) => setEmail(e.target.value)} />
         <PasswordLabel onBlur={(e) => setPassword(e.target.value)} />
         <LoginButton onClick={onClickLogin} />
+        <TransparentCard direction="row">
+          <ForgotButton onClick={onClickForgot} />
+          <RegisterButton onClick={onClickRegister} />
+        </TransparentCard>
       </SmallCard>
     </section>
   );

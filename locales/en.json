@@ -1,12 +1,39 @@
 {
-  "app.title": "SpaceBattle",
-  "app.welcome": "Welcome to SpaceBattle",
-  "login.email": "Email",
-  "login.password": "Password",
-  "login.login": "Log in",
-  "login.logout": "Log out",
-  "login.forgotPassword": "Forgot password",
-  "login.toRegistration": "Go to registration",
-  "error.unauthorized": "Unauthorized",
-  "page.test":"Test-Page"
+  "app": {
+    "title": "SpaceBattle"
+  },
+  "login": {
+    "email": {
+      "label": "Email",
+      "info": "Enter a valid email address."
+    },
+    "password": {
+      "label": "Password",
+      "info": ""
+    },
+    "login": "Log in",
+    "logout": "Log out",
+    "forgotPassword": "Forgot password",
+    "toRegistration": "Go to registration"
+  },
+  "page": {
+    "test": {
+      "title": "Test page",
+      "info": "Page to see how the components behave."
+    },
+    "login": {
+      "title": "Login",
+      "info": "Welcome to SpaceBattle"
+    }
+  },
+  "warning": {
+    "noEmail": "No email address provided!",
+    "noPassword": "No password provided!"
+  },
+  "error": {
+    "code": {
+      "USER_NOT_VALIDATED": "User is not verified. Check your email!",
+      "INVALID_CREDENTIALS": "Email or password is incorrect!"
+    }
+  }
 }
