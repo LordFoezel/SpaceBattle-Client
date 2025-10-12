@@ -23,22 +23,22 @@ export default function ResetPasswordPage() {
   const disabled = !passwordOne || !passwordTwo;
 
   async function onClickReset() {
+    if (!email) {
+      notify.error(t("error.notProvided", [t("core.email")]));
+      return;
+    }
+
+    if (!passwordOne || !passwordTwo) {
+      notify.error(t("error.notProvided", [t("core.password")]));
+      return;
+    }
+
+    if (passwordOne !== passwordTwo) {
+      notify.error(t("message.passwordNotEqual"));
+      return;
+    }
+
     try {
-      if (!email) {
-        notify.error(t("error.notProvided", [t("core.email")]));
-        return;
-      }
-
-      if (!passwordOne || !passwordTwo) {
-        notify.error(t("error.notProvided", [t("core.password")]));
-        return;
-      }
-
-      if (passwordOne !== passwordTwo) {
-        notify.error(t("message.passwordNotEqual"));
-        return;
-      }
-
       const user = await fetchUser({ where: { email } });
       if (!user) {
         notify.error(t("error.notFound", [t("core.user")]));

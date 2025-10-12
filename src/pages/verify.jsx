@@ -15,16 +15,18 @@ export default function VerifyPage() {
   });
 
   async function verifyEmail() {
+    if (!email) {
+      notify.error(t("error.notProvided", [t("core.email")]));
+      return;
+    }
+    const user = await fetchUser({ where: { email } });
+    if (!user) {
+      notify.error(t("error.notFound", [t("core.user")]));
+      return;
+    };
+
     try {
-      if (!email) {
-        notify.error(t("error.notProvided", [t("core.email")]));
-        return;
-      }
-      const user = await fetchUser({ where: { email } });
-      if (!user) {
-        notify.error(t("error.notFound", [t("core.user")]));
-        return;
-      };
+
       await updateUser(user.id, { verified: true });
       notify.success(t("message.emailVerified"));
 
