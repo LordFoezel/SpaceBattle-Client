@@ -1,95 +1,84 @@
-import { useState } from "react";
-import { register as registerRequest, requestVerificationEmail } from "../repositories/auth.ts";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
-import { BaseInput } from "../components/base/input/BaseInput.jsx";
-import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
-import { BaseButton } from "../components/base/button/BaseButton.jsx";
-import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
+import { login as loginRequest } from "../repositories/auth.ts";
+import { requestVerificationEmail } from "../repositories/auth.ts";
+import { SmallCard } from '../components/layout/SmallCard.jsx';
+import { PageHeader } from '../components/layout/PageHeader.jsx';
+import { EmailLabel } from '../components/label/EmailLabel.jsx';
+import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
+import { NameLabel } from '../components/label/NameLabel.jsx';
+import { RegisterButton } from "../components/button/RegisterButton.jsx";
+import { TransparentCard } from "../components/layout/TransparentCard.jsx";
+import { AuthTokenHelper } from "../helper/authToken.js";
+import { ErrorHelper } from "../helper/errorHelper.js";
+import { ToLoginButton } from "../components/button/ToLoginButton.jsx";
+import { ToForgotButton } from "../components/button/ToForgotButton.jsx";
 
 export default function RegisterPage() {
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
 
-  const isSubmitting = status === "loading";
+  const [email, setEmail] = useState(() => {
+    try {
+      return window.localStorage.getItem("spacebattle.default_email") || "";
+    } catch {
+      return "";
+    }
+  });
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setStatus("loading");
-    setError(null);
-    setSuccessMessage(null);
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  async function onClickRegister() {
+    if (!email) {
+      notify.warning(t("message.noEmail"));
+      return;
+    }
+    if (!password) {
+      notify.warning(t("message.noPassword"));
+      return;
+    }
+    if (!name) {
+      notify.warning(t("message.noName"));
+      return;
+    }
+
 
     try {
-      const formData = new FormData(event.currentTarget);
-      const email = String(formData.get("email") || "").trim();
-      const password = String(formData.get("password") || "");
-      const displayName = String(formData.get("displayName") || "").trim();
-
-      if (!email || !password || !displayName) {
-        throw new Error("Bitte alle Felder ausfuellen.");
-      }
-
       await registerRequest({
         email,
         password,
-        name: displayName,
+        name,
       });
-
-      setSuccessMessage("Registrierung erfolgreich. Du kannst dich jetzt anmelden.");
-      setStatus("success");
-      try { (event.currentTarget).reset(); } catch {}
-      await requestVerificationEmail({ email });
-      setTimeout(() => navigate("/login"), 3500);
-    } catch (err) {
-      setStatus("error");
-      setError(err instanceof Error ? err.message : "Unbekannter Fehler");
+      notify.info(t("message.registerSuccess"));
+      try {
+        await requestVerificationEmail({ email });
+      } catch { /* ignore */ }
+      
+      setTimeout(() => navigate("/login", { replace: true }), 2500);
+    } catch (error) {
+      const code = ErrorHelper.handleError(error);
+      setEmail("");
+      setName("");
+      setPassword("");
     }
+
   }
 
   return (
-    <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form
-        onSubmit={handleSubmit}
-        className={`w-full max-w-md space-y-6`}
-      >
-        <div className="space-y-4">
-          <FormControl isDisabled={isSubmitting}>
-            <FormLabel>{t("login.email")}</FormLabel>
-            <BaseInputEmail name="email" placeholder={"dein.name@example.com"} />
-          </FormControl>
-          <FormControl isDisabled={isSubmitting}>
-            <FormLabel>{"Anzeigename"}</FormLabel>
-            <BaseInput name="displayName" placeholder="Captain Jane" />
-          </FormControl>
-          <FormControl isDisabled={isSubmitting}>
-            <FormLabel>{t("login.password")}</FormLabel>
-            <BaseInputPassword name="password" autoComplete="new-password" placeholder={"Sicheres Passwort"} />
-          </FormControl>
-        </div>
-
-        <div className="space-y-3">
-          <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
-            {isSubmitting ? "Erstelle Konto..." : "Konto erstellen"}
-          </BaseButton>
-          <BaseButton variant="ghost" size="sm" onClick={() => navigate("/login")}>Zum Login</BaseButton>
-        </div>
-
-        {successMessage ? (
-          <Alert status="success" borderRadius="lg">
-            <AlertIcon />
-            {successMessage}
-          </Alert>
-        ) : null}
-
-        {error ? (
-          <Alert status="error" borderRadius="lg">
-            <AlertIcon />
-            {error}
-          </Alert>
-        ) : null}
-      </form>
+    <section className="register-page pt-20">
+      <SmallCard>
+        <PageHeader title={t("page.register.title")} info={t("page.register.info")} />
+        <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
+        <NameLabel value={name} onChange={(e) => setName(e.target.value)} />
+        <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
+        <TransparentCard direction="col">
+          <RegisterButton onClick={onClickRegister} />
+          <TransparentCard direction="row">
+            <ToLoginButton />
+            <ToForgotButton />
+          </TransparentCard>
+        </TransparentCard>
+      </SmallCard>
     </section>
   );
 }

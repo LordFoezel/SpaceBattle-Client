@@ -33,7 +33,7 @@ export default function LoginPage() {
       const payload = AuthTokenHelper.decode(token);
       const exp = Number(payload?.exp);
       if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
-      notify.warning(t("login.alreadyLoggedIn"));
+      notify.warning(t("message.alreadyLoggedIn"));
       setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
       }
     } catch {

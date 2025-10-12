@@ -11,16 +11,20 @@
       "label": "Password",
       "info": ""
     },
+    "name": {
+      "label": "Name",
+      "info": ""
+    },
     "passwordRepeat": {
-       "label": "Repeat password",
+      "label": "Repeat password",
       "info": "Repeat your password"
     },
     "login": "Log in",
     "logout": "Log out",
+    "register": "Register",
     "forgotPassword": "Forgot password",
     "toRegistration": "Go to registration",
     "toLogin": "Go to login",
-    "alreadyLoggedIn": "You're already logged in!",
     "sendMailForgotPasswordButton": "Send E-mail"
   },
   "page": {
@@ -35,13 +39,19 @@
     "passwordForgot": {
       "title": "Forgot password?",
       "info": "We send you a E-Mail to reset your password"
+    },
+    "register": {
+      "title": "Register",
+      "info": ""
     }
   },
   "message": {
-    
+    "noName": "No name provided!",
     "noEmail": "No email address provided!",
     "noPassword": "No password provided!",
-    "resetPasswordSent": "Mail to reset Password sent!"
+    "resetPasswordSent": "Mail to reset Password sent!",
+    "alreadyLoggedIn": "You're already logged in!",
+    "registerSuccess": "Register successfuly"
   },
   "error": {
     "code": {
