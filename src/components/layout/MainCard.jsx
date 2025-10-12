@@ -5,7 +5,7 @@ const MainCard = function MainCard({
 }) {
 
   return (
-    <BaseCard direction="col" variant='medium'>
+    <BaseCard name="main-card" direction="col" variant='medium' padding="5" margin="5" width="96" gap="5">
       {children}
     </BaseCard>
   );

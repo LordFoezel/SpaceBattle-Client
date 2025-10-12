@@ -61,6 +61,10 @@
     "resetPassword": {
       "title": "Reset password",
       "info": ""
+    },
+    "admin": {
+      "title": "Admin",
+      "info": "Staff only things!"
     }
   },
   "message": {

@@ -3,6 +3,7 @@ import { AuthResponse, LoginPayload, RegisterPayload } from "../models/auth.ts";
 
 const path = '/auth';
 const mailerPath = '/mailer';
+const databasePath = '/database';
 
 export async function login(payload: LoginPayload): Promise<AuthResponse | null> {
   return request<AuthResponse>(`${path}/login`, { method: "POST", body: payload as unknown as string });
@@ -20,6 +21,6 @@ export async function requestVerificationEmail(payload: { email: string }): Prom
   await request<void>(`${mailerPath}/verification-email`, { method: "POST", body: payload as unknown as string });
 }
 
-export async function resetPassword(payload: { email: string; password: string; token?: string }): Promise<void> {
-  await request<void>(`${path}/reset-password`, { method: "POST", body: payload as unknown as string });
+export async function getTables(): Promise<{ tables: string[] } | null> {
+  return request<{ tables: string[] }>(`${databasePath}/tables`, { method: "GET" });
 }
