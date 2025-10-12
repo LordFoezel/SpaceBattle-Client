@@ -41,8 +41,8 @@ export default function TestPage() {
     return () => clearTimeout(t);
   }, []);
 
- function onChange(i) {
-    console.log(i);
+ function onChange(e) {
+    console.log(e.target.value);
   }
 
   return (

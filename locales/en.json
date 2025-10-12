@@ -6,7 +6,8 @@
     "user": "User",
     "email": "E-Mail",
     "password": "Password",
-    "name": "Name"
+    "name": "Name",
+    "search": "Search"
   },
   "login": {
     "email": {
