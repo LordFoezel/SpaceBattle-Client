@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
 
   async function onClickSendMail() {
     if (!email) {
-      notify.warning(t("message.noEmail"));
+      notify.warning(t("error.notProvided", [t("core.email")]));
       return;
     }
 

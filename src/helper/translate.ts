@@ -5,6 +5,7 @@ import en from "../../locales/en.json";
 type Dict = Record<string, string>;
 type Lang = "de" | "en";
 export type TranslationParams = Record<string, string | number | boolean>;
+type Primitive = string | number | boolean;
 
 const LOCALES: Record<Lang, Dict> = {
   de: de as unknown as Dict,
@@ -33,9 +34,23 @@ export function getCurrentLanguage(): Lang {
   return "de";
 }
 
-function format(template: string, params?: TranslationParams): string {
+function format(
+  template: string,
+  params?: TranslationParams | Primitive[]
+): string {
   if (!params) return template;
-  return template.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? ""));
+  const isArray = Array.isArray(params);
+  return template.replace(/\{(\w+)\}/g, (_: string, k: string) => {
+    if (isArray) {
+      const idx = Number(k);
+      if (!Number.isNaN(idx)) {
+        return String((params as Primitive[])[idx] ?? "");
+      }
+      // allow mixing named and indexed
+      return String((params as any)[k] ?? "");
+    }
+    return String((params as TranslationParams)[k] ?? "");
+  });
 }
 
 function getFromDict(dict: Dict, key: string): unknown {
@@ -49,7 +64,11 @@ function getFromDict(dict: Dict, key: string): unknown {
   }, dict);
 }
 
-export function t(key: string, params?: TranslationParams, lang?: Lang): string {
+export function t(
+  key: string,
+  params?: TranslationParams | Primitive[],
+  lang?: Lang
+): string {
   const lng = lang ?? getCurrentLanguage();
   const dict = LOCALES[lng] ?? LOCALES.en;
 
@@ -58,5 +77,5 @@ export function t(key: string, params?: TranslationParams, lang?: Lang): string 
     (getFromDict(LOCALES.en, key) as string | undefined) ??
     key;
 
-  return format(tmpl, params);
+  return format(tmpl, params as any);
 }

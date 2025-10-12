@@ -45,11 +45,11 @@ export default function LoginPage() {
 
   async function onClickLogin() {
     if (!email) {
-      notify.warning(t("message.noEmail"));
+      notify.warning(t("error.notProvided", [t("core.email")]));
       return;
     }
     if (!password) {
-      notify.warning(t("message.noPassword"));
+      notify.warning(t("error.notProvided", [t("core.password")]));
       return;
     }
 

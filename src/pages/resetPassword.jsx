@@ -1,75 +1,74 @@
-import { useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { resetPassword } from "../repositories/auth.ts";
-import { BaseInputPassword } from "../components/base/input/BaseInputPassword.jsx";
-import { BaseButton } from "../components/base/button/BaseButton.jsx";
-import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
+import { useState } from "react";
+import { SmallCard } from '../components/layout/SmallCard.jsx';
+import { PageHeader } from '../components/layout/PageHeader.jsx';
+import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
+import { PasswordRepeatLabel } from '../components/label/PasswordRepeatLabel.jsx';
+import { RegisterButton } from "../components/button/RegisterButton.jsx";
+import { TransparentCard } from "../components/layout/TransparentCard.jsx";
+import { ErrorHelper } from "../helper/errorHelper.js";
+import { ToLoginButton } from "../components/button/ToLoginButton.jsx";
+import { ToRegisterButton } from "../components/button/ToRegisterButton.jsx";
 
 export default function ResetPasswordPage() {
-  const [search] = useSearchParams();
   const navigate = useNavigate();
-  const email = useMemo(() => search.get("email") || "", [search]);
-  const token = useMemo(() => search.get("token") || undefined, [search]);
 
-  const [feedback, setFeedback] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const isSubmitting = status === "loading";
+  const [params] = useSearchParams();
+  const email = params.get("email");
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setFeedback(null);
-    setStatus("loading");
 
+  const [passwordOne, setPasswordOne] = useState("");
+  const [passwordTwo, setPasswordTwo] = useState("");
+
+  const disabled = !passwordOne || !passwordTwo;
+
+  async function onClickReset() {
     try {
       if (!email) {
-        throw new Error("Ungültiger Link: E-Mail fehlt.");
+        notify.error(t("error.notProvided", [t("core.email")]));
+        return;
       }
 
-      const data = new FormData(e.currentTarget);
-      const password = String(data.get("password") || "");
-      const confirm = String(data.get("confirm") || "");
-
-      if (!password || password.length < 8) {
-        throw new Error("Passwort muss mindestens 8 Zeichen haben.");
-      }
-      if (password !== confirm) {
-        throw new Error("Passwörter stimmen nicht überein.");
+      if (!passwordOne || !passwordTwo) {
+        notify.error(t("error.notProvided", [t("core.password")]));
+        return;
       }
 
-      await resetPassword({ email, password, token });
-      setFeedback({ type: "success", message: "Passwort aktualisiert. Du kannst dich jetzt anmelden." });
-      try { (e.currentTarget).reset(); } catch {}
-      setStatus("success");
-      setTimeout(() => navigate("/login"), 1200);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Zurücksetzen fehlgeschlagen.";
-      setFeedback({ type: "error", message: msg });
-      setStatus("error");
+      if (passwordOne !== passwordTwo) {
+        notify.error(t("message.passwordNotEqual"));
+        return;
+      }
+
+      const user = await fetchUser({ where: { email } });
+      if (!user) {
+        notify.error(t("error.notFound", [t("core.user")]));
+        return;
+      };
+
+      await updateUser(user.id, { password: passwordTwo });
+      notify.success(t("message.passwordReseted"));
+
+      setTimeout(() => navigate('/login'), 2500);
+
+    } catch (error) {
+      ErrorHelper.handleError(error)
     }
   }
 
   return (
-    <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form onSubmit={handleSubmit} className={`w-full max-w-md space-y-6`}>
-        <FormControl isDisabled={isSubmitting}>
-          <FormLabel>Neues Passwort</FormLabel>
-          <BaseInputPassword name="password" autoComplete="new-password" placeholder={"••••••••"} />
-        </FormControl>
-        <FormControl isDisabled={isSubmitting}>
-          <FormLabel>Passwort bestätigen</FormLabel>
-          <BaseInputPassword name="confirm" autoComplete="new-password" placeholder={"••••••••"} />
-        </FormControl>
-        <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
-          {isSubmitting ? "Speichere…" : "Passwort speichern"}
-        </BaseButton>
-
-        {feedback ? (
-          <Alert status={feedback.type === "success" ? "success" : "error"} borderRadius="lg">
-            <AlertIcon />
-            {feedback.message}
-          </Alert>
-        ) : null}
-      </form>
+    <section className="reset-password-page pt-20">
+      <SmallCard>
+        <PageHeader title={t("page.resetPassword.title")} info={t("page.resetPassword.info")} />
+        <PasswordLabel value={passwordOne} onChange={(e) => setPasswordOne(e.target.value)} />
+        <PasswordRepeatLabel value={passwordTwo} onChange={(e) => setPasswordTwo(e.target.value)} />
+        <TransparentCard direction="col">
+          <RegisterButton onClick={onClickReset} isDisabled={disabled} />
+          <TransparentCard direction="row">
+            <ToLoginButton />
+            <ToRegisterButton />
+          </TransparentCard>
+        </TransparentCard>
+      </SmallCard>
     </section>
   );
 }

@@ -31,15 +31,15 @@ export default function RegisterPage() {
 
   async function onClickRegister() {
     if (!email) {
-      notify.warning(t("message.noEmail"));
+      notify.warning(t("error.notProvided", [t("core.email")]));
       return;
     }
     if (!password) {
-      notify.warning(t("message.noPassword"));
+      notify.warning(t("error.notProvided", [t("core.password")]));
       return;
     }
     if (!name) {
-      notify.warning(t("message.noName"));
+      notify.warning(t("error.notProvided", [t("core.name")]));
       return;
     }
 

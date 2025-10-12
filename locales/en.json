@@ -2,6 +2,12 @@
   "app": {
     "title": "SpaceBattle"
   },
+  "core": {
+    "user": "User",
+    "email": "E-Mail",
+    "password": "Password",
+    "name": "Name"
+  },
   "login": {
     "email": {
       "label": "Email",
@@ -38,7 +44,7 @@
     },
     "passwordForgot": {
       "title": "Forgot password?",
-      "info": "We send you a E-Mail to reset your password"
+      "info": "We send you a e-mail to reset your password"
     },
     "register": {
       "title": "Register",
@@ -47,23 +53,37 @@
     "notFound": {
       "title": "Page not found",
       "info": "The page you try to enter doesnt exist"
+    },
+    "verify": {
+      "title": "Verify e-mail",
+      "info": "We are verifying your e-mail — please wait."
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "info": ""
     }
   },
   "message": {
     "noName": "No name provided!",
-    "noEmail": "No email address provided!",
+    "noEmail": "No e-mail address provided!",
     "noPassword": "No password provided!",
     "resetPasswordSent": "Mail to reset Password sent!",
     "alreadyLoggedIn": "You're already logged in!",
-    "registerSuccess": "Register successfuly",
-    "routeBack": "Redirect on page back!"
+    "registerSuccess": "Register successfuly!",
+    "routeBack": "Redirect on page back!",
+    "emailVerified": "E-mail is verified!",
+    "noUserWithEmail": "User not found",
+    "passwordNotEqual": "Passwords are not equal!",
+    "passwordReseted": "Password reseted!"
   },
   "error": {
     "code": {
-      "USER_NOT_VALIDATED": "User is not verified. Check your email!",
-      "INVALID_CREDENTIALS": "Incorrect email or password!",
+      "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!",
+      "INVALID_CREDENTIALS": "Incorrect e-mail or password!",
       "422": "Invalide input!",
-      "ALREADY_EXISTS": "Email address allready exisst!"
-    }
+      "ALREADY_EXISTS": "E-mail allready exist!"
+    },
+    "notFound": "Not found: {0}!",
+    "notProvided": "No {0} provided!"
   }
 }

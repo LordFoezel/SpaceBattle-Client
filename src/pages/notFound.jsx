@@ -8,7 +8,7 @@ export default function NotFoundPage() {
   useEffect(() => {
     if (window.history.length > 1) {
       notify.info(t("message.routeBack"));
-      setTimeout(() => navigate(-1), 2500);
+      setTimeout(() => navigate(-1, { replace: true }), 2500);
     }
   });
 
