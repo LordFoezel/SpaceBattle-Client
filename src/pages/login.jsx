@@ -48,14 +48,15 @@ export default function LoginPage() {
       navigate("/dashboard", { replace: true });
 
     } catch (error) {
-      const code = error?.payload?.code || "";
-      if(!code) console.log(error.message);
-      
+      const code = error?.payload?.code || `${error?.status}`;
       switch (code) {
         case "USER_NOT_VALIDATED":
           try {
             await requestVerificationEmail({ email });
           } catch { /* ignore */ }
+          break;
+        case "422":
+          setEmail("");
           break;
         default:
           break
@@ -77,8 +78,8 @@ export default function LoginPage() {
     <section className="login-page pt-20">
       <SmallCard>
         <PageHeader title={t("page.login.title")} info={t("page.login.info")} />
-        <EmailLabel defaultValue={email} onBlur={(e) => setEmail(e.target.value)} />
-        <PasswordLabel onBlur={(e) => setPassword(e.target.value)} />
+        <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
+        <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
         <LoginButton onClick={onClickLogin} />
         <TransparentCard direction="row">
           <ForgotButton onClick={onClickForgot} />
@@ -88,4 +89,3 @@ export default function LoginPage() {
     </section>
   );
 }
-

@@ -18,12 +18,13 @@ const BaseInput = forwardRef(function BaseInput({
   onFocus, // on enter
 }, ref) {
 
+  const isControlled = typeof value !== 'undefined';
+
   return (
     <Input
       ref={ref}
       name={name}
-      value={value}
-      defaultValue={defaultValue}
+      {...(isControlled ? { value } : { defaultValue })}
       variant={variant}
       size={size}
       isDisabled={isDisabled}
