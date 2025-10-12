@@ -15,6 +15,7 @@ import { BaseLabel } from '../components/base/label/BaseLabel.jsx'
 import { BaseSeparator } from '../components/base/text/BaseSeparator.jsx'
 import { MainCard } from '../components/layout/MainCard.jsx';
 import { PageHeader } from '../components/layout/PageHeader.jsx';
+import { BaseInputSearch } from '../components/base/input/BaseInputSearch.jsx';
 
 export default function TestPage() {
   const options = [
@@ -44,6 +45,7 @@ export default function TestPage() {
     <section className="testing-page">
       <MainCard>
         <PageHeader title={t("page.test.title")} info={t("page.test.info")} />
+        <BaseInputSearch />
         <BaseInput />
         <BaseInputNumber />
         <BaseInputEmail />

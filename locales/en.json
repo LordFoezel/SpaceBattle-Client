@@ -65,6 +65,10 @@
     "admin": {
       "title": "Admin",
       "info": "Staff only things!"
+    },
+    "lobby": {
+      "title": "Lobby",
+      "info": ""
     }
   },
   "message": {

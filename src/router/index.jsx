@@ -9,12 +9,12 @@ import DashboardPage from "../pages/dashboard.jsx";
 import AdminPage from "../pages/admin.jsx";
 import VerifyPage from "../pages/verify.jsx";
 import TestPage from "../pages/test.jsx";
+import LobbyPage from "../pages/Lobby.jsx";
 import { checkRole } from "../auth/auth.ts";
-import { BaseCard } from "../components/base/layout/BaseCard.jsx";
 
-function NavigateLogin() {
+function NavigateBase() {
   const location = useLocation();
-  return <Navigate to="/login" replace state={{ from: location }} />;
+  return <Navigate to="/lobby" replace state={{ from: location }} />;
 }
 
 export default function AppRouter() {
@@ -23,9 +23,10 @@ export default function AppRouter() {
       <Layout>
         <Routes>
           {/* Admin */}
-          <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : <NavigateLogin />} />
+          <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : <NavigateBase />} />
           {/* Core */}
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/lobby" element={<LobbyPage />} />
           {/* Auth */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
