@@ -40,7 +40,7 @@ export default function RegisterPage() {
       notify.warning(t("message.noName"));
       return;
     }
-// todo: registerRequest geht auch in den catch wenn die registrierung funktioniert hat, probleme in der server route?
+
     try {
       await registerRequest({
         email,
@@ -50,8 +50,7 @@ export default function RegisterPage() {
       notify.info(t("message.registerSuccess"));
       try {
         await requestVerificationEmail({ email });
-      } catch { /* ignore */ }
-
+      } catch(error) { /* ignore */ }
       setTimeout(() => navigate("/login", { replace: true }), 2500);
     } catch (error) {
       const code = ErrorHelper.handleError(error);
