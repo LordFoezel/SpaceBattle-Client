@@ -42,7 +42,6 @@ export default function RegisterPage() {
       return;
     }
 
-
     try {
       await registerRequest({
         email,
@@ -53,7 +52,7 @@ export default function RegisterPage() {
       try {
         await requestVerificationEmail({ email });
       } catch { /* ignore */ }
-      
+
       setTimeout(() => navigate("/login", { replace: true }), 2500);
     } catch (error) {
       const code = ErrorHelper.handleError(error);
