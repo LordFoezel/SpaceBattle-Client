@@ -1,7 +1,6 @@
-﻿import { forwardRef } from "react";
+import { forwardRef } from "react";
 import { BaseInput } from "./BaseInput.jsx";
 
-// todo: ergänze diese klasse mit einer search funktion erweitere die base klasse dafür
 const BaseInputSearch = forwardRef(function BaseInputSearch({
   name, // for forms
   value,
@@ -13,7 +12,17 @@ const BaseInputSearch = forwardRef(function BaseInputSearch({
   onChange, // on input
   onBlur, // on leave
   onFocus, // on enter
+  onKeyDown, // optional extra key handling
+  onSearch, // (query: string) => void
 }, ref) {
+  const triggerSearch = () => {
+    const current = typeof value !== 'undefined' ? value : ref?.current?.value || '';
+    if (onSearch) onSearch(current);
+  };
+
+  const prMap = { xs: 12, sm: 12, md: 14, lg: 16 };
+  const paddingRight = prMap[size] ?? 14;
+
   return (
     <BaseInput
       ref={ref}
@@ -23,13 +32,20 @@ const BaseInputSearch = forwardRef(function BaseInputSearch({
       variant={variant}
       size={size}
       isDisabled={isDisabled}
-      inputMode="email"
+      inputMode="search"
       placeholder={placeholder}
-      autoComplete="email"
-      type="email"
+      autoComplete="off"
+      type="search"
       onChange={onChange}
       onBlur={onBlur}
       onFocus={onFocus}
+      pr={paddingRight}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          triggerSearch();
+        }
+        if (onKeyDown) onKeyDown(e);
+      }}
     />
   );
 });

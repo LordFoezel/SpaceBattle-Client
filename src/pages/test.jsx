@@ -41,11 +41,15 @@ export default function TestPage() {
     return () => clearTimeout(t);
   }, []);
 
+ function onChange(i) {
+    console.log(i);
+  }
+
   return (
     <section className="testing-page">
       <MainCard>
         <PageHeader title={t("page.test.title")} info={t("page.test.info")} />
-        <BaseInputSearch />
+        <BaseInputSearch onChange={onChange} />
         <BaseInput />
         <BaseInputNumber />
         <BaseInputEmail />
