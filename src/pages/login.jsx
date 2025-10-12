@@ -82,14 +82,6 @@ export default function LoginPage() {
     }
   }
 
-  // function onClickForgot() {
-  //   navigate("/forgot-password")
-  // }
-
-  // function onClickRegister() {
-  //   navigate("/register")
-  // }
-
   return (
     <section className="login-page pt-20">
       <SmallCard>
