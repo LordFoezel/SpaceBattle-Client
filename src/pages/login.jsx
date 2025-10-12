@@ -7,10 +7,11 @@ import { PageHeader } from '../components/layout/PageHeader.jsx';
 import { EmailLabel } from '../components/label/EmailLabel.jsx';
 import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
 import { LoginButton } from "../components/button/LoginButton.jsx";
-import { RegisterButton } from "../components/button/RegisterButton.jsx";
-import { ForgotButton } from "../components/button/ForgotButton.jsx";
+import { ToRegisterButton } from "../components/button/ToRegisterButton.jsx";
+import { ToForgotButton } from "../components/button/ToForgotButton.jsx";
 import { TransparentCard } from "../components/layout/TransparentCard.jsx";
 import { AuthTokenHelper } from "../helper/authToken.js";
+import { ErrorHelper } from "../helper/errorHelper.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function LoginPage() {
       const exp = Number(payload?.exp);
       if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
       notify.warning(t("login.alreadyLoggedIn"));
-      // setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
+      setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
       }
     } catch {
       /* ignore token errors */
@@ -42,11 +43,11 @@ export default function LoginPage() {
 
   async function onClickLogin() {
     if (!email) {
-      notify.warning(t("warning.noEmail"));
+      notify.warning(t("message.noEmail"));
       return;
     }
     if (!password) {
-      notify.warning(t("warning.noPassword"));
+      notify.warning(t("message.noPassword"));
       return;
     }
 
@@ -64,7 +65,7 @@ export default function LoginPage() {
       navigate("/dashboard", { replace: true });
 
     } catch (error) {
-      const code = error?.payload?.code || `${error?.status}`;
+      const code = ErrorHelper.handleError(error);
       switch (code) {
         case "USER_NOT_VALIDATED":
           try {
@@ -78,17 +79,16 @@ export default function LoginPage() {
           break
       }
       setPassword("");
-      notify.warning(t(`error.code.${code}`));
     }
   }
 
-  function onClickForgot() {
-    navigate("/forgot-password")
-  }
+  // function onClickForgot() {
+  //   navigate("/forgot-password")
+  // }
 
-  function onClickRegister() {
-    navigate("/register")
-  }
+  // function onClickRegister() {
+  //   navigate("/register")
+  // }
 
   return (
     <section className="login-page pt-20">
@@ -99,8 +99,8 @@ export default function LoginPage() {
         <TransparentCard direction="col">
           <LoginButton onClick={onClickLogin} />
           <TransparentCard direction="row">
-            <ForgotButton onClick={onClickForgot} />
-            <RegisterButton onClick={onClickRegister} />
+            <ToForgotButton />
+            <ToRegisterButton />
           </TransparentCard>
         </TransparentCard>
       </SmallCard>

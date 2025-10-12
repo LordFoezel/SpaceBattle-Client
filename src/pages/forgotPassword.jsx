@@ -1,69 +1,103 @@
-﻿import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+﻿import { useNavigate } from "react-router-dom";
 import { BaseInputEmail } from "../components/base/input/BaseInputEmail.jsx";
-import { BaseButton } from "../components/base/button/BaseButton.jsx";
 import { Alert, AlertIcon, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
 import { requestPasswordResetEmail } from "../repositories/auth.ts";
+import { useEffect, useState } from "react";
+import { login as loginRequest } from "../repositories/auth.ts";
+import { requestVerificationEmail } from "../repositories/auth.ts";
+import { SmallCard } from '../components/layout/SmallCard.jsx';
+import { PageHeader } from '../components/layout/PageHeader.jsx';
+import { PasswordLabel } from '../components/label/PasswordLabel.jsx';
+import { PasswordRepeatLabel } from '../components/label/PasswordRepeatLabel.jsx';
+import { EmailLabel } from '../components/label/EmailLabel.jsx';
+import { SendMailForgotPasswordButton } from "../components/button/SendMailForgotPasswordButton.jsx";
+import { ToRegisterButton } from "../components/button/ToRegisterButton.jsx";
+import { ToLoginButton } from "../components/button/ToLoginButton.jsx";
+import { TransparentCard } from "../components/layout/TransparentCard.jsx";
+import { ErrorHelper } from "../helper/errorHelper.js";
 
 export default function ForgotPasswordPage() {
-  const [feedback, setFeedback] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const navigate = useNavigate();
-  const isSubmitting = status === "loading";
+  // const [feedback, setFeedback] = useState(null);
+  // const [status, setStatus] = useState("idle");
+  // const navigate = useNavigate();
+  // const isSubmitting = status === "loading";
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setStatus("loading");
-    setFeedback(null);
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   setStatus("loading");
+  //   setFeedback(null);
+  //   try {
+  //     const formData = new FormData(event.currentTarget);
+  //     const email = String(formData.get("email") || "").trim();
+  //     if (!email) {
+  //       throw new Error("Bitte E-Mail-Adresse eingeben.");
+  //     }
+  //     await requestPasswordResetEmail({ email });
+  //     setFeedback({
+  //       type: "success",
+  //       message: "Wenn ein Account existiert, senden wir dir in Kürze eine E-Mail.",
+  //     });
+  //     try { (event.currentTarget).reset(); } catch { }
+  //     setStatus("success");
+  //   } catch (err) {
+  //     const msg = err instanceof Error ? err.message : "Fehler beim Senden der E-Mail.";
+  //     setFeedback({ type: "error", message: msg });
+  //     setStatus("error");
+  //   } finally {
+  //     /* no-op */
+  //   }
+  // }
+  // const [passwordOne, setPasswordOne] = useState("");
+  // const [passwordTwo, setPasswordTwo] = useState("");
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState(() => {
     try {
-      const formData = new FormData(event.currentTarget);
-      const email = String(formData.get("email") || "").trim();
-      if (!email) {
-        throw new Error("Bitte E-Mail-Adresse eingeben.");
-      }
+      return window.localStorage.getItem("spacebattle.default_email") || "";
+    } catch {
+      return "";
+    }
+  });
+
+  async function onClickSendMail() {
+    if (!email) {
+      notify.warning(t("message.noEmail"));
+      return;
+    }
+
+    try {
       await requestPasswordResetEmail({ email });
-      setFeedback({
-        type: "success",
-        message: "Wenn ein Account existiert, senden wir dir in Kürze eine E-Mail.",
-      });
-      try { (event.currentTarget).reset(); } catch {}
-      setStatus("success");
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Fehler beim Senden der E-Mail.";
-      setFeedback({ type: "error", message: msg });
-      setStatus("error");
-    } finally {
-      /* no-op */
+      notify.info(t("message.resetPasswordSent"));
+
+      setTimeout(() => navigate("/login", { replace: true }), 2500);
+
+    } catch (error) {
+      ErrorHelper.handleError(error);
+      setEmail("");
     }
   }
 
+  // function onClickLogin() {
+  //   navigate("/login")
+  // }
+
+  // function onClickRegister() {
+  //   navigate("/register")
+  // }
+
   return (
-    <section className="flex flex-1 flex-col items-center justify-center gap-10">
-      <form onSubmit={handleSubmit} className={`w-full max-w-md space-y-6`}>
-        <FormControl isDisabled={isSubmitting}>
-          <FormLabel>{t("login.email")}</FormLabel>
-          <BaseInputEmail name="email" placeholder={"dein.name@example.com"} />
-          <FormHelperText>Wir senden dir einen Link zum Zurücksetzen.</FormHelperText>
-        </FormControl>
-
-        <BaseButton type="submit" colorScheme="blue" isDisabled={isSubmitting}>
-          {isSubmitting ? "Sende…" : "Link anfordern"}
-        </BaseButton>
-
-        {feedback ? (
-          <Alert status={feedback.type === "success" ? "success" : "error"} borderRadius="lg">
-            <AlertIcon />
-            {feedback.message}
-          </Alert>
-        ) : null}
-      </form>
-
-      <div className="w-full max-w-md">
-        <BaseButton variant="ghost" size="sm" onClick={() => navigate("/login")}>
-          Zum Login
-        </BaseButton>
-      </div>
-
+    <section className="password-forgot-page pt-20">
+      <SmallCard>
+        <PageHeader title={t("page.passwordForgot.title")} info={t("page.passwordForgot.info")} />
+        <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
+        <TransparentCard direction="col">
+          <SendMailForgotPasswordButton onClick={onClickSendMail} />
+          <TransparentCard direction="row">
+            <ToLoginButton />
+            <ToRegisterButton />
+          </TransparentCard>
+        </TransparentCard>
+      </SmallCard>
     </section>
   );
 }

@@ -15,6 +15,7 @@
     "logout": "Ausloggen",
     "forgotPassword": "Passwort vergessen",
     "toRegistration": "Zur Registrierung",
+    "toLogin": "Zum Login",
     "alreadyLoggedIn": "Bereits angemeldet!"
   },
   "page": {
@@ -25,6 +26,10 @@
     "login": {
       "title": "Login",
       "info": "Willkommen bei SpaceBattle"
+    },
+    "passwordForgot": {
+      "title": "Password vergessenè",
+      "info": "Wir schicken dir eine E-Mail um es wiederher zu stellen"
     }
   },
   "warning": {

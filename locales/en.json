@@ -11,11 +11,17 @@
       "label": "Password",
       "info": ""
     },
+    "passwordRepeat": {
+       "label": "Repeat password",
+      "info": "Repeat your password"
+    },
     "login": "Log in",
     "logout": "Log out",
     "forgotPassword": "Forgot password",
     "toRegistration": "Go to registration",
-    "alreadyLoggedIn": "You're already logged in!"
+    "toLogin": "Go to login",
+    "alreadyLoggedIn": "You're already logged in!",
+    "sendMailForgotPasswordButton": "Send E-mail"
   },
   "page": {
     "test": {
@@ -25,11 +31,17 @@
     "login": {
       "title": "Login",
       "info": "Welcome to SpaceBattle"
+    },
+    "passwordForgot": {
+      "title": "Forgot password?",
+      "info": "We send you a E-Mail to reset your password"
     }
   },
-  "warning": {
+  "message": {
+    
     "noEmail": "No email address provided!",
-    "noPassword": "No password provided!"
+    "noPassword": "No password provided!",
+    "resetPasswordSent": "Mail to reset Password sent!"
   },
   "error": {
     "code": {
