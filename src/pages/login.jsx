@@ -33,7 +33,7 @@ export default function LoginPage() {
       const exp = Number(payload?.exp);
       if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
       notify.warning(t("login.alreadyLoggedIn"));
-      setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
+      // setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
       }
     } catch {
       /* ignore token errors */

@@ -1,4 +1,3 @@
-import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 const BaseCard = function BaseCard({
