@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginRequest } from "../repositories/auth.ts";
 import { requestVerificationEmail } from "../repositories/auth.ts";
@@ -10,6 +10,7 @@ import { LoginButton } from "../components/button/LoginButton.jsx";
 import { RegisterButton } from "../components/button/RegisterButton.jsx";
 import { ForgotButton } from "../components/button/ForgotButton.jsx";
 import { TransparentCard } from "../components/layout/TransparentCard.jsx";
+import { AuthTokenHelper } from "../helper/authToken.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,6 +24,21 @@ export default function LoginPage() {
   });
 
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    try {
+      const token = AuthTokenHelper.getStoredToken();
+      if (!token) return;
+      const payload = AuthTokenHelper.decode(token);
+      const exp = Number(payload?.exp);
+      if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
+      notify.warning(t("login.alreadyLoggedIn"));
+      setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
+      }
+    } catch {
+      /* ignore token errors */
+    }
+  }, [navigate]);
 
   async function onClickLogin() {
     if (!email) {
@@ -40,7 +56,7 @@ export default function LoginPage() {
       try {
         window.localStorage.setItem("spacebattle.access_token", auth.access_token);
         window.localStorage.setItem("spacebattle.user", JSON.stringify(auth.user));
-        window.localStorage.setItem("spacebattle.default_email", JSON.stringify(email));
+        window.localStorage.setItem("spacebattle.default_email", email);
       } catch {
         /* ignore storage errors */
       }
@@ -80,10 +96,12 @@ export default function LoginPage() {
         <PageHeader title={t("page.login.title")} info={t("page.login.info")} />
         <EmailLabel value={email} onChange={(e) => setEmail(e.target.value)} />
         <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
-        <LoginButton onClick={onClickLogin} />
-        <TransparentCard direction="row">
-          <ForgotButton onClick={onClickForgot} />
-          <RegisterButton onClick={onClickRegister} />
+        <TransparentCard direction="col">
+          <LoginButton onClick={onClickLogin} />
+          <TransparentCard direction="row">
+            <ForgotButton onClick={onClickForgot} />
+            <RegisterButton onClick={onClickRegister} />
+          </TransparentCard>
         </TransparentCard>
       </SmallCard>
     </section>

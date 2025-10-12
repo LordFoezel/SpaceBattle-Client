@@ -40,6 +40,7 @@ const BaseInputPassword = forwardRef(function BaseInputPassword({
           variant="ghost"
           size={size}
           isDisabled={isDisabled}
+          color="var(--chakra-colors-chakra-border-color)"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => setShow((v) => !v)}
           icon={

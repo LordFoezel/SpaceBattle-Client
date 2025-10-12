@@ -11,7 +11,7 @@ const PageHeader = function PageHeader({ title, info }) {
       <Title />
       <PageTitle text={title} />
       <PageInfo text={info} />
-      <BaseSeparator color="gray-500" />
+      <BaseSeparator color="gray-300" />
     </TransparentCard>
   );
 };

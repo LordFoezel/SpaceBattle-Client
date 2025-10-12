@@ -5,7 +5,7 @@
   "login": {
     "email": {
       "label": "Email",
-      "info": "Enter a valid email address."
+      "info": ""
     },
     "password": {
       "label": "Password",
@@ -14,7 +14,8 @@
     "login": "Log in",
     "logout": "Log out",
     "forgotPassword": "Forgot password",
-    "toRegistration": "Go to registration"
+    "toRegistration": "Go to registration",
+    "alreadyLoggedIn": "You're already logged in!"
   },
   "page": {
     "test": {
@@ -33,7 +34,7 @@
   "error": {
     "code": {
       "USER_NOT_VALIDATED": "User is not verified. Check your email!",
-      "INVALID_CREDENTIALS": "Email or password is incorrect!",
+      "INVALID_CREDENTIALS": "Incorrect email or password!",
       "422": "Enter a valid email address!"
     }
   }

@@ -5,7 +5,7 @@
   "login": {
     "email": {
       "label": "E-Mail",
-      "info": "Gib eine gültige E-Mail-Adresse an."
+      "info": ""
     },
     "password": {
       "label": "Passwort",
@@ -14,7 +14,8 @@
     "login": "Einloggen",
     "logout": "Ausloggen",
     "forgotPassword": "Passwort vergessen",
-    "toRegistration": "Zur Registrierung"
+    "toRegistration": "Zur Registrierung",
+    "alreadyLoggedIn": "Bereits angemeldet!"
   },
   "page": {
     "test": {
