@@ -32,7 +32,7 @@ export interface UserCreate {
 
 export interface UserUpdate {
   name?: string | null;
-  email: string;
+  email?: string;
   password_hash?: string;
   verified?: boolean | null;
   blocked?: boolean | null;

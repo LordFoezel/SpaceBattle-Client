@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { createStandaloneToast } from "@chakra-ui/react";
 import theme from "../chakraTheme.js";
-import { BaseAlert } from "../components/base/alert/BaseAlert.jsx";
+import { BaseAlert } from "../components/base/alert/BaseAlert";
 
 const { toast } = createStandaloneToast({ theme });
 
@@ -30,4 +30,6 @@ notify.warning = (text, opts = {}) => notify({ text, state: "warning", ...opts }
 notify.info = (text, opts = {}) => notify({ text, state: "info", ...opts });
 
 export default notify;
+
+
 

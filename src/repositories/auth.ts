@@ -1,5 +1,5 @@
-import { request } from "./base.ts";
-import { AuthResponse, LoginPayload, RegisterPayload } from "../models/auth.ts";
+import { request } from "./base";
+import { AuthResponse, LoginPayload, RegisterPayload } from "../models/auth";
 
 const path = '/auth';
 const mailerPath = '/mailer';
@@ -24,3 +24,4 @@ export async function requestVerificationEmail(payload: { email: string }): Prom
 export async function getTables(): Promise<{ tables: string[] } | null> {
   return request<{ tables: string[] }>(`${databasePath}/tables`, { method: "GET" });
 }
+
