@@ -35,7 +35,7 @@ const BaseLabel = function BaseLabel({
     );
   } else {
     return (
-      <BaseCard direction="row" style={style} margin="0" padding="0" justify="sta" variant={variant} {...rest}>
+      <BaseCard direction="row" style={style} margin="0" padding="0" justify="start" gap="2" variant={variant} {...rest}>
         {children}
         <BaseCard direction="col" padding="0" margin="0" gap="0" style={style} variant={variant}>
           <BaseText fontSize="lg">{label}</BaseText>
