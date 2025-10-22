@@ -18,7 +18,7 @@ const PasswordLabel = function PasswordLabel({
 }: LabelProps) {
 
     return (
-        <BaseLabel variant='transbaretn' label={globalThis.t("login.password.label")} info={globalThis.t("login.password.info")}>
+        <BaseLabel variant='transparent' label={globalThis.t("login.password.label")} info={globalThis.t("login.password.info")}>
             <BaseInputPassword name="password" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
         </BaseLabel>
     );

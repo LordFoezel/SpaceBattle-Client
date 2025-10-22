@@ -18,7 +18,7 @@ const PasswordRepeatLabel = function PasswordRepeatLabel({
 }: LabelProps) {
 
     return (
-        <BaseLabel variant='transbaretn' label={globalThis.t("login.passwordRepeat.label")} info={globalThis.t("login.passwordRepeat.info")}>
+        <BaseLabel variant='transparent' label={globalThis.t("login.passwordRepeat.label")} info={globalThis.t("login.passwordRepeat.info")}>
             <BaseInputPassword name="passwordRepead" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
         </BaseLabel>
     );

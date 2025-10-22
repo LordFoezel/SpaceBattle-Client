@@ -13,37 +13,58 @@ export default function LobbyPage() {
 
   const [matches, setMatches] = useState<Match[]>([]);
   const [allMatches, setAllMatches] = useState<Match[]>([]);
-  const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState({ password: true, space: true });
 
-  function onChange(e) {
+  function onChangeSearch(e) {
     const value = e?.target?.value ?? "";
     setSearch(value);
   }
 
+  function onChangeFilter(e: { password: boolean, space: boolean }) {
+    setFilter(e);
+  }
+
   useEffect(() => {
-    const s = String(search || "").trim().toLowerCase();
-    if (!s) {
-      setMatches(allMatches);
-      return;
-    }
-    setMatches(
-      allMatches.filter((m) =>
-        (m.name?.toLowerCase().includes(s)) || (m.description?.toLowerCase().includes(s))
-      )
-    );
-  }, [search, allMatches]);
+    filterMatches();
+  }, [filter, search, allMatches]);
 
   useEffect(() => {
     loadMatches();
-  }, [query]);
+  }, []);
+
+  function filterMatches() {
+    const filtered = allMatches.filter((m) => {
+      if (filter.password) {
+        if (m.password_hash) return false;
+      } else {
+        if (!m.password_hash) return false;
+      }
+      if (filter.space) {
+        const max = m.config?.player_count ?? Number.MAX_SAFE_INTEGER;
+        const cur = m.current_player_count ?? 0;
+        if (cur >= max) return false;
+      } else {
+        const max = m.config?.player_count ?? Number.MAX_SAFE_INTEGER;
+        const cur = m.current_player_count ?? 0;
+        if (cur < max) return false;
+      }
+      const s = String(search || "").trim().toLowerCase();
+      if (s.length > 0) {
+        const name = m.name?.toLowerCase() ?? "";
+        const desc = m.description?.toLowerCase() ?? "";
+        if (!name.includes(s) && !desc.includes(s)) return false;
+      }
+      return true;
+    });
+    setMatches(filtered);
+  }
 
   async function loadMatches() {
     try {
-      const data = await fetchAllMatches({ query });
+      const data = await fetchAllMatches({});
       const list = data ?? [];
       setAllMatches(list);
-      setMatches(list);
     } catch (error) {
       ErrorHelper.handleError(error);
     }
@@ -54,8 +75,8 @@ export default function LobbyPage() {
       <MainCard>
         <PageHeader title={globalThis.t("page.lobby.title")} info={globalThis.t("page.lobby.info")} />
         <TransparentCard direction='row' gap='2'>
-          <TransparentCard width='3/5' ><BaseInputSearch onChange={onChange} /> </TransparentCard>
-          <TransparentCard width='2/5'><FilterModal /></TransparentCard>
+          <TransparentCard width='3/5' ><BaseInputSearch onChange={onChangeSearch} /> </TransparentCard>
+          <TransparentCard width='2/5'><FilterModal onChange={onChangeFilter} /></TransparentCard>
         </TransparentCard>
         <MatchList matches={matches} />
       </MainCard>

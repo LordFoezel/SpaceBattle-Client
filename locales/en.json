@@ -25,7 +25,15 @@
     "notProvided": "No {0} provided!"
   },
   "lobby": {
-    "join": "Join"
+    "join": "Join",
+    "hasNoPassword": {
+      "info": "",
+      "label": "Without password"
+    },
+     "hasSpace": {
+      "info": "",
+      "label": "With space"
+    }
   },
   "login": {
     "email": {
