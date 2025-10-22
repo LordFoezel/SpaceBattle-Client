@@ -17,7 +17,7 @@ const JoinButton = function JoinButton({
   }
 
   return (
-    <BaseButton name="join" onClick={onClick} isDisabled={isDisabled} size="sm">
+    <BaseButton name="join" onClick={onClick} isDisabled={isDisabled} size="sm" height="full">
       <ButtonText>
         {globalThis.t("lobby.join")}
       </ButtonText>
