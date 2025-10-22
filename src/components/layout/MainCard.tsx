@@ -8,7 +8,7 @@ interface MainCardProps {
 
 const MainCard = function MainCard({ children, ...rest }: MainCardProps) {
   return (
-    <BaseCard name="main-card" direction="col" variant='medium' padding="5" margin="5" width="96" gap="5" {...rest}>
+    <BaseCard name="main-card" direction="col" variant='medium' padding="5" margin="5" width="90%" gap="5" {...rest}>
       {children}
     </BaseCard>
   );

@@ -6,6 +6,8 @@ export enum MatchState {
   ARCHIVED = "archived",
 }
 
+import { adaptConfigMatch, type ConfigMatch } from "./config_match.js";
+
 export interface Match {
   id: number;
   name: string;
@@ -14,6 +16,8 @@ export interface Match {
   password_hash?: string | null;
   created_by: number;
   created_at: Date;
+  config?: ConfigMatch | null;
+  current_player_count?: number;
 }
 
 export interface MatchCreate {
@@ -44,5 +48,7 @@ export function adaptMatch(raw: any): Match {
     created_by: raw.created_by,
     created_at: new Date(raw.created_at),
     description: raw.description ?? "",
+    config: raw.config ? adaptConfigMatch(raw.config) : null,
+    current_player_count: raw.current_player_count ?? 0,
   };
 }

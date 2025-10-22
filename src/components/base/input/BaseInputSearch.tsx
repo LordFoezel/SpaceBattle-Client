@@ -1,4 +1,4 @@
-import { forwardRef, type ChangeEventHandler, type FocusEventHandler, type KeyboardEventHandler } from "react";
+import { forwardRef, useRef, type ChangeEventHandler, type FocusEventHandler, type KeyboardEventHandler } from "react";
 import { InputGroup, InputRightElement, InputLeftElement } from "@chakra-ui/react";
 import { BaseInput } from "./BaseInput";
 import { IconCross } from "../../icon/IconCross";
@@ -34,17 +34,22 @@ const BaseInputSearch = forwardRef<HTMLInputElement, BaseInputSearchProps>(funct
   onSearch,
 }, ref) {
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const setCombinedRef = (el: HTMLInputElement | null) => {
+    inputRef.current = el;
+    if (typeof ref === 'function') ref(el);
+    else if (ref && typeof (ref as any) === 'object') (ref as any).current = el;
+  };
+
   const triggerSearch = () => {
-    const current = typeof value !== 'undefined' ? value : ref?.current?.value || '';
+    const current = typeof value !== 'undefined' ? value : inputRef.current?.value || '';
     if (onSearch) onSearch(current);
   };
 
   const handleClearClick = (e) => {
-    // todo: displayed value in ui didnt change after klick
-    // https://github.com/LordFoezel/SpaceBattle/issues/24
     e?.preventDefault?.();
-    // Clear input value for both controlled and uncontrolled cases
-    const inputEl = (ref as any)?.current as HTMLInputElement | undefined;
+    const inputEl = inputRef.current as HTMLInputElement | undefined;
     if (inputEl) {
       inputEl.value = '';
       inputEl.focus?.();
@@ -59,7 +64,6 @@ const BaseInputSearch = forwardRef<HTMLInputElement, BaseInputSearchProps>(funct
           currentTarget: target,
         } as any);
       } catch {
-        // Fallback: call with minimal event-like object
         onChange({ target } as any);
       }
     }
@@ -74,7 +78,7 @@ const BaseInputSearch = forwardRef<HTMLInputElement, BaseInputSearchProps>(funct
         <IconSearch />
       </InputLeftElement>
       <BaseInput
-        ref={ref}
+        ref={setCombinedRef}
         name={name}
         value={value}
         defaultValue={defaultValue}

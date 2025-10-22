@@ -33,8 +33,14 @@ interface BaseModalProps {
   // Footer buttons customization
   confirmButtonProps?: { [key: string]: any };
   cancelButtonProps?: { [key: string]: any };
+  // Footer visibility controls
+  showSave?: boolean;
+  showClose?: boolean;
+  // Modal width customization
+  width?: string | number;
   [key: string]: any;
 }
+
 
 const BaseModal = function BaseModal(props: BaseModalProps) {
   const {
@@ -54,6 +60,9 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
     triggerChildren,
     confirmButtonProps = {},
     cancelButtonProps = {},
+    showSave = true,
+    showClose = true,
+    width = "90%",
     ...rest
   } = props;
   const disc = useDisclosure();
@@ -86,7 +95,6 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
           {triggerChildren ?? <BaseText>{buttonText}</BaseText>}
         </BaseButton>
       )}
-
       <Modal
         isOpen={modalIsOpen}
         onClose={doClose}
@@ -100,6 +108,7 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
           color={colors.text}
           borderWidth="1px"
           borderColor={colors.border}
+          maxW={width}
         >
           <ModalHeader borderBottomWidth="1px" borderColor={colors.borderSubtle}>
             <BaseText>{title}</BaseText>
@@ -109,12 +118,18 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
           <ModalBody>
             {children}
           </ModalBody>
-          <ModalFooter borderTopWidth="1px" borderColor={colors.borderSubtle}>
-            <BaseButton variant="outline" mr={3} onClick={doClose} {...cancelButtonProps}>
-              {cancelText}
-            </BaseButton>
-            <BaseButton onClick={handleConfirm} {...confirmButtonProps}>{confirmText}</BaseButton>
-          </ModalFooter>
+          {(showSave || showClose) && (
+            <ModalFooter borderTopWidth="1px" borderColor={colors.borderSubtle}>
+              {showClose && (
+                <BaseButton variant="outline" mr={3} onClick={doClose} {...cancelButtonProps}>
+                  {cancelText}
+                </BaseButton>
+              )}
+              {showSave && (
+                <BaseButton onClick={handleConfirm} {...confirmButtonProps}>{confirmText}</BaseButton>
+              )}
+            </ModalFooter>
+          )}
         </ModalContent>
       </Modal>
     </>

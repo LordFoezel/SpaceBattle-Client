@@ -8,7 +8,7 @@ const FilterModal = function FilterModal(props: FilterModalProps) {
     } = props;
 
     return (
-        <BaseModal buttonText={globalThis.t("core.filter")} title={globalThis.t("core.filter")} > Todo: add things </BaseModal>
+        <BaseModal buttonText={globalThis.t("core.filter")} title={globalThis.t("core.filter")} placement="top" showClose={false} showSave={false}> Todo: add things </BaseModal>
     );
 };
 

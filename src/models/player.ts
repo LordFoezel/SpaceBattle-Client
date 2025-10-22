@@ -1,18 +1,18 @@
 export interface Player {
   id: number;
-  userId: number;
+  user_id: number;
   match_id: number;
   state: string;
 }
 
 export interface PlayerCreate {
-  userId: number;
+  user_id: number;
   match_id: number;
   state?: string;
 }
 
 export interface PlayerUpdate {
-  userId?: number | null;
+  user_id?: number | null;
   match_id?: number | null;
   state?: string | null;
 }
@@ -20,7 +20,7 @@ export interface PlayerUpdate {
 export function adaptPlayer(raw: any): Player {
   return {
     id: raw.id,
-    userId: raw.userId,
+    user_id: raw.user_id,
     match_id: raw.match_id,
     state: raw.state,
   };

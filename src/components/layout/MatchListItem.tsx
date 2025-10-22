@@ -17,9 +17,6 @@ const MatchListItem = function MatchListItem(props: MatchListItemProps) {
         match,
     } = props;
 
-    const maxSize = 4;
-    let currentSize = 3;
-
     return (
         <BaseCard direction='col' variant="light" gap='2' padding="2">
             <TransparentCard direction="row" gap="2">
@@ -28,10 +25,10 @@ const MatchListItem = function MatchListItem(props: MatchListItemProps) {
                     <BaseText fontSize="xs" color="gray">{match.description}</BaseText>
                 </TransparentCard>
                 <TransparentCard direction="col" justify="center" gap="0" padding="0" margin="0">
-                <TransparentCard direction="row" justify="end" gap="2">
-                    {match.password_hash ? <IconLock /> : <IconPeople />}
-                    {maxSize === currentSize ? <BaseText>{globalThis.t("core.full")}</BaseText> : <BaseText>{currentSize}/{maxSize}</BaseText>}
-                </TransparentCard>
+                    <TransparentCard direction="row" justify="end" gap="2">
+                        {match.password_hash ? <IconLock /> : <IconPeople />}
+                        {match.config?.player_count === match.current_player_count ? <BaseText>{globalThis.t("core.full")}</BaseText> : <BaseText>{match.current_player_count}/{match.config?.player_count || "?"}</BaseText>}
+                    </TransparentCard>
                 </TransparentCard>
                 <TransparentCard direction="col" justify="center" ><JoinButton matchId={match.id} /></TransparentCard>
             </TransparentCard>

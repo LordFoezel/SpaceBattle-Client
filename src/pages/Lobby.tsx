@@ -12,11 +12,27 @@ import { MatchList } from "../components/layout/MatchList";
 export default function LobbyPage() {
 
   const [matches, setMatches] = useState<Match[]>([]);
+  const [allMatches, setAllMatches] = useState<Match[]>([]);
   const [query, setQuery] = useState("");
+  const [search, setSearch] = useState("");
 
   function onChange(e) {
-    setQuery(e.target.value ?? "");
+    const value = e?.target?.value ?? "";
+    setSearch(value);
   }
+
+  useEffect(() => {
+    const s = String(search || "").trim().toLowerCase();
+    if (!s) {
+      setMatches(allMatches);
+      return;
+    }
+    setMatches(
+      allMatches.filter((m) =>
+        (m.name?.toLowerCase().includes(s)) || (m.description?.toLowerCase().includes(s))
+      )
+    );
+  }, [search, allMatches]);
 
   useEffect(() => {
     loadMatches();
@@ -25,7 +41,9 @@ export default function LobbyPage() {
   async function loadMatches() {
     try {
       const data = await fetchAllMatches({ query });
-      setMatches(data ?? []);
+      const list = data ?? [];
+      setAllMatches(list);
+      setMatches(list);
     } catch (error) {
       ErrorHelper.handleError(error);
     }
@@ -44,5 +62,3 @@ export default function LobbyPage() {
     </section>
   );
 }
-
-
