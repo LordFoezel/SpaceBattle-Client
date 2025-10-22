@@ -2,45 +2,105 @@
   "app": {
     "title": "SpaceBattle"
   },
-  "login": {
-    "email": {
-      "label": "E-Mail",
-      "info": ""
-    },
-    "password": {
-      "label": "Passwort",
-      "info": ""
-    },
-    "login": "Einloggen",
-    "logout": "Ausloggen",
-    "forgotPassword": "Passwort vergessen",
-    "toRegistration": "Zur Registrierung",
-    "toLogin": "Zum Login",
-    "alreadyLoggedIn": "Bereits angemeldet!"
-  },
-  "page": {
-    "test": {
-      "title": "Test-Seite",
-      "info": "Seite, um zu sehen, wie sich die Komponenten verhalten."
-    },
-    "login": {
-      "title": "Login",
-      "info": "Willkommen bei SpaceBattle"
-    },
-    "passwordForgot": {
-      "title": "Password vergessenè",
-      "info": "Wir schicken dir eine E-Mail um es wiederher zu stellen"
-    }
-  },
-  "warning": {
-    "noEmail": "Keine E-Mail-Adresse angegeben!",
-    "noPassword": "Kein Passwort angegeben!"
+  "core": {
+    "close": "Schließen",
+    "email": "E-Mail",
+    "filter": "Filter",
+    "full": "Voll",
+    "name": "Name",
+    "open": "Öffnen",
+    "password": "Passwort",
+    "save": "Speichern",
+    "search": "Suchen",
+    "user": "Benutzer"
   },
   "error": {
     "code": {
-      "USER_NOT_VALIDATED": "Benutzer ist nicht verifiziert. Prüfe deine E-Mails!",
-      "INVALID_CREDENTIALS": "E-Mail oder Passwort ist falsch!",
-      "422": "Gib eine gültige E-Mail-Adresse an!"
+      "422": "Ungültige Eingabe!",
+      "ALREADY_EXISTS": "E-Mail existiert bereits!",
+      "INVALID_CREDENTIALS": "Falsche E-Mail oder falsches Passwort!",
+      "USER_NOT_VALIDATED": "Benutzer ist nicht verifiziert. Überprüfe deine E-Mail!"
+    },
+    "notFound": "Nicht gefunden: {0}!",
+    "notProvided": "Kein {0} angegeben!"
+  },
+  "lobby": {
+    "join": "Beitreten"
+  },
+  "login": {
+    "email": {
+      "info": "",
+      "label": "E-Mail"
+    },
+    "forgotPassword": "Passwort vergessen",
+    "login": "Einloggen",
+    "logout": "Ausloggen",
+    "name": {
+      "info": "",
+      "label": "Name"
+    },
+    "password": {
+      "info": "",
+      "label": "Passwort"
+    },
+    "passwordRepeat": {
+      "info": "Wiederhole dein Passwort",
+      "label": "Passwort wiederholen"
+    },
+    "register": "Registrieren",
+    "sendMailForgotPasswordButton": "E-Mail senden",
+    "toLogin": "Zum Login",
+    "toRegistration": "Zur Registrierung"
+  },
+  "message": {
+    "alreadyLoggedIn": "Du bist bereits eingeloggt!",
+    "emailVerified": "E-Mail wurde verifiziert!",
+    "noEmail": "Keine E-Mail-Adresse angegeben!",
+    "noName": "Kein Name angegeben!",
+    "noPassword": "Kein Passwort angegeben!",
+    "noUserWithEmail": "Benutzer nicht gefunden!",
+    "passwordNotEqual": "Passwörter stimmen nicht überein!",
+    "passwordReseted": "Passwort wurde zurückgesetzt!",
+    "registerSuccess": "Registrierung erfolgreich!",
+    "resetPasswordSent": "E-Mail zum Zurücksetzen des Passworts gesendet!",
+    "routeBack": "Zur vorherigen Seite umgeleitet!"
+  },
+  "page": {
+    "admin": {
+      "info": "Nur für Mitarbeiter!",
+      "title": "Admin"
+    },
+    "lobby": {
+      "info": "",
+      "title": "Lobby"
+    },
+    "login": {
+      "info": "Willkommen bei SpaceBattle",
+      "title": "Login"
+    },
+    "notFound": {
+      "info": "Die Seite, die du aufrufen willst, existiert nicht.",
+      "title": "Seite nicht gefunden"
+    },
+    "passwordForgot": {
+      "info": "Wir senden dir eine E-Mail, um dein Passwort zurückzusetzen.",
+      "title": "Passwort vergessen?"
+    },
+    "register": {
+      "info": "",
+      "title": "Registrieren"
+    },
+    "resetPassword": {
+      "info": "",
+      "title": "Passwort zurücksetzen"
+    },
+    "test": {
+      "info": "Seite zum Testen der Komponenten.",
+      "title": "Testseite"
+    },
+    "verify": {
+      "info": "Wir überprüfen deine E-Mail — bitte warten.",
+      "title": "E-Mail verifizieren"
     }
   }
 }

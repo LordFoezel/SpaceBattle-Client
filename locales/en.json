@@ -3,104 +3,104 @@
     "title": "SpaceBattle"
   },
   "core": {
-    "user": "User",
-    "email": "E-Mail",
-    "password": "Password",
-    "name": "Name",
-    "search": "Search",
-    "filter": "Filter",
-    "open": "Open",
     "close": "Close",
+    "email": "E-Mail",
+    "filter": "Filter",
+    "full": "Full",
+    "name": "Name",
+    "open": "Open",
+    "password": "Password",
     "save": "Save",
-    "full": "Full"
+    "search": "Search",
+    "user": "User"
+  },
+  "error": {
+    "code": {
+      "422": "Invalide input!",
+      "ALREADY_EXISTS": "E-mail allready exist!",
+      "INVALID_CREDENTIALS": "Incorrect e-mail or password!",
+      "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!"
+    },
+    "notFound": "Not found: {0}!",
+    "notProvided": "No {0} provided!"
   },
   "lobby": {
     "join": "Join"
   },
   "login": {
     "email": {
-      "label": "Email",
-      "info": ""
+      "info": "",
+      "label": "Email"
     },
-    "password": {
-      "label": "Password",
-      "info": ""
-    },
-    "name": {
-      "label": "Name",
-      "info": ""
-    },
-    "passwordRepeat": {
-      "label": "Repeat password",
-      "info": "Repeat your password"
-    },
+    "forgotPassword": "Forgot password",
     "login": "Log in",
     "logout": "Log out",
+    "name": {
+      "info": "",
+      "label": "Name"
+    },
+    "password": {
+      "info": "",
+      "label": "Password"
+    },
+    "passwordRepeat": {
+      "info": "Repeat your password",
+      "label": "Repeat password"
+    },
     "register": "Register",
-    "forgotPassword": "Forgot password",
-    "toRegistration": "Go to registration",
+    "sendMailForgotPasswordButton": "Send E-mail",
     "toLogin": "Go to login",
-    "sendMailForgotPasswordButton": "Send E-mail"
-  },
-  "page": {
-    "test": {
-      "title": "Test page",
-      "info": "Page to see how the components behave."
-    },
-    "login": {
-      "title": "Login",
-      "info": "Welcome to SpaceBattle"
-    },
-    "passwordForgot": {
-      "title": "Forgot password?",
-      "info": "We send you a e-mail to reset your password"
-    },
-    "register": {
-      "title": "Register",
-      "info": ""
-    },
-    "notFound": {
-      "title": "Page not found",
-      "info": "The page you try to enter doesnt exist"
-    },
-    "verify": {
-      "title": "Verify e-mail",
-      "info": "We are verifying your e-mail — please wait."
-    },
-    "resetPassword": {
-      "title": "Reset password",
-      "info": ""
-    },
-    "admin": {
-      "title": "Admin",
-      "info": "Staff only things!"
-    },
-    "lobby": {
-      "title": "Lobby",
-      "info": ""
-    }
+    "toRegistration": "Go to registration"
   },
   "message": {
-    "noName": "No name provided!",
-    "noEmail": "No e-mail address provided!",
-    "noPassword": "No password provided!",
-    "resetPasswordSent": "Mail to reset Password sent!",
     "alreadyLoggedIn": "You're already logged in!",
-    "registerSuccess": "Register successfuly!",
-    "routeBack": "Redirect on page back!",
     "emailVerified": "E-mail is verified!",
+    "noEmail": "No e-mail address provided!",
+    "noName": "No name provided!",
+    "noPassword": "No password provided!",
     "noUserWithEmail": "User not found",
     "passwordNotEqual": "Passwords are not equal!",
-    "passwordReseted": "Password reseted!"
+    "passwordReseted": "Password reseted!",
+    "registerSuccess": "Register successfuly!",
+    "resetPasswordSent": "Mail to reset Password sent!",
+    "routeBack": "Redirect on page back!"
   },
-  "error": {
-    "code": {
-      "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!",
-      "INVALID_CREDENTIALS": "Incorrect e-mail or password!",
-      "422": "Invalide input!",
-      "ALREADY_EXISTS": "E-mail allready exist!"
+  "page": {
+    "admin": {
+      "info": "Staff only things!",
+      "title": "Admin"
     },
-    "notFound": "Not found: {0}!",
-    "notProvided": "No {0} provided!"
+    "lobby": {
+      "info": "",
+      "title": "Lobby"
+    },
+    "login": {
+      "info": "Welcome to SpaceBattle",
+      "title": "Login"
+    },
+    "notFound": {
+      "info": "The page you try to enter doesnt exist",
+      "title": "Page not found"
+    },
+    "passwordForgot": {
+      "info": "We send you a e-mail to reset your password",
+      "title": "Forgot password?"
+    },
+    "register": {
+      "info": "",
+      "title": "Register"
+    },
+    "resetPassword": {
+      "info": "",
+      "title": "Reset password"
+    },
+    "test": {
+      "info": "Page to see how the components behave.",
+      "title": "Test page"
+    },
+    "verify": {
+      "info": "We are verifying your e-mail — please wait.",
+      "title": "Verify e-mail"
+    }
   }
 }
