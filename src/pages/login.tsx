@@ -36,7 +36,7 @@ export default function LoginPage() {
       const exp = Number(payload?.exp);
       if (Number.isFinite(exp) && exp * 1000 > Date.now()) {
         globalThis.notify.warning(globalThis.t("message.alreadyLoggedIn"));
-        setTimeout(() => navigate("/dashboard", { replace: true }), 2500);
+        setTimeout(() => navigate("/lobby", { replace: true }), 2500);
       }
     } catch {
       /* ignore token errors */
@@ -64,7 +64,7 @@ export default function LoginPage() {
         /* ignore storage errors */
       }
 
-      navigate("/dashboard", { replace: true });
+      navigate("/lobby", { replace: true });
 
     } catch (error) {
       const code = await ErrorHelper.handleError(error);
