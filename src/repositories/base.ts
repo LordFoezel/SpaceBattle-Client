@@ -88,8 +88,10 @@ export async function request<T = any>(
   const headerMap = normalizeHeaders(headers);
   const initHeaders: Record<string, string> = { Accept: "application/json", ...headerMap };
 
+  // Avoid sending auth header to auth endpoints (login/register)
+  const isAuthEndpoint = /^\/?auth(\/|$)/.test(rel);
   const token = AuthTokenHelper.getStoredToken();
-  if (token && !hasAuthorizationHeader(initHeaders)) {
+  if (!isAuthEndpoint && token && !hasAuthorizationHeader(initHeaders)) {
     initHeaders.Authorization = `Bearer ${token}`;
   }
 
