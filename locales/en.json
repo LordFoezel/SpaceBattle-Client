@@ -7,7 +7,15 @@
     "email": "E-Mail",
     "password": "Password",
     "name": "Name",
-    "search": "Search"
+    "search": "Search",
+    "filter": "Filter",
+    "open": "Open",
+    "close": "Close",
+    "save": "Save",
+    "full": "Full"
+  },
+  "lobby": {
+    "join": "Join"
   },
   "login": {
     "email": {

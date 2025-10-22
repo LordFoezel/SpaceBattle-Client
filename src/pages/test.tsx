@@ -10,12 +10,16 @@ import { BaseSelect } from '../components/base/select/BaseSelect'
 import { BaseSelectMulti } from '../components/base/select/BaseSelectMulti'
 import { BaseCheckbox } from '../components/base/checkbox/BaseCheckbox'
 import { BaseSwitch } from '../components/base/checkbox/BaseSwitch'
-import { BaseModal } from '../components/base/dialog/BaseModal'
+import { BaseModal } from '../components/base/modal/BaseModal'
 import { BaseLabel } from '../components/base/label/BaseLabel'
 import { BaseSeparator } from '../components/base/text/BaseSeparator'
 import { MainCard } from '../components/layout/MainCard';
 import { PageHeader } from '../components/layout/PageHeader';
 import { BaseInputSearch } from '../components/base/input/BaseInputSearch';
+import { IconSearch } from '../components/icon/IconSearch';
+import { IconCross } from '../components/icon/IconCross';
+import { IconLock } from '../components/icon/IconLock';
+import { IconPeople } from '../components/icon/IconPeople';
 
 export default function TestPage() {
   const [controlledOpen, setControlledOpen] = useState(false);
@@ -103,6 +107,14 @@ export default function TestPage() {
         <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent' direction="horizontal">
           <BaseInputPassword />
         </BaseLabel>
+        <BaseSeparator />
+        <BaseText fontSize="md">Icons showcase</BaseText>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', padding: '8px 0' }}>
+          <IconSearch />
+          <IconCross />
+          <IconLock />
+          <IconPeople />
+        </div>
       </MainCard>
     </section>
   );

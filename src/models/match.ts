@@ -9,6 +9,7 @@ export enum MatchState {
 export interface Match {
   id: number;
   name: string;
+  description: string;
   state: MatchState;
   password_hash?: string | null;
   created_by: number;
@@ -21,6 +22,7 @@ export interface MatchCreate {
   password_hash?: string;
   created_by?: number;
   created_at?: Date;
+  description?: string;
 }
 
 export interface MatchUpdate {
@@ -30,6 +32,7 @@ export interface MatchUpdate {
   created_by?: number | null;
   created_at?: Date | null;
   config_match_id?: number | null;
+  description?: string | null;
 }
 
 export function adaptMatch(raw: any): Match {
@@ -40,6 +43,6 @@ export function adaptMatch(raw: any): Match {
     password_hash: raw.password_hash ?? null,
     created_by: raw.created_by,
     created_at: new Date(raw.created_at),
+    description: raw.description ?? "",
   };
 }
-

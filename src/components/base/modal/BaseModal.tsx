@@ -39,11 +39,11 @@ interface BaseModalProps {
 const BaseModal = function BaseModal(props: BaseModalProps) {
   const {
     placement = "center",
-    buttonText = "Open Dialog",
-    title = "Dialog Title",
-    PageTitle = "Dialog Sub-Title",
-    confirmText = "Save",
-    cancelText = "Cancel",
+    buttonText = globalThis.t("core.open"),
+    title = "",
+    PageTitle = "",
+    confirmText = globalThis.t("core.save"),
+    cancelText = globalThis.t("core.close"),
     onConfirm,
     children,
     isOpen,
