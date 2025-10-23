@@ -36,6 +36,7 @@ interface BaseModalProps {
   // Footer visibility controls
   showSave?: boolean;
   showClose?: boolean;
+  disabledSave?: boolean;
   // Modal width customization
   width?: string | number;
   [key: string]: any;
@@ -62,6 +63,7 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
     cancelButtonProps = {},
     showSave = true,
     showClose = true,
+    disabledSave = false,
     width = "90%",
     ...rest
   } = props;
@@ -86,6 +88,11 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
   const handleConfirm = () => {
     if (typeof onConfirm === "function") onConfirm();
     doClose();
+  };
+
+  const finalConfirmButtonProps = {
+    ...confirmButtonProps,
+    isDisabled: disabledSave,
   };
 
   return (
@@ -126,7 +133,7 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
                 </BaseButton>
               )}
               {showSave && (
-                <BaseButton onClick={handleConfirm} {...confirmButtonProps}>{confirmText}</BaseButton>
+                <BaseButton onClick={handleConfirm} {...finalConfirmButtonProps}>{confirmText}</BaseButton>
               )}
             </ModalFooter>
           )}
