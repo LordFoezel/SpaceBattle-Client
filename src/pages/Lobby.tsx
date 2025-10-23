@@ -36,6 +36,13 @@ export default function LobbyPage() {
     loadMatches();
   }, []);
 
+  async function onCreateMatch() {
+    console.log("create");
+    await loadMatches();
+    filterMatches();
+  }
+
+
   function filterMatches() {
     const filtered = allMatches.filter((m) => {
       if (filter.password) {
@@ -82,7 +89,7 @@ export default function LobbyPage() {
           <TransparentCard width='2/5'><FilterModal onChange={onChangeFilter} /></TransparentCard>
         </TransparentCard>
         <TransparentCard direction='row' gap='2'>
-          <CreateMatchModal />
+          <CreateMatchModal onCreated={onCreateMatch} />
         </TransparentCard>
         <TransparentCard direction='row' gap='2' height="screen">
           <MatchList matches={matches} />

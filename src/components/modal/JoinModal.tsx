@@ -19,7 +19,6 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
     }
 
     function onConfirm() {
-        // todo: check if password ist correct -> if so -> join to lobby -> else reset password 
     }
 
     return (

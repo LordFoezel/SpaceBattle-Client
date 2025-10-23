@@ -10,19 +10,19 @@ import { MapSizeXLabel } from "../label/MapSizeXLabel";
 import { MapSizeYLabel } from "../label/MapSizeYLabel";
 import { createOne as createMatch } from "../../repositories/matches";
 import { createOne as createConfigMatch } from "../../repositories/config_match";
-import type { MatchCreate as MatchCreateType } from "../../models/match"
+import type { Match, MatchCreate as MatchCreateType } from "../../models/match"
 import { MatchState } from "../../models/match"
-import type { ConfigMatchCreate } from "../../models/config_match";
+import type { ConfigMatch, ConfigMatchCreate } from "../../models/config_match";
 import { ErrorHelper } from "../../helper/errorHelper";
+import { AuthTokenHelper } from "../../helper/authToken.js";
 
 interface Props {
-    onChange?: (e: any) => any;
+    onCreated?: () => void;
 }
 
-const CreateMatchModal = function CreateMatchModal(props: Props) {
-    const {
-        onChange,
-    } = props;
+const CreateMatchModal = function CreateMatchModal({
+    onCreated,
+}: Props) {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -31,7 +31,7 @@ const CreateMatchModal = function CreateMatchModal(props: Props) {
     const [mapSizeX, setMapSizeX] = useState(10);
     const [mapSizeY, setMapSizeY] = useState(10);
 
-    const disabled = !description || !name || playerCount < 3 || !mapSizeX || !mapSizeX;
+    const disabled = !description || !name || playerCount < 1 || !mapSizeX || !mapSizeY;
 
     function onConfirm() {
         CreateMatch();
@@ -43,28 +43,33 @@ const CreateMatchModal = function CreateMatchModal(props: Props) {
 
     async function CreateMatch() {
         try {
+            const { id: userId } = AuthTokenHelper.getUserIdentity();
             const newMatch: MatchCreateType = {
                 name,
                 state: MatchState.LOBBY,
                 password_hash: password,
-                created_by: 1, // todo: get userid from token
+                created_by: userId,
                 description,
             };
             const match = await createMatch(newMatch);
+
             try {
                 const newMatchConfig: ConfigMatchCreate = {
-                    match_id: 0,
+                    match_id: match.id,
                     dimension_x: mapSizeX,
                     dimension_y: mapSizeY,
                     player_count: playerCount,
-                    turn_timeout: playerCount * 30,
+                    turn_timeout: (playerCount - 1) * 30,
                     fleet_config_id: null,
                 };
-
-               await createConfigMatch(newMatchConfig);
-            } catch (error) {  ErrorHelper.handleError(error); }
-
-        } catch (error) {  ErrorHelper.handleError(error); }
+                await createConfigMatch(newMatchConfig);
+                clearFields();
+            } catch (error) {
+                ErrorHelper.handleError(error);
+            }
+        } catch (error) {
+            ErrorHelper.handleError(error);
+        }
     }
 
     function clearFields() {
