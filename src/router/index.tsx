@@ -10,6 +10,7 @@ import AdminPage from "../pages/admin";
 import VerifyPage from "../pages/verify";
 import TestPage from "../pages/test";
 import LobbyPage from "../pages/Lobby";
+import UserSettingPage from "../pages/UserSetting";
 import { checkRole } from "../auth/auth";
 
 function NavigateBase() {
@@ -24,6 +25,7 @@ export default function AppRouter() {
         <Routes>
           {/* Admin */}
           <Route path="/admin" element={checkRole(['admin']) ? <AdminPage /> : <NavigateBase />} />
+          <Route path="/user-setting" element={<UserSettingPage />} />
           {/* Core */}
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/lobby" element={<LobbyPage />} />

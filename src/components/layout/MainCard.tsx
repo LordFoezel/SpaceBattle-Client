@@ -3,12 +3,12 @@ import { BaseCard } from "../base/layout/BaseCard";
 
 interface MainCardProps {
   children?: ReactNode;
-  [key: string]: any;
+  height?: string;
 }
 
-const MainCard = function MainCard({ children, ...rest }: MainCardProps) {
+const MainCard = function MainCard({ height, children }: MainCardProps) {
   return (
-    <BaseCard name="main-card" direction="col" variant='medium' padding="5" margin="5" width="90%" gap="5" {...rest}>
+    <BaseCard name="main-card" direction="col" variant='medium' padding="5" margin="5" width="90%" gap="5" height={height}>
       {children}
     </BaseCard>
   );

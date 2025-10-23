@@ -7,7 +7,10 @@ import { ErrorHelper } from "../helper/errorHelper.js";
 import { fetchAll as fetchAllMatches } from "../repositories/matches";
 import type { Match } from "../models/match";
 import { useEffect, useState } from "react";
-import { MatchList } from "../components/layout/MatchList";
+import { MatchList } from "../components/list/MatchList";
+import { UserSettingButton } from '../components/button/UserSettingButton';
+import { BaseSpacer } from '../components/base/layout/BaseSpacer';
+import { CreateMatchModal } from '../components/modal/CreateMatchModal';
 
 export default function LobbyPage() {
 
@@ -72,13 +75,22 @@ export default function LobbyPage() {
 
   return (
     <section className="lobby-page">
-      <MainCard>
+      <MainCard height="screen">
         <PageHeader title={globalThis.t("page.lobby.title")} info={globalThis.t("page.lobby.info")} />
         <TransparentCard direction='row' gap='2'>
           <TransparentCard width='3/5' ><BaseInputSearch onChange={onChangeSearch} /> </TransparentCard>
           <TransparentCard width='2/5'><FilterModal onChange={onChangeFilter} /></TransparentCard>
         </TransparentCard>
-        <MatchList matches={matches} />
+        <TransparentCard direction='row' gap='2'>
+          <CreateMatchModal />
+        </TransparentCard>
+        <TransparentCard direction='row' gap='2' height="screen">
+          <MatchList matches={matches} />
+        </TransparentCard>
+        <TransparentCard direction='col' items='end'>
+          <UserSettingButton />
+          <BaseSpacer height="5" />
+        </TransparentCard>
       </MainCard>
     </section>
   );

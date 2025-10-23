@@ -1,5 +1,5 @@
 import { Match } from "src/models/match";
-import { MatchListItem } from "../layout/MatchListItem";
+import { MatchListItem } from "./MatchListItem";
 import { TransparentCard } from "../layout/TransparentCard";
 
 interface MatchListProps {

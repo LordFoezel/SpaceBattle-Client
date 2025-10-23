@@ -13,7 +13,7 @@ const JoinButton = function JoinButton({
 }: JoinButtonProps) {
 
   function onClick() {
-    console.log("click join", matchId);
+    // todo: join to lobby
   }
 
   return (

@@ -26,14 +26,18 @@
   },
   "lobby": {
     "join": "Join",
+    "createMatch":"Create match",
     "hasNoPassword": {
       "info": "",
       "label": "Without password"
     },
-     "hasSpace": {
+    "hasSpace": {
       "info": "",
       "label": "With space"
     }
+  },
+  "userSetting": {
+    "toLobby": "Go to Lobby"
   },
   "login": {
     "email": {
@@ -109,6 +113,10 @@
     "verify": {
       "info": "We are verifying your e-mail — please wait.",
       "title": "Verify e-mail"
+    },
+    "userSetting": {
+      "info": "Manage you user profile",
+      "title": "User-Settings"
     }
   }
 }
