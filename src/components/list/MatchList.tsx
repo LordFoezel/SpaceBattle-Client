@@ -3,21 +3,23 @@ import { MatchListItem } from "./MatchListItem";
 import { TransparentCard } from "../layout/TransparentCard";
 
 interface MatchListProps {
-    matches: Match[];
+  matches: Match[];
+  onDeleted?: () => void;
 }
 
 const MatchList = function MatchList(props: MatchListProps) {
-    const {
-        matches,
-    } = props;
+  const {
+    matches,
+    onDeleted,
+  } = props;
 
-    return (
-        <TransparentCard gap="2" direction="col">
-          {matches.map((match) => (
-            <MatchListItem match={match} key={match.id} />
-          ))}
-        </TransparentCard>
-    );
+  return (
+    <TransparentCard gap="2" direction="col">
+      {matches.map((match) => (
+        <MatchListItem match={match} key={match.id} onDeleted={onDeleted} />
+      ))}
+    </TransparentCard>
+  );
 }
 
 export { MatchList };

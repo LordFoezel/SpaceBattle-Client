@@ -37,7 +37,11 @@ export default function LobbyPage() {
   }, []);
 
   async function onCreateMatch() {
-    console.log("create");
+    await loadMatches();
+    filterMatches();
+  }
+
+    async function ondeleteMatch() {
     await loadMatches();
     filterMatches();
   }
@@ -92,7 +96,7 @@ export default function LobbyPage() {
           <CreateMatchModal onCreated={onCreateMatch} />
         </TransparentCard>
         <TransparentCard direction='row' gap='2'>
-          <MatchList matches={matches} />
+          <MatchList matches={matches} onDeleted={ondeleteMatch}/>
         </TransparentCard>
         <TransparentCard direction='col' items='end'>
           <UserSettingButton />

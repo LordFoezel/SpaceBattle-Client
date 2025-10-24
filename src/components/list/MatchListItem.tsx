@@ -12,11 +12,13 @@ import { DeleteMatchButton } from "../button/DeleteMatchButton";
 interface MatchListItemProps {
     match: Match;
     key: number;
+    onDeleted?: () => void;
 }
 
 const MatchListItem = function MatchListItem(props: MatchListItemProps) {
     const {
         match,
+        onDeleted,
     } = props;
 
     return (
@@ -31,7 +33,7 @@ const MatchListItem = function MatchListItem(props: MatchListItemProps) {
                         {match.password_hash ? <IconLock /> : <IconPeople />}
                         {match.config?.player_count === match.current_player_count ? <BaseText>{globalThis.t("core.full")}</BaseText> : <BaseText>{match.current_player_count}/{match.config?.player_count || "?"}</BaseText>}
                     </TransparentCard>
-                    <DeleteMatchButton matchId={match.id} />
+                    <DeleteMatchButton matchId={match.id} onDeleted={onDeleted} />
                 </TransparentCard>
                 <TransparentCard width="1/5" direction="col" justify="center" >
                     {match.password_hash ? <JoinModal /> : <JoinButton matchId={match.id} />}

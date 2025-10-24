@@ -1,5 +1,6 @@
-import { checkRole, Role } from "../../auth/auth.js";
+import { checkRole } from "../../auth/auth.js";
 import type { ReactNode } from "react";
+import { BaseRoleChecker } from "../base/roleChecker/BaseRoleChecker.js";
 
 interface Props {
     children?: ReactNode;
@@ -9,12 +10,9 @@ const AdminRoleChecker = function AdminRoleChecker({
     children,
 }: Props) {
 
-    if (checkRole(["admin"])) {
-        return (
-            { children }
-        );
-    }
-    return;
-};
+    return (
+        <BaseRoleChecker requiredRoles={["admin"]}>{children}</BaseRoleChecker>
+    );
+}
 
 export { AdminRoleChecker };

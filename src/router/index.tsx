@@ -9,8 +9,8 @@ import DashboardPage from "../pages/dashboard";
 import AdminPage from "../pages/admin";
 import VerifyPage from "../pages/verify";
 import TestPage from "../pages/test";
-import LobbyPage from "../pages/lobby";
 import UserSettingPage from "../pages/UserSetting";
+import LobbyPage from "../pages/lobby";
 import { checkRole } from "../auth/auth";
 
 function NavigateBase() {

@@ -2,7 +2,6 @@ import { BaseButton } from "../base/button/BaseButton";
 import { IconCross } from "../icon/IconCross";
 import { deleteOne as deleteMatch } from "../../repositories/matches";
 import { ErrorHelper } from "../../helper/errorHelper";
-import { checkRole } from "../../auth/auth";
 import { AdminRoleChecker } from "../roleChecker/AdminRoleChecker";
 
 interface ButtonProps {
@@ -22,7 +21,6 @@ const DeleteMatchButton = function DeleteMatchButton({
       deleteMatch(matchId);
       onDeleted?.();
     } catch (error) {
-
       ErrorHelper.handleError(error);
     }
   }

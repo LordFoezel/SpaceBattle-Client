@@ -1,4 +1,4 @@
-import { checkRole, Role } from "src/auth/auth.js";
+import { checkRole, Role } from "../../../auth/auth.js";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -13,7 +13,9 @@ const BaseRoleChecker = function BaseRoleChecker({
 
     if (checkRole(requiredRoles)) {
         return (
-            { children }
+            <div>
+                {children}
+            </ div>
         );
     }
     return;
