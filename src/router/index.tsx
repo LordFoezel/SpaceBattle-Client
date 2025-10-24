@@ -9,7 +9,7 @@ import DashboardPage from "../pages/dashboard";
 import AdminPage from "../pages/admin";
 import VerifyPage from "../pages/verify";
 import TestPage from "../pages/test";
-import LobbyPage from "../pages/Lobby";
+import LobbyPage from "../pages/lobby";
 import UserSettingPage from "../pages/UserSetting";
 import { checkRole } from "../auth/auth";
 

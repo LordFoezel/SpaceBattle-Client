@@ -10,9 +10,9 @@ import { MapSizeXLabel } from "../label/MapSizeXLabel";
 import { MapSizeYLabel } from "../label/MapSizeYLabel";
 import { createOne as createMatch } from "../../repositories/matches";
 import { createOne as createConfigMatch } from "../../repositories/config_match";
-import type { Match, MatchCreate as MatchCreateType } from "../../models/match"
+import type { MatchCreate as MatchCreateType } from "../../models/match"
 import { MatchState } from "../../models/match"
-import type { ConfigMatch, ConfigMatchCreate } from "../../models/config_match";
+import type { ConfigMatchCreate } from "../../models/config_match";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { AuthTokenHelper } from "../../helper/authToken.js";
 
@@ -64,6 +64,7 @@ const CreateMatchModal = function CreateMatchModal({
                 };
                 await createConfigMatch(newMatchConfig);
                 clearFields();
+                onCreated?.();
             } catch (error) {
                 ErrorHelper.handleError(error);
             }

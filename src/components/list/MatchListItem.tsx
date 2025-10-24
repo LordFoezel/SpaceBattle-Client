@@ -7,6 +7,7 @@ import { JoinButton } from "../button/JoinButton";
 import { IconLock } from "../icon/IconLock";
 import { IconPeople } from "../icon/IconPeople";
 import { JoinModal } from "../modal/JoinModal";
+import { DeleteMatchButton } from "../button/DeleteMatchButton";
 
 interface MatchListItemProps {
     match: Match;
@@ -30,6 +31,7 @@ const MatchListItem = function MatchListItem(props: MatchListItemProps) {
                         {match.password_hash ? <IconLock /> : <IconPeople />}
                         {match.config?.player_count === match.current_player_count ? <BaseText>{globalThis.t("core.full")}</BaseText> : <BaseText>{match.current_player_count}/{match.config?.player_count || "?"}</BaseText>}
                     </TransparentCard>
+                    <DeleteMatchButton matchId={match.id} />
                 </TransparentCard>
                 <TransparentCard width="1/5" direction="col" justify="center" >
                     {match.password_hash ? <JoinModal /> : <JoinButton matchId={match.id} />}

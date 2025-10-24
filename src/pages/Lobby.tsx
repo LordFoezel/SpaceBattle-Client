@@ -82,7 +82,7 @@ export default function LobbyPage() {
 
   return (
     <section className="lobby-page">
-      <MainCard height="screen">
+      <MainCard>
         <PageHeader title={globalThis.t("page.lobby.title")} info={globalThis.t("page.lobby.info")} />
         <TransparentCard direction='row' gap='2'>
           <TransparentCard width='3/5' ><BaseInputSearch onChange={onChangeSearch} /> </TransparentCard>
@@ -91,12 +91,11 @@ export default function LobbyPage() {
         <TransparentCard direction='row' gap='2'>
           <CreateMatchModal onCreated={onCreateMatch} />
         </TransparentCard>
-        <TransparentCard direction='row' gap='2' height="screen">
+        <TransparentCard direction='row' gap='2'>
           <MatchList matches={matches} />
         </TransparentCard>
         <TransparentCard direction='col' items='end'>
           <UserSettingButton />
-          <BaseSpacer height="5" />
         </TransparentCard>
       </MainCard>
     </section>
