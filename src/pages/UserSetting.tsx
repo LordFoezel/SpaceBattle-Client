@@ -6,7 +6,6 @@ import { LogoutButton } from '../components/button/LogoutButton';
 
 export default function UserSettingPage() {
 
-
   return (
     <section className="user-setting-page">
       <MainCard>

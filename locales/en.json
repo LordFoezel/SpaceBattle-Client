@@ -57,7 +57,8 @@
     }
   },
   "userSetting": {
-    "toLobby": "Go to Lobby"
+    "toLobby": "Go to Lobby",
+    "logout": "Log out"
   },
   "login": {
     "email": {
