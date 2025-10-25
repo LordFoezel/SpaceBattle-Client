@@ -9,6 +9,7 @@ import { ErrorHelper } from "../../helper/errorHelper";
 
 interface JoinModalProps {
     matchId: number;
+    disabledSave?: boolean;
     onChange?: (e: any) => any;
 }
 
@@ -16,6 +17,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
     const {
         matchId,
         onChange,
+        disabledSave = false,
     } = props;
 
     const [password, setPassword] = useState("");
@@ -79,7 +81,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
     }
 
     return (
-        <BaseModal buttonText={globalThis.t("lobby.join")} title={globalThis.t("lobby.join")} placement="top" onClose={onClose} onConfirm={onConfirm} confirmText={globalThis.t("lobby.join")}>
+        <BaseModal buttonText={globalThis.t("lobby.join")} title={globalThis.t("lobby.join")} placement="top" onClose={onClose} onConfirm={onConfirm} confirmText={globalThis.t("lobby.join")} disabledSave={disabledSave}>
             <TransparentCard direction="col" gap="2">
                 <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
             </TransparentCard>

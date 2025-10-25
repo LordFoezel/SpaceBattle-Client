@@ -36,7 +36,7 @@ const MatchListItem = function MatchListItem(props: MatchListItemProps) {
                     <DeleteMatchButton matchId={match.id} onDeleted={onDeleted} />
                 </TransparentCard>
                 <TransparentCard width="1/5" direction="col" justify="center" >
-                    {match.password_hash ? <JoinModal matchId={match.id} /> : <JoinButton matchId={match.id} />}
+                    {match.password_hash ? <JoinModal matchId={match.id} disabledSave={match.config?.player_count === match.current_player_count} /> : <JoinButton matchId={match.id} isDisabled={match.config?.player_count === match.current_player_count} />}
                 </TransparentCard>
             </TransparentCard>
         </BaseCard>
