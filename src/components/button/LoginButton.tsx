@@ -13,16 +13,14 @@ interface LoginButtonProps {
 }
 
 const LoginButton = function LoginButton({
-  name = "login",
   isDisabled,
   variant,
   size,
   colorScheme,
   onClick,
-  ...rest
 }: LoginButtonProps) {
   return (
-    <BaseButton name={name} onClick={onClick} isDisabled={isDisabled} variant={variant} size={size} colorScheme={colorScheme} {...rest}>
+    <BaseButton name="login" onClick={onClick} isDisabled={isDisabled} variant={variant} size={size} colorScheme={colorScheme}>
       <ButtonText>
         {globalThis.t("login.login")}
       </ButtonText>
