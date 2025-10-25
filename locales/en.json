@@ -20,7 +20,8 @@
       "422": "Invalide input!",
       "ALREADY_EXISTS": "E-mail allready exist!",
       "INVALID_CREDENTIALS": "Incorrect e-mail or password!",
-      "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!"
+      "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!",
+      "MATCH_FULL": "MATCH_FULL"
     },
     "notFound": "Not found: {0}!",
     "notProvided": "No {0} provided!"

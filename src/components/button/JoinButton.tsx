@@ -1,6 +1,9 @@
-import type { MouseEventHandler } from "react";
 import { BaseButton } from "../base/button/BaseButton";
 import { ButtonText } from "../text/ButtonText";
+import { fetchById as fetchMatchById } from "../../repositories/matches";
+import { createOne as createPlayer } from "../../repositories/players";
+import { ErrorHelper } from "../../helper/errorHelper";
+import { useNavigate } from "react-router-dom";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -12,8 +15,53 @@ const JoinButton = function JoinButton({
   matchId,
 }: JoinButtonProps) {
 
+  const navigate = useNavigate();
+
   function onClick() {
-    // todo: join to lobby
+    (async () => {
+      try {
+        const match = await fetchMatchById(matchId);
+        if (!match) {
+          globalThis.notify.error(globalThis.t("error.notFound", ["core.match"]));
+          return;
+        }
+
+        const maxPlayers = match.config?.player_count ?? 0;
+        const currentPlayers = match.current_player_count ?? 0;
+        if (maxPlayers > 0 && currentPlayers >= maxPlayers) {
+          globalThis.notify.warning(globalThis.t("error.code.MATCH_FULL") ?? globalThis.t("core.full"));
+          return;
+        }
+
+        let userId: number | null = null;
+        try {
+          const rawUser = window.localStorage.getItem("spacebattle.user");
+          if (rawUser) {
+            const parsed = JSON.parse(rawUser);
+            const parsedId = Number(parsed?.id ?? parsed?.user_id);
+            if (Number.isFinite(parsedId)) {
+              userId = parsedId;
+            }
+          }
+        } catch {
+          /* ignore storage errors */
+        }
+
+        if (!userId) {
+          globalThis.notify.error(globalThis.t("error.notProvided", [globalThis.t("core.user")]));
+          return;
+        }
+
+        await createPlayer({
+          user_id: userId,
+          match_id: match.id,
+        });
+
+        navigate(`/match/${match.id}`, { replace: true });
+      } catch (error) {
+        ErrorHelper.handleError(error);
+      }
+    })();
   }
 
   return (
