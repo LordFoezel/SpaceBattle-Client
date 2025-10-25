@@ -27,7 +27,7 @@ const DeleteMatchButton = function DeleteMatchButton({
 
   return (
     <AdminRoleChecker>
-      <BaseButton name="delete" onClick={onClick} isDisabled={isDisabled} size="sm" height="full" colorScheme="red">
+      <BaseButton name="delete" onClick={onClick} isDisabled={isDisabled} size="sm" height="4" colorScheme="red">
         <IconCross />
       </BaseButton>
     </AdminRoleChecker>

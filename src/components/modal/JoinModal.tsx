@@ -22,7 +22,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
     }
 
     return (
-        <BaseModal buttonText={globalThis.t("lobby.join")} title={globalThis.t("lobby.join")} placement="top" onClose={onClose} onConfirm={onConfirm}>
+        <BaseModal buttonText={globalThis.t("lobby.join")} title={globalThis.t("lobby.join")} placement="top" onClose={onClose} onConfirm={onConfirm} confirmText={globalThis.t("lobby.join")}>
             <TransparentCard direction="col" gap="2">
                 <PasswordLabel value={password} onChange={(e) => setPassword(e.target.value)} />
             </TransparentCard>
