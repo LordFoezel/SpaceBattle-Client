@@ -12,7 +12,8 @@
     "password": "Password",
     "save": "Save",
     "search": "Search",
-    "user": "User"
+    "user": "User",
+    "match": "Match"
   },
   "error": {
     "code": {
