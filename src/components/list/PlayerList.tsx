@@ -4,7 +4,7 @@ import { PlayerListItem } from "./PlayerListItem";
 
 interface ListProps {
   players: Player[];
-  onDeleted?: () => void;
+  onDeleted?: (id: number) => void;
 }
 
 const PlayerList = function PlayerList(props: ListProps) {

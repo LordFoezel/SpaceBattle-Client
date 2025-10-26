@@ -55,11 +55,12 @@ export class AuthTokenHelper {
     const id = typeof rawId === "number" ? rawId : Number(rawId);
     const role = payload?.role;
     const language = payload?.language;
+    const name = payload?.name;
 
     if (!Number.isFinite(id) || !role) {
       throw new Error("Invalid auth token payload");
     }
 
-    return { id, role, language };
+    return { id, role, language, name };
   }
 }

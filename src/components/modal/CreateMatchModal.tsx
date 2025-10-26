@@ -47,7 +47,7 @@ const CreateMatchModal = function CreateMatchModal({
 
     async function CreateMatch() {
         try {
-            const { id: userId } = AuthTokenHelper.getUserIdentity();
+            const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
             const newMatch: MatchCreateType = {
                 name,
                 state: MatchState.LOBBY,
@@ -72,10 +72,12 @@ const CreateMatchModal = function CreateMatchModal({
             }
 
             try {
-                await createPlayer({
+                const newPlayer=  await createPlayer({
                     user_id: userId,
                     match_id: match.id,
+                    name: userName,
                 });
+                window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
                 navigate(`/match/${match.id}`, { replace: true });
             } catch (error) {
                 ErrorHelper.handleError(error);

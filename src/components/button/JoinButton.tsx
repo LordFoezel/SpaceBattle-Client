@@ -4,6 +4,7 @@ import { fetchById as fetchMatchById } from "../../repositories/matches";
 import { createOne as createPlayer } from "../../repositories/players";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { useNavigate } from "react-router-dom";
+import { AuthTokenHelper } from "../../helper/authToken.js";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -33,30 +34,15 @@ const JoinButton = function JoinButton({
           return;
         }
 
-        let userId: number | null = null;
-        try {
-          const rawUser = window.localStorage.getItem("spacebattle.user");
-          if (rawUser) {
-            const parsed = JSON.parse(rawUser);
-            const parsedId = Number(parsed?.id ?? parsed?.user_id);
-            if (Number.isFinite(parsedId)) {
-              userId = parsedId;
-            }
-          }
-        } catch {
-          /* ignore storage errors */
-        }
+        const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
 
-        if (!userId) {
-          globalThis.notify.error(globalThis.t("error.notProvided", [globalThis.t("core.user")]));
-          return;
-        }
-
-        await createPlayer({
+        const newPlayer = await createPlayer({
+          name: userName,
           user_id: userId,
           match_id: match.id,
         });
 
+        window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
         navigate(`/match/${match.id}`, { replace: true });
       } catch (error) {
         ErrorHelper.handleError(error);
@@ -74,7 +60,6 @@ const JoinButton = function JoinButton({
 };
 
 export { JoinButton };
-
 
 
 

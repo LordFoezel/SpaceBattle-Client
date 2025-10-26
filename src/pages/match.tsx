@@ -10,6 +10,7 @@ import { LeaveButton } from "../components/button/LeaveButton";
 import { PageHeader } from '../components/layout/PageHeader';
 import { MainCard } from '../components/layout/MainCard';
 import { PlayerList } from "../components/list/PlayerList";
+import { AuthTokenHelper } from "../helper/authToken.js";
 
 export default function MatchPage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -47,23 +48,35 @@ export default function MatchPage() {
         navigate("/lobby", { replace: true });
       }
 
-      const players = await fetchAllPlayer({ where: { matchId } });
-      setPlayers(players);
+      loadPlayer()
 
     })();
 
-
-
   }, [matchId, navigate]);
 
+  async function loadPlayer() {
+    try {
+      const players = await fetchAllPlayer({ where: { match_id: matchId } });
+      setPlayers(players);
+    } catch (error) {
+      ErrorHelper.handleError(error);
+      navigate("/lobby", { replace: true });
+    }
+  }
 
+  function onDeletedPlayer(playerId: number) {
+    const playerIdStr = window.localStorage.getItem("spacebattle.playerId");
+    console.log(Number(playerIdStr), playerId);
+    if (Number(playerIdStr) === playerId) navigate("/lobby", { replace: true });
+    loadPlayer();
+  }
 
   return (
     <section className="match-page">
       <MainCard>
         <PageHeader title={match?.name} info={match?.description} />
         <TransparentCard direction='col' gap='2' justify='center'>
-          <PlayerList players={players}/>
+          <PlayerList players={players} onDeleted={onDeletedPlayer} />
           <LeaveButton matchId={numericMatchId} />
         </ TransparentCard>
       </MainCard>
