@@ -6,12 +6,11 @@ import RegisterPage from "../pages/register";
 import ForgotPasswordPage from "../pages/forgotPassword";
 import ResetPasswordPage from "../pages/resetPassword";
 import NotFoundPage from "../pages/notFound";
-import DashboardPage from "../pages/dashboard";
 import AdminPage from "../pages/admin";
 import MatchPage from "../pages/match";
 import VerifyPage from "../pages/verify";
 import TestPage from "../pages/test";
-import UserSettingPage from "../pages/UserSetting";
+import UserSettingPage from "../pages/userSetting";
 import LobbyPage from "../pages/lobby";
 import { checkRole } from "../auth/auth";
 import { AuthTokenHelper } from "../helper/authToken.js";
@@ -49,7 +48,6 @@ export default function AppRouter() {
           <Route path="/admin" element={<ProtectedRoute>{checkRole(['admin']) ? <AdminPage /> : <NavigateBase />}</ProtectedRoute>} />
           <Route path="/user-setting" element={<ProtectedRoute><UserSettingPage /></ProtectedRoute>} />
           {/* Core */}
-          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/lobby" element={<ProtectedRoute><LobbyPage /></ProtectedRoute>} />
           <Route path="/match/:matchId" element={<ProtectedRoute><MatchPage /></ProtectedRoute>} />
           {/* Auth */}

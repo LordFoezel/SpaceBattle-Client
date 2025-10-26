@@ -29,7 +29,7 @@ const LeaveButton = function LeaveButton({
   }
 
   return (
-    <BaseButton name="leave" onClick={onClick} isDisabled={isDisabled} size="sm" height="full" colorScheme="red">
+    <BaseButton name="leave" onClick={onClick} isDisabled={isDisabled} size="sm" colorScheme="red">
       <ButtonText>
         {globalThis.t("lobby.leave")}
       </ButtonText>
