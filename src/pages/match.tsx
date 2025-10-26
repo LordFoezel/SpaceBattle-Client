@@ -65,8 +65,8 @@ export default function MatchPage() {
   function onDeletedPlayer(playerId: number) {
     
     if (SelfCheck({playerId})) navigate("/lobby", { replace: true });
-    loadMatch();
     loadPlayer();
+    loadMatch();
   }
 
   function onChangeState() {

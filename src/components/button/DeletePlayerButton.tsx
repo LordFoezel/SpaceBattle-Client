@@ -16,9 +16,9 @@ const DeletePlayerButton = function DeletePlayerButton({
   onDeleted,
 }: ButtonProps) {
 
-  function onClick() {
+ async function onClick() {
     try {
-      deletePlayer(playerId);
+      await deletePlayer(playerId);
       onDeleted?.(playerId);
     } catch (error) {
       ErrorHelper.handleError(error);
