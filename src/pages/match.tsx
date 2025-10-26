@@ -63,7 +63,6 @@ export default function MatchPage() {
   }
 
   function onDeletedPlayer(playerId: number) {
-    
     if (SelfCheck({playerId})) navigate("/lobby", { replace: true });
     loadPlayer();
     loadMatch();
@@ -71,6 +70,10 @@ export default function MatchPage() {
 
   function onChangeState() {
     loadPlayer();
+  }
+
+  function onConfigChange() {
+    
   }
 
   return (
@@ -81,7 +84,7 @@ export default function MatchPage() {
           <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
-            {SelfCheck({userId: match?.createdBy}) && <MatchConfigModal matchId={numericMatchId} />}
+            {SelfCheck({userId: match?.createdBy}) && <MatchConfigModal matchId={numericMatchId} onChange={onConfigChange}/>}
             <LeaveButton matchId={numericMatchId} />
           </ TransparentCard>
         </ TransparentCard>

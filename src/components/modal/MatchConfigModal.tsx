@@ -19,6 +19,8 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
         onChange,
     } = props;
 
+    
+
     return (
         <BaseModal buttonText={globalThis.t("match.config")} title={globalThis.t("match.config")} placement="top" showSave={false} >
             <TransparentCard direction="col" gap="2">
