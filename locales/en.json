@@ -143,5 +143,12 @@
       "info": "Manage you user profile",
       "title": "User-Settings"
     }
+  },
+  "playerState": {
+    "place": "Place",
+    "ready": "Ready",
+    "game": "Game",
+    "winn": "Winn",
+    "loose": "Loose"
   }
 }

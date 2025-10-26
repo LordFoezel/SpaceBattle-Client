@@ -27,7 +27,7 @@ const DeletePlayerButton = function DeletePlayerButton({
 
   return (
     <AdminRoleChecker>
-      <BaseButton name="delete" onClick={onClick} isDisabled={isDisabled} size="sm" height="4" colorScheme="red">
+      <BaseButton name="delete" onClick={onClick} isDisabled={isDisabled} size="sm" colorScheme="red">
         <IconCross />
       </BaseButton>
     </AdminRoleChecker>

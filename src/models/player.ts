@@ -1,23 +1,31 @@
+export enum PlayerState {
+  PLACE = "place",
+  READY = "ready",
+  GAME = "game",
+  WINN = "winn",
+  LOOSE = "loose",
+}
+
 export interface Player {
   id: number;
   name: string;
   user_id: number;
   match_id: number;
-  state: string;
+  state: PlayerState;
 }
 
 export interface PlayerCreate {
   name: string;
   user_id: number;
   match_id: number;
-  state?: string;
+  state?: PlayerState;
 }
 
 export interface PlayerUpdate {
   name?: string | null;
   user_id?: number | null;
   match_id?: number | null;
-  state?: string | null;
+  state?: PlayerState | null;
 }
 
 export function adaptPlayer(raw: any): Player {

@@ -10,7 +10,6 @@ import { LeaveButton } from "../components/button/LeaveButton";
 import { PageHeader } from '../components/layout/PageHeader';
 import { MainCard } from '../components/layout/MainCard';
 import { PlayerList } from "../components/list/PlayerList";
-import { AuthTokenHelper } from "../helper/authToken.js";
 
 export default function MatchPage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -47,9 +46,7 @@ export default function MatchPage() {
         ErrorHelper.handleError(error);
         navigate("/lobby", { replace: true });
       }
-
       loadPlayer()
-
     })();
 
   }, [matchId, navigate]);
@@ -71,12 +68,16 @@ export default function MatchPage() {
     loadPlayer();
   }
 
+  function onChangeState() {
+    loadPlayer();
+  }
+
   return (
     <section className="match-page">
       <MainCard>
         <PageHeader title={match?.name} info={match?.description} />
-        <TransparentCard direction='col' gap='2' justify='center'>
-          <PlayerList players={players} onDeleted={onDeletedPlayer} />
+        <TransparentCard direction='col' gap='2'>
+          <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} />
           <LeaveButton matchId={numericMatchId} />
         </ TransparentCard>
       </MainCard>
