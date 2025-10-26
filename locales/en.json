@@ -89,6 +89,12 @@
     "toLogin": "Go to login",
     "toRegistration": "Go to registration"
   },
+  "match": {
+    "config": "Config",
+    "maxPlayers": "Max Players",
+    "dimension": "Dimension",
+    "turnTimeout": "Turn timeout"
+  },
   "message": {
     "alreadyLoggedIn": "You're already logged in!",
     "emailVerified": "E-mail is verified!",

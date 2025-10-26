@@ -5,8 +5,6 @@ import { TransparentCard } from "../layout/TransparentCard";
 import { DeletePlayerButton } from "../button/DeletePlayerButton";
 import { ReadySwitch } from "../checkbox/ReadySwitch";
 import { SelfCheck } from "../../helper/SelfCheck";
-import { updateOne } from "../../repositories/players"
-import { ErrorHelper } from "../../helper/errorHelper";
 
 interface ListItemProps {
     player: Player;
@@ -30,7 +28,7 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
                     <BaseText fontSize="lg" color="gray">{globalThis.t(`playerState.${player.state}`)}</BaseText>
                 </TransparentCard>
                 <TransparentCard direction="row" gap="2" justify="end">
-                    {SelfCheck(player.user_id) && <ReadySwitch player={player} onChange={onChangeState} />}
+                    {SelfCheck({userId: player.user_id}) && <ReadySwitch player={player} onChange={onChangeState} />}
                     <DeletePlayerButton playerId={player.id} onDeleted={onDeleted} />
                 </TransparentCard>
             </TransparentCard>

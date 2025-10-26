@@ -40,7 +40,7 @@ export default function LobbyPage() {
     filterMatches();
   }
 
-    async function ondeleteMatch() {
+    async function onDeleteMatch() {
     await loadMatches();
     filterMatches();
   }
@@ -95,7 +95,7 @@ export default function LobbyPage() {
           <CreateMatchModal onCreated={onCreateMatch} />
         </TransparentCard>
         <TransparentCard direction='row' gap='2'>
-          <MatchList matches={matches} onDeleted={ondeleteMatch}/>
+          <MatchList matches={matches} onDeleted={onDeleteMatch}/>
         </TransparentCard>
         <TransparentCard direction='col' items='end'>
           <UserSettingButton />

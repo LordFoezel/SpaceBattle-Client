@@ -1,13 +1,13 @@
 import { AuthTokenHelper } from "./authToken.js";
 
-export function SelfCheck(userId?: number, playerId?: number) {
-    if (userId) {
+export function SelfCheck(toCHeck: {userId?: number, playerId?: number}) {
+    if (toCHeck.userId) {
         const { id } = AuthTokenHelper.getUserIdentity();
-        if (userId !== id) return false;
+        if (toCHeck.userId !== id) return false;
     }
-    if (playerId) {
-        const { playerId: plId } = AuthTokenHelper.getUserIdentity();
-        if (playerId !== plId) return false;
+    if (toCHeck.playerId) {
+        const playerIdStr = window.localStorage.getItem("spacebattle.playerId");
+        if (toCHeck.playerId !== Number(playerIdStr)) return false;
     }
     return true;
 }
