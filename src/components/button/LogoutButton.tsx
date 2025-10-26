@@ -7,8 +7,6 @@ interface ButtonProps {
   isDisabled?: boolean;
   variant?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  colorScheme?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
   [key: string]: any;
 }
 
@@ -16,7 +14,6 @@ const LogoutButton = function LogoutButton({
   isDisabled,
   variant,
   size,
-  colorScheme,
 }: ButtonProps) {
   const navigate = useNavigate();
 
@@ -28,7 +25,6 @@ const LogoutButton = function LogoutButton({
     } catch {
       /* ignore storage errors */
     }
-
   }
 
   return (

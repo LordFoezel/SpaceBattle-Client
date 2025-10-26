@@ -29,6 +29,7 @@
   "lobby": {
     "join": "Join",
     "createMatch": "Create match",
+    "leave": "Leave",
     "hasNoPassword": {
       "info": "",
       "label": "Without password"
