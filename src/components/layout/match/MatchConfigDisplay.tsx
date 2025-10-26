@@ -15,6 +15,7 @@ const MatchConfigDisplay = function MatchConfigDisplay({ match }: MatchConfigDis
         <BaseCard direction="col" variant="light" padding="5" gap="2">
             <TransparentCard direction="row" justify="between"><BaseText>{globalThis.t("match.maxPlayers")}</BaseText><BaseText>{match.current_player_count}/{match.config?.player_count}</BaseText></TransparentCard>
             <TransparentCard direction="row" justify="between"><BaseText>{globalThis.t("match.dimension")}</BaseText><BaseText>X {match.config?.dimension_x} / Y {match.config?.dimension_y}</BaseText></TransparentCard>
+            <TransparentCard direction="row" justify="between"><BaseText>{globalThis.t("match.hasPassword")}</BaseText><BaseText>{match.password_hash ? globalThis.t("core.yes") : globalThis.t("core.no") }</BaseText></TransparentCard>
             <TransparentCard direction="row" justify="between"><BaseText>{globalThis.t("match.turnTimeout")}</BaseText><BaseText>{match.config?.turn_timeout}</BaseText></TransparentCard>
         </BaseCard>
     );

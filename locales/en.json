@@ -14,7 +14,9 @@
     "search": "Search",
     "user": "User",
     "match": "Match",
-    "create": "Create"
+    "create": "Create",
+    "yes": "Yes",
+    "no": "No"
   },
   "error": {
     "code": {
@@ -91,9 +93,10 @@
   },
   "match": {
     "config": "Config",
-    "maxPlayers": "Max Players",
+    "maxPlayers": "Max players",
     "dimension": "Dimension",
-    "turnTimeout": "Turn timeout"
+    "turnTimeout": "Turn timeout",
+    "hasPassword": "With password"
   },
   "message": {
     "alreadyLoggedIn": "You're already logged in!",
