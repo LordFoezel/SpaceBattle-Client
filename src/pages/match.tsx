@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchById as fetchMatchById } from "../repositories/matches";
 import { fetchAll as fetchAllPlayer } from "../repositories/players"
-import type { Match } from "../models/match";
-import type { Player } from "../models/player";
 import { ErrorHelper } from "../helper/errorHelper";
 import { TransparentCard } from "../components/layout/TransparentCard";
 import { LeaveButton } from "../components/button/LeaveButton";
@@ -13,6 +11,8 @@ import { PlayerList } from "../components/list/PlayerList";
 import { MatchConfigModal } from "../components/modal/MatchConfigModal";
 import { SelfCheck } from "../helper/SelfCheck";
 import { MatchConfigDisplay } from "../components/layout/match/MatchConfigDisplay";
+import type { Match } from "../models/match";
+import type { Player } from "../models/player";
 
 export default function MatchPage() {
   const { matchId } = useParams<{ matchId: string }>();
