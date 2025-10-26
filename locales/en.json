@@ -13,7 +13,8 @@
     "save": "Save",
     "search": "Search",
     "user": "User",
-    "match": "Match"
+    "match": "Match",
+    "create": "Create"
   },
   "error": {
     "code": {

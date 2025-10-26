@@ -15,6 +15,8 @@ import { MatchState } from "../../models/match"
 import type { ConfigMatchCreate } from "../../models/config_match";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { AuthTokenHelper } from "../../helper/authToken.js";
+import { createOne as createPlayer } from "../../repositories/players";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     onCreated?: () => void;
@@ -23,6 +25,8 @@ interface Props {
 const CreateMatchModal = function CreateMatchModal({
     onCreated,
 }: Props) {
+
+    const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -63,11 +67,23 @@ const CreateMatchModal = function CreateMatchModal({
                     fleet_config_id: null,
                 };
                 await createConfigMatch(newMatchConfig);
-                clearFields();
-                onCreated?.();
             } catch (error) {
                 ErrorHelper.handleError(error);
             }
+
+            try {
+                await createPlayer({
+                    user_id: userId,
+                    match_id: match.id,
+                });
+                navigate(`/match/${match.id}`, { replace: true });
+            } catch (error) {
+                ErrorHelper.handleError(error);
+            }
+
+            onCreated?.();
+            clearFields();
+
         } catch (error) {
             ErrorHelper.handleError(error);
         }
@@ -83,7 +99,7 @@ const CreateMatchModal = function CreateMatchModal({
     }
 
     return (
-        <BaseModal buttonText={globalThis.t("lobby.createMatch")} title={globalThis.t("lobby.createMatch")} placement="top" onClose={onClose} onConfirm={onConfirm} disabledSave={disabled}>
+        <BaseModal buttonText={globalThis.t("lobby.createMatch")} title={globalThis.t("lobby.createMatch")} placement="top" onClose={onClose} onConfirm={onConfirm} disabledSave={disabled} confirmText={globalThis.t("core.create")}>
             <TransparentCard direction="col" gap="2">
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} />
