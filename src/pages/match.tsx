@@ -73,7 +73,7 @@ export default function MatchPage() {
   }
 
   function onConfigChange() {
-    
+    loadMatch();
   }
 
   return (
@@ -84,7 +84,7 @@ export default function MatchPage() {
           <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
-            {SelfCheck({userId: match?.createdBy}) && <MatchConfigModal matchId={numericMatchId} onChange={onConfigChange}/>}
+            {SelfCheck({userId: match?.createdBy}) && <MatchConfigModal match={match} onChange={onConfigChange}/>}
             <LeaveButton matchId={numericMatchId} />
           </ TransparentCard>
         </ TransparentCard>

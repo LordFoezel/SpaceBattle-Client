@@ -1,6 +1,5 @@
 export enum MatchState {
   LOBBY = "lobby",
-  PLACE = "place",
   GAME = "game",
   DONE = "done",
   ARCHIVED = "archived",

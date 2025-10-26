@@ -4,7 +4,6 @@ import { NameLabel } from "../label/NameLabel";
 import { DescriptionLabel } from "../label/DescriptionLabel";
 import { TransparentCard } from "../layout/TransparentCard";
 import { useState } from "react";
-import { BaseSeparator } from "../base/text/BaseSeparator";
 import { PlayerCountLabel } from "../label/PlayerCountLabel";
 import { MapSizeXLabel } from "../label/MapSizeXLabel";
 import { MapSizeYLabel } from "../label/MapSizeYLabel";
@@ -106,7 +105,6 @@ const CreateMatchModal = function CreateMatchModal({
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} />
                 <PasswordMatchLabel value={password} onChange={(e) => setPassword(e.target.value)} />
-                <BaseSeparator />
                 <PlayerCountLabel value={playerCount} onChange={(e) => setPlayerCount(Number(e.target.value))} />
                 <TransparentCard direction="row" gap="2">
                     <MapSizeXLabel value={mapSizeX} onChange={(e) => setMapSizeX(Number(e.target.value))} />
