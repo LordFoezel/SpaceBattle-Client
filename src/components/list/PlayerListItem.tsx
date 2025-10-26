@@ -24,6 +24,7 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
     return (
         <BaseCard direction='col' variant="light" gap='2' padding="2">
             <TransparentCard direction="row" gap="2">
+                <BaseText>{player.id}</BaseText>
                 {/* <TransparentCard width="full" direction="col" justify="start"> */}
                     {/* <BaseText fontSize="lg">{match.name}</BaseText>
                     <BaseText fontSize="xs" color="gray">{match.description}</BaseText>

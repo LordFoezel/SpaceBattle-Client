@@ -9,7 +9,6 @@ import type { Match } from "../models/match";
 import { useEffect, useState } from "react";
 import { MatchList } from "../components/list/MatchList";
 import { UserSettingButton } from '../components/button/UserSettingButton';
-import { BaseSpacer } from '../components/base/layout/BaseSpacer';
 import { CreateMatchModal } from '../components/modal/CreateMatchModal';
 
 export default function LobbyPage() {
