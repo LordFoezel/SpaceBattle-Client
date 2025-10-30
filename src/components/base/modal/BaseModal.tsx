@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import { BaseButton } from "../button/BaseButton";
+import { BaseSpacer } from "../layout/BaseSpacer";
 import { BaseText } from "../text/BaseText";
 import colors from "../../../theme/colors.js";
 
@@ -124,6 +125,7 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
           <ModalCloseButton />
           <ModalBody>
             {children}
+            <BaseSpacer height="1" />
           </ModalBody>
           {(showSave || showClose) && (
             <ModalFooter borderTopWidth="1px" borderColor={colors.borderSubtle}>

@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { updateOne as updateOneConfig } from "../../repositories/config_match";
 import { updateOne as updateOneMatch } from "../../repositories/matches";
 import type { Match } from "../../models/match";
-import { BaseSelect } from "../base/select/BaseSelect";
 import { fetchShConfigFleet } from "../../repositories/select_option";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { ConfigFleetLabel } from "../label/ConfigFleetLabel";
@@ -77,7 +76,7 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
         }
     }
     return (
-        <BaseModal buttonText={globalThis.t("match.config")} title={globalThis.t("match.config")} placement="top" showSave={false} >
+        <BaseModal buttonText={globalThis.t("match.config")} title={globalThis.t("match.config")} placement="top" showSave={false} showClose={false} >
             <TransparentCard direction="col" gap="2">
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} onBlur={(e) => onChangeConfig('name', e)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} onBlur={(e) => onChangeConfig('description', e)} />

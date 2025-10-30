@@ -6,7 +6,6 @@ interface BaseSpacerProps {
 }
 
 const BaseSpacer = function BaseSpacer({
-  name,
   width = "5",
   height = "5",
 }: BaseSpacerProps) {
@@ -19,7 +18,6 @@ const BaseSpacer = function BaseSpacer({
 
   return (
     <div
-      name={name}
       className={className()}
     />
   );
