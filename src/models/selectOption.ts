@@ -1,5 +1,4 @@
 export interface SelectOption {
-  name: string;
   label: string;
   parent?: string | null;
   selectable: boolean;
@@ -7,8 +6,8 @@ export interface SelectOption {
 }
 
 export interface SelectOptionRaw {
-  name: string;
   label: string;
+  value: string;
   parent?: string | null;
   selectable?: boolean;
 }
@@ -16,11 +15,10 @@ export interface SelectOptionRaw {
 export function adaptSelectOption(raw: SelectOptionRaw): SelectOption {
   const selectable = raw.selectable !== false;
   return {
-    name: raw.name,
     label: raw.label,
     parent: raw.parent ?? null,
     selectable,
-    value: raw.name,
+    value: raw.value,
   };
 }
 

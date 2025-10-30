@@ -54,7 +54,6 @@ const BaseInputNumber = forwardRef<HTMLInputElement, BaseInputNumberProps>(funct
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
-        size={size}
         inputMode="numeric"
       />
     </NumberInput>

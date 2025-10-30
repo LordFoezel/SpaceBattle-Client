@@ -22,8 +22,6 @@ const PlayerCountLabel = function PlayerCountLabel({
                 defaultValue={defaultValue}
                 onChange={onChange}
                 onBlur={onBlur}
-                type="number"
-                inputMode="numeric"
                 min={2}
                 max={8}
             />

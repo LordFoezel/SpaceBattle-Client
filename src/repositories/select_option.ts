@@ -16,3 +16,7 @@ export async function fetchByTag(tag: string): Promise<SelectOption[]> {
 export async function fetchShips(): Promise<SelectOption[]> {
   return fetchByTag("ship");
 }
+
+export async function fetchShConfigFleet(): Promise<SelectOption[]> {
+  return fetchByTag("config_fleet");
+}

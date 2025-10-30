@@ -3,7 +3,8 @@ import { PasswordMatchLabel } from "../label/PasswordMatchLabel";
 import { NameLabel } from "../label/NameLabel";
 import { DescriptionLabel } from "../label/DescriptionLabel";
 import { TransparentCard } from "../layout/TransparentCard";
-import { useState } from "react";
+import { ConfigFleetLabel } from "../label/ConfigFleetLabel";
+import { useEffect, useState } from "react";
 import { PlayerCountLabel } from "../label/PlayerCountLabel";
 import { MapSizeXLabel } from "../label/MapSizeXLabel";
 import { MapSizeYLabel } from "../label/MapSizeYLabel";
@@ -15,6 +16,7 @@ import type { ConfigMatchCreate } from "../../models/config_match";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { AuthTokenHelper } from "../../helper/authToken.js";
 import { createOne as createPlayer } from "../../repositories/players";
+import { fetchShConfigFleet } from "../../repositories/select_option";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -33,8 +35,23 @@ const CreateMatchModal = function CreateMatchModal({
     const [playerCount, setPlayerCount] = useState(2);
     const [mapSizeX, setMapSizeX] = useState(10);
     const [mapSizeY, setMapSizeY] = useState(10);
+    const [configFleet, setConfigFleet] = useState(0);
+    const [configFleetOptions, setConfigFleetOptions] = useState([]);
 
     const disabled = !description || !name || playerCount < 1 || !mapSizeX || !mapSizeY;
+
+    useEffect(() => {
+        loadOption();
+    }, []);
+
+    async function loadOption() {
+        try {
+            const options = await fetchShConfigFleet();
+            setConfigFleetOptions(options);
+        } catch (error) {
+            ErrorHelper.handleError(error);
+        }
+    }
 
     function onConfirm() {
         CreateMatch();
@@ -63,7 +80,7 @@ const CreateMatchModal = function CreateMatchModal({
                     dimension_y: mapSizeY,
                     player_count: playerCount,
                     turn_timeout: (playerCount - 1) * 30,
-                    fleet_config_id: null,
+                    fleet_config_id: configFleet,
                 };
                 await createConfigMatch(newMatchConfig);
             } catch (error) {
@@ -71,7 +88,7 @@ const CreateMatchModal = function CreateMatchModal({
             }
 
             try {
-                const newPlayer=  await createPlayer({
+                const newPlayer = await createPlayer({
                     user_id: userId,
                     match_id: match.id,
                     name: userName,
@@ -97,6 +114,7 @@ const CreateMatchModal = function CreateMatchModal({
         setPlayerCount(2);
         setMapSizeX(10);
         setMapSizeY(10);
+        setConfigFleetOptions(configFleetOptions[0]?.value);
     }
 
     return (
@@ -106,6 +124,7 @@ const CreateMatchModal = function CreateMatchModal({
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} />
                 <PasswordMatchLabel value={password} onChange={(e) => setPassword(e.target.value)} />
                 <PlayerCountLabel value={playerCount} onChange={(e) => setPlayerCount(Number(e.target.value))} />
+                <ConfigFleetLabel value={configFleet} onChange={(e) => setConfigFleet(Number(e.target.value))} options={configFleetOptions} />
                 <TransparentCard direction="row" gap="2">
                     <MapSizeXLabel value={mapSizeX} onChange={(e) => setMapSizeX(Number(e.target.value))} />
                     <MapSizeYLabel value={mapSizeY} onChange={(e) => setMapSizeY(Number(e.target.value))} />

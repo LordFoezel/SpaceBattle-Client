@@ -96,7 +96,11 @@
     "maxPlayers": "Max players",
     "dimension": "Dimension",
     "turnTimeout": "Turn timeout",
-    "hasPassword": "With password"
+    "hasPassword": "With password",
+     "configFleet": {
+      "info": "",
+      "label": "Fleet-config"
+    }
   },
   "message": {
     "alreadyLoggedIn": "You're already logged in!",

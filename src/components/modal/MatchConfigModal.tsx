@@ -10,6 +10,10 @@ import { useState, useEffect } from "react";
 import { updateOne as updateOneConfig } from "../../repositories/config_match";
 import { updateOne as updateOneMatch } from "../../repositories/matches";
 import type { Match } from "../../models/match";
+import { BaseSelect } from "../base/select/BaseSelect";
+import { fetchShConfigFleet } from "../../repositories/select_option";
+import { ErrorHelper } from "../../helper/errorHelper";
+import { ConfigFleetLabel } from "../label/ConfigFleetLabel";
 
 interface ModalProps {
     match: Match;
@@ -28,6 +32,8 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
     const [playerCount, setPlayerCount] = useState(2);
     const [mapSizeX, setMapSizeX] = useState(10);
     const [mapSizeY, setMapSizeY] = useState(10);
+    const [configFleet, setConfigFleet] = useState(0);
+    const [configFleetOptions, setConfigFleetOptions] = useState([]);
 
     useEffect(() => {
         if (!match) return;
@@ -37,6 +43,8 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
         setPlayerCount(match.config?.player_count);
         setMapSizeX(match.config?.dimension_x);
         setMapSizeY(match.config?.dimension_y);
+        setConfigFleet(match.config?.fleet_config_id);
+        loadOption();
     }, [match]);
 
     async function onChangeConfig(tag: string, e: any) {
@@ -48,6 +56,7 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
             playerCount: { type: "config", key: "player_count" },
             mapSizeX: { type: "config", key: "dimension_x" },
             mapSizeY: { type: "config", key: "dimension_y" },
+            configFleet: { type: "config", key: "fleet_config_id" },
         };
         const target = fieldMap[tag];
         if (!target) return;
@@ -59,6 +68,14 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
         onChange();
     }
 
+    async function loadOption() {
+        try {
+            const options = await fetchShConfigFleet();
+            setConfigFleetOptions(options);
+        } catch (error) {
+            ErrorHelper.handleError(error);
+        }
+    }
     return (
         <BaseModal buttonText={globalThis.t("match.config")} title={globalThis.t("match.config")} placement="top" showSave={false} >
             <TransparentCard direction="col" gap="2">
@@ -66,6 +83,7 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} onBlur={(e) => onChangeConfig('description', e)} />
                 <PasswordMatchLabel value={password} onChange={(e) => setPassword(e.target.value)} onBlur={(e) => onChangeConfig('password', e)} />
                 <PlayerCountLabel value={playerCount} onChange={(e) => setPlayerCount(Number(e.target.value))} onBlur={(e) => onChangeConfig('playerCount', e)} />
+                <ConfigFleetLabel value={configFleet} onChange={(e) => onChangeConfig('configFleet', e)} options={configFleetOptions} />
                 <TransparentCard direction="row" gap="2">
                     <MapSizeXLabel value={mapSizeX} onChange={(e) => setMapSizeX(Number(e.target.value))} onBlur={(e) => onChangeConfig('mapSizeX', e)} />
                     <MapSizeYLabel value={mapSizeY} onChange={(e) => setMapSizeY(Number(e.target.value))} onBlur={(e) => onChangeConfig('mapSizeY', e)} />

@@ -1,82 +1,135 @@
-import { forwardRef, useRef, useLayoutEffect, useState, useMemo } from "react";
-import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, Button, MenuDivider } from "@chakra-ui/react";
+import {
+  forwardRef,
+  useRef,
+  useLayoutEffect,
+  useState,
+  useMemo,
+  type MutableRefObject,
+} from "react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuOptionGroup,
+  MenuItemOption,
+  Button,
+  MenuDivider,
+} from "@chakra-ui/react";
 import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
+import type { BaseSelectOption } from "./BaseSelect";
 
-const BaseSelectMulti = forwardRef(function BaseSelectMulti({
-  name, // for forms
-  value,
-  variant = 'outline', // outline, subtle, flushed
-  size = 'md', // xs, sm, md, lg
-  isDisabled = false,  
-  placeholder = '',
-  onChange,
-  options=[], // SelectOption[]
-}, ref) {
+export type BaseSelectMultiValue = string | number;
+type BaseSelectMultiValueInput = BaseSelectMultiValue | BaseSelectMultiValue[];
 
+export interface BaseSelectMultiProps {
+  name?: string;
+  value?: BaseSelectMultiValueInput;
+  variant?: "outline" | "subtle" | "flushed";
+  size?: "xs" | "sm" | "md" | "lg";
+  isDisabled?: boolean;
+  placeholder?: string;
+  onChange?: (values: string[]) => void;
+  options?: BaseSelectOption[];
+}
 
-  const className = "w-full rounded-lg border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40";
-  const hasCategories = Array.isArray(options) && options.some(o => !!o?.category);
+const BaseSelectMulti = forwardRef<HTMLButtonElement, BaseSelectMultiProps>(function BaseSelectMulti(
+  {
+    name,
+    value,
+    variant = "outline",
+    size = "md",
+    isDisabled = false,
+    placeholder = "",
+    onChange,
+    options = [],
+  },
+  ref
+) {
+  const className =
+    "w-full rounded-lg border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40";
+  const hasCategories = Array.isArray(options) && options.some((o) => !!o?.category);
   const categories = hasCategories
-    ? Array.from(new Set(options.filter(o => !!o?.category).map(o => o.category)))
+    ? Array.from(new Set(options.filter((o) => !!o?.category).map((o) => String(o.category))))
     : [];
-  const toArrayOfStrings = (v) => (Array.isArray(v) ? v.map(String) : (v == null ? [] : [String(v)]));
-  const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] = useState([]);
-  const selectedValues = useMemo(() => (isControlled ? toArrayOfStrings(value) : internalValue), [isControlled, value, internalValue]);
 
-  const groupKeys = hasCategories ? ["__ungrouped__", ...categories.map(String)] : ["__ungrouped__"];
-  const groupMap = new Map(
-    groupKeys.map((g) => [
-      g,
-      options.filter((o) => (g === "__ungrouped__" ? !o?.category : String(o?.category) === g)),
-    ])
+  const toArrayOfStrings = (v: BaseSelectMultiValueInput | undefined): string[] => {
+    if (v == null) return [];
+    return Array.isArray(v) ? v.map(String) : [String(v)];
+  };
+
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = useState<string[]>([]);
+  const selectedValues = useMemo(
+    () => (isControlled ? toArrayOfStrings(value) : internalValue),
+    [isControlled, value, internalValue]
   );
 
-  const allOptionsByValue = new Map(options.map((o) => [String(o.value), o]));
+  const groupKeys = hasCategories ? ["__ungrouped__", ...categories] : ["__ungrouped__"];
+  const groupMap = useMemo(() => {
+    const map = new Map<string, BaseSelectOption[]>();
+    groupKeys.forEach((key) => {
+      const items = options.filter((o) =>
+        key === "__ungrouped__" ? !o?.category : String(o?.category) === key
+      );
+      map.set(key, items);
+    });
+    return map;
+  }, [groupKeys, options]);
 
-  const handleGroupChange = (groupKey) => (vals) => {
+  const allOptionsByValue = useMemo(
+    () => new Map<string, BaseSelectOption>(options.map((o) => [String(o.value), o])),
+    [options]
+  );
+
+  const handleGroupChange = (groupKey: string) => (vals: string[] | string) => {
+    const changeValues = Array.isArray(vals) ? vals : [vals];
     const groupValues = new Set((groupMap.get(groupKey) || []).map((o) => String(o.value)));
     const rest = selectedValues.filter((v) => !groupValues.has(v));
-    const next = [...rest, ...vals.map(String)];
+    const next = [...rest, ...changeValues.map(String)];
     if (!isControlled) setInternalValue(next);
-    if (onChange) onChange(next);
+    onChange?.(next);
   };
 
   const selectedLabels = selectedValues
     .map((v) => allOptionsByValue.get(String(v))?.label ?? String(v))
     .filter(Boolean);
   const buttonText = selectedLabels.length
-    ? selectedLabels.slice(0, 2).join(", ") + (selectedLabels.length > 2 ? ` +${selectedLabels.length - 2}` : "")
-    : (placeholder || "Select");
+    ? `${selectedLabels.slice(0, 2).join(", ")}${
+        selectedLabels.length > 2 ? ` +${selectedLabels.length - 2}` : ""
+      }`
+    : placeholder || "Select";
   const hasSelection = selectedLabels.length > 0;
 
-  const [menuW, setMenuW] = useState();
-  const buttonElRef = useRef(null);
-  const setRefs = (node) => {
+  const [menuW, setMenuW] = useState<number>();
+  const buttonElRef = useRef<HTMLButtonElement | null>(null);
+  const setRefs = (node: HTMLButtonElement | null) => {
     buttonElRef.current = node;
-    if (typeof ref === 'function') ref(node);
-    else if (ref) ref.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref && typeof ref === "object") {
+      (ref as MutableRefObject<HTMLButtonElement | null>).current = node;
+    }
   };
 
   useLayoutEffect(() => {
     if (!buttonElRef.current) return;
     const update = () => {
       try {
-        const w = buttonElRef.current.getBoundingClientRect().width;
+        const w = buttonElRef.current?.getBoundingClientRect().width;
         if (w && w !== menuW) setMenuW(w);
-      } catch {}
+      } catch {
+        // ignore measurement errors
+      }
     };
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, [menuW]);
 
   return (
     <>
-      {name && (
-        <input type="hidden" name={name} value={JSON.stringify(selectedValues)} />
-      )}
+      {name && <input type="hidden" name={name} value={JSON.stringify(selectedValues)} />}
       <Menu closeOnSelect={false} isLazy>
         <MenuButton
           as={Button}
@@ -91,7 +144,7 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
           borderColor={colors.border}
           _hover={{ bg: colors.surface }}
           _active={{ bg: colors.surface }}
-          _focusVisible={{ boxShadow: `0 0 0 2px ${colors.focusRing}` , borderColor: colors.focusBorder }}
+          _focusVisible={{ boxShadow: `0 0 0 2px ${colors.focusRing}`, borderColor: colors.focusBorder }}
           justifyContent="flex-start"
           textAlign="left"
           rightIcon={undefined}
@@ -107,26 +160,29 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
           minW="unset"
           w={menuW ? `${menuW}px` : undefined}
         >
-          {/* Ungrouped first */}
           <MenuOptionGroup
             title={undefined}
             type="checkbox"
-            value={selectedValues.filter((v) => (groupMap.get("__ungrouped__") || []).some((o) => String(o.value) === String(v)))}
+            value={selectedValues.filter((v) =>
+              (groupMap.get("__ungrouped__") || []).some((o) => String(o.value) === v)
+            )}
             onChange={handleGroupChange("__ungrouped__")}
-            sx={{ '.chakra-menu__group__title': { color: colors.groupTitle } }}
+            sx={{ ".chakra-menu__group__title": { color: colors.groupTitle } }}
           >
             {(groupMap.get("__ungrouped__") || []).map((opt) => (
               <MenuItemOption
                 key={String(opt.value)}
                 value={String(opt.value)}
-                isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
+                isDisabled={Boolean(
+                  (opt.isDisabled ?? opt.disabled) || opt.selectable === false
+                )}
                 bg="transparent"
                 color={colors.text}
                 _hover={{ bg: colors.optionHover }}
                 _focus={{ bg: colors.optionHover }}
                 _checked={{ bg: colors.optionCheckedBg, color: colors.optionCheckedText }}
-                sx={{ '&[data-checked=true] svg': { color: colors.focusBorder } }}
-                _disabled={{ color: colors.textMuted, opacity: 1, cursor: 'not-allowed' }}
+                sx={{ "&[data-checked=true] svg": { color: colors.focusBorder } }}
+                _disabled={{ color: colors.textMuted, opacity: 1, cursor: "not-allowed" }}
               >
                 {opt.label ?? String(opt.value)}
               </MenuItemOption>
@@ -135,34 +191,39 @@ const BaseSelectMulti = forwardRef(function BaseSelectMulti({
 
           {hasCategories && (groupMap.get("__ungrouped__") || []).length > 0 && <MenuDivider />}
 
-          {hasCategories && categories.map((cat, idx) => (
-            <MenuOptionGroup
-              key={String(cat)}
-              title={String(cat)}
-              type="checkbox"
-              value={selectedValues.filter((v) => (groupMap.get(String(cat)) || []).some((o) => String(o.value) === String(v)))}
-              onChange={handleGroupChange(String(cat))}
-              sx={{ '.chakra-menu__group__title': { color: colors.groupTitle } }}
-            >
-              {(groupMap.get(String(cat)) || []).map((opt) => (
-                <MenuItemOption
-                  key={String(opt.value)}
-                  value={String(opt.value)}
-                  isDisabled={Boolean((opt.isDisabled ?? opt.disabled) || opt.selectable === false)}
-                  bg="transparent"
-                  color={colors.text}
-                  _hover={{ bg: colors.optionHover }}
-                  _focus={{ bg: colors.optionHover }}
-                  _checked={{ bg: colors.optionCheckedBg, color: colors.optionCheckedText }}
-                  sx={{ '&[data-checked=true] svg': { color: colors.focusBorder } }}
-                  _disabled={{ color: colors.textMuted, opacity: 1, cursor: 'not-allowed' }}
-                >
-                  {opt.label ?? String(opt.value)}
-                </MenuItemOption>
-              ))}
-              {idx < categories.length - 1 && <MenuDivider />}
-            </MenuOptionGroup>
-          ))}
+          {hasCategories &&
+            categories.map((cat, idx) => (
+              <MenuOptionGroup
+                key={cat}
+                title={cat}
+                type="checkbox"
+                value={selectedValues.filter((v) =>
+                  (groupMap.get(cat) || []).some((o) => String(o.value) === v)
+                )}
+                onChange={handleGroupChange(cat)}
+                sx={{ ".chakra-menu__group__title": { color: colors.groupTitle } }}
+              >
+                {(groupMap.get(cat) || []).map((opt) => (
+                  <MenuItemOption
+                    key={String(opt.value)}
+                    value={String(opt.value)}
+                    isDisabled={Boolean(
+                      (opt.isDisabled ?? opt.disabled) || opt.selectable === false
+                    )}
+                    bg="transparent"
+                    color={colors.text}
+                    _hover={{ bg: colors.optionHover }}
+                    _focus={{ bg: colors.optionHover }}
+                    _checked={{ bg: colors.optionCheckedBg, color: colors.optionCheckedText }}
+                    sx={{ "&[data-checked=true] svg": { color: colors.focusBorder } }}
+                    _disabled={{ color: colors.textMuted, opacity: 1, cursor: "not-allowed" }}
+                  >
+                    {opt.label ?? String(opt.value)}
+                  </MenuItemOption>
+                ))}
+                {idx < categories.length - 1 && <MenuDivider />}
+              </MenuOptionGroup>
+            ))}
         </MenuList>
       </Menu>
     </>
