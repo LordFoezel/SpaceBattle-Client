@@ -115,6 +115,10 @@
     "resetPasswordSent": "Mail to reset Password sent!",
     "routeBack": "Redirect on page back!"
   },
+  "fleet": {
+    "fleet": "Fleet",
+    "fleetManager": "Fleet-Manager"
+  },
   "page": {
     "admin": {
       "info": "Staff only things!",

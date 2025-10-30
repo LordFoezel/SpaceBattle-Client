@@ -13,6 +13,7 @@ import { SelfCheck } from "../helper/SelfCheck";
 import { MatchConfigDisplay } from "../components/layout/match/MatchConfigDisplay";
 import type { Match } from "../models/match";
 import type { Player } from "../models/player";
+import { FleetModal } from "../components/modal/FleetModal";
 
 export default function MatchPage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -85,6 +86,7 @@ export default function MatchPage() {
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
             {SelfCheck({userId: match?.created_by}) && <MatchConfigModal match={match} onChange={onConfigChange}/>}
+            <FleetModal match={match}/>
             <LeaveButton matchId={numericMatchId} />
           </ TransparentCard>
         </ TransparentCard>
