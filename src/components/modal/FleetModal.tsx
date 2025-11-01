@@ -20,13 +20,12 @@ const FleetModal = function FleetModal(props: ModalProps) {
 
     useEffect(() => {
         if (!match) return;
-        console.log(match.config.fleet_config_id);
-
+        console.log(match.config?.fleet_config_id);
         // todo: get all ships from config_fleet_ship->shipId repo who is contained in configFleet extend exiting repo if nessesary 
     }, []);
 
 
-
+    if (!match) return;
     return (
         <BaseModal buttonText={globalThis.t("fleet.fleet")} title={globalThis.t("fleet.fleetManager")} placement="top" showClose={false} showSave={false}>
             <TransparentCard direction="col" gap="2">
