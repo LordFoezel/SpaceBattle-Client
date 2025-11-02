@@ -20,6 +20,7 @@ import { IconSearch } from '../components/icon/IconSearch';
 import { IconCross } from '../components/icon/IconCross';
 import { IconLock } from '../components/icon/IconLock';
 import { IconPeople } from '../components/icon/IconPeople';
+import { BaseTab } from '../components/base/tab/BaseTab';
 
 export default function TestPage() {
   const [controlledOpen, setControlledOpen] = useState(false);
@@ -39,6 +40,24 @@ export default function TestPage() {
     { label: "Test element 1", value: "11", selectable: true, category: "Test" },
     { label: "Test element 2", value: "10", selectable: true, category: "Test" },
     { label: "Single element", value: "100", selectable: true, category: "Single" },
+  ];
+
+  const tabItems = [
+    {
+      key: "overview",
+      label: "Overview",
+      content: <BaseText fontSize="sm">General overview content shown inside tabs.</BaseText>,
+    },
+    {
+      key: "details",
+      label: "Details",
+      content: <BaseText fontSize="sm">Detailed information for the second tab.</BaseText>,
+    },
+    {
+      key: "settings",
+      label: "Settings",
+      content: <BaseText fontSize="sm">Configuration options displayed within tabs.</BaseText>,
+    },
   ];
 
   useEffect(() => {
@@ -107,6 +126,8 @@ export default function TestPage() {
         <BaseLabel label='E-Mail' info='Enter your E-Mail' variant='transparent' direction="horizontal">
           <BaseInputPassword />
         </BaseLabel>
+        <BaseSeparator />
+        <BaseTab tabs={tabItems} isFitted />
         <BaseSeparator />
         <BaseText fontSize="md">Icons showcase</BaseText>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', padding: '8px 0' }}>
