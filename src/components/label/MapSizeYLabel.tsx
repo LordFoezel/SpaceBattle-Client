@@ -22,8 +22,6 @@ const MapSizeYLabel = function MapSizeYLabel({
                 defaultValue={defaultValue}
                 onChange={onChange}
                 onBlur={onBlur}
-                type="number"
-                inputMode="numeric"
                 min={1}
                 max={100}
             />

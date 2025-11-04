@@ -4,7 +4,7 @@ import { TransparentCard } from "../components/layout/TransparentCard";
 import { ToLobbyButton } from '../components/button/ToLobbyButton';
 import { LogoutButton } from '../components/button/LogoutButton';
 
-export default function UserSettingPage() {
+export default function userSettingPage() {
 
   return (
     <section className="user-setting-page">

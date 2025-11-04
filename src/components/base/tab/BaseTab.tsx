@@ -12,12 +12,14 @@ import {
   type SystemStyleObject,
 } from "@chakra-ui/react";
 import colors from "../../../theme/colors.js";
+import { checkRole, type Role } from "../../../auth/auth.js";
 
 interface BaseTabItem {
   key?: string | number;
   label: ReactNode;
   content: ReactNode;
   isDisabled?: boolean;
+  roles?: Role[];
 }
 
 interface BaseTabProps extends Omit<TabsProps, "children"> {
@@ -41,6 +43,12 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
   ref
 ) {
   const safeTabs = Array.isArray(tabs) ? tabs : [];
+  const visibleTabs = safeTabs.filter((tabItem) => {
+    if (!Array.isArray(tabItem.roles) || tabItem.roles.length === 0) {
+      return true;
+    }
+    return checkRole(tabItem.roles);
+  });
   const baseSx: SystemStyleObject = {
     ".chakra-tabs__tablist": {
       borderColor: colors.borderSubtle,
@@ -64,8 +72,6 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
       },
     },
     ".chakra-tabs__tab-panels": {
-      borderWidth: "1px",
-      borderColor: colors.borderSubtle,
       backgroundColor: colors.surface,
       borderRadius: "md",
     },
@@ -82,7 +88,7 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
       sx={mergedSx}
     >
       <TabList gap={2} {...tabListProps}>
-        {safeTabs.map((tabItem, index) => {
+        {visibleTabs.map((tabItem, index) => {
           const key = tabItem.key ?? index;
           return (
             <Tab key={key} isDisabled={tabItem.isDisabled} {...tabProps}>
@@ -92,7 +98,7 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
         })}
       </TabList>
       <TabPanels {...tabPanelsProps}>
-        {safeTabs.map((tabItem, index) => {
+        {visibleTabs.map((tabItem, index) => {
           const key = tabItem.key ?? index;
           return <TabPanel key={key}>{tabItem.content}</TabPanel>;
         })}

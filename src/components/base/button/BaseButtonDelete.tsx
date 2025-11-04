@@ -5,16 +5,22 @@ interface ButtonProps {
   isDisabled?: boolean;
   id: number;
   onClick?: (id: number) => void;
+  height?: number | string;
+  width?: string;
+  className?: string;
 }
 
 const BaseButtonDelete = function BaseButtonDelete({
   isDisabled = false,
   id,
+  height,
+  width,
+  className,
   onClick,
 }: ButtonProps) {
 
   const handleClick = () => {
-    onClick(id);
+    onClick?.(id);
   };
 
   return (
@@ -23,7 +29,9 @@ const BaseButtonDelete = function BaseButtonDelete({
       onClick={handleClick}
       isDisabled={isDisabled}
       size="sm"
-      height="4"
+      height={height}
+      width={width}
+      className={className}
       colorScheme="red"
     >
       <IconCross />
@@ -32,6 +40,5 @@ const BaseButtonDelete = function BaseButtonDelete({
 };
 
 export { BaseButtonDelete };
-
 
 

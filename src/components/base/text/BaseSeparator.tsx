@@ -7,7 +7,6 @@ type Variant = 'solid' | 'dashed' | 'dotted';
 type SizeKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
 
 interface BaseSeparatorProps {
-  name?: string;
   variant?: Variant;
   size?: SizeKey;
   color?: string; // tailwind-like token e.g. gray-100
@@ -32,7 +31,6 @@ const THICKNESS: Record<SizeKey, string> = {
 };
 
 const BaseSeparator = function BaseSeparator({
-  name,
   variant = 'solid',
   size = 'md',
   color = 'gray-100',
@@ -49,7 +47,6 @@ const BaseSeparator = function BaseSeparator({
 
   return (
     <Divider
-      name={name}
       orientation={orientation}
       borderColor={chakraColor}
       borderStyle={variant}

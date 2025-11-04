@@ -17,7 +17,7 @@ const EmailLabel = function EmailLabel({
 }: LabelProps) {
     return (
         <BaseLabel variant='transparent' label={globalThis.t("login.email.label")} info={globalThis.t("login.email.info")}>
-            <BaseInputEmail name="email" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
+            <BaseInputEmail value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
         </BaseLabel>
     );
 };

@@ -2,7 +2,6 @@ import { forwardRef, type ChangeEventHandler, type FocusEventHandler } from "rea
 import { BaseInput } from "./BaseInput";
 
 interface BaseInputEmailProps {
-  name?: string;
   value?: any;
   defaultValue?: string;
   variant?: 'outline' | 'subtle' | 'flushed';
@@ -15,7 +14,6 @@ interface BaseInputEmailProps {
 }
 
 const BaseInputEmail = forwardRef<HTMLInputElement, BaseInputEmailProps>(function BaseInputEmail({
-  name,
   value,
   defaultValue = '',
   variant = 'outline',
@@ -29,7 +27,7 @@ const BaseInputEmail = forwardRef<HTMLInputElement, BaseInputEmailProps>(functio
   return (
     <BaseInput
       ref={ref}
-      name={name}
+      name="email"
       value={value}
       defaultValue={defaultValue}
       variant={variant}

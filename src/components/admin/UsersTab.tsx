@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
-import { BaseText } from "../../../components/base/text/BaseText";
-import { BaseButtonDelete } from "../../../components/base/button/BaseButtonDelete";
-import type { User } from "../../../models/user";
+import { BaseText } from "../base/text/BaseText";
+import { BaseButtonDelete } from "../base/button/BaseButtonDelete";
+import type { User } from "../../models/user";
 import {
   fetchAll as fetchAllUsers,
   deleteOne as deleteUser,
-} from "../../../repositories/user";
-import { ErrorHelper } from "../../../helper/errorHelper.js";
+} from "../../repositories/user";
+import { ErrorHelper } from "../../helper/errorHelper.js";
 
 const UsersTab = function UsersTab() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-     loadUsers();
+    loadUsers();
   }, []);
 
-     async function loadUsers() {
-      try {
-        const data = await fetchAllUsers({});
-        setUsers(data);
-      } catch (error) {
-        ErrorHelper.handleError(error);
-      }
+  async function loadUsers() {
+    try {
+      const data = await fetchAllUsers({});
+      setUsers(data);
+    } catch (error) {
+      ErrorHelper.handleError(error);
     }
+  }
 
   async function handleDelete(id: number) {
     try {
       await deleteUser(id);
-     loadUsers();
+      loadUsers();
     } catch (error) {
       ErrorHelper.handleError(error);
     }

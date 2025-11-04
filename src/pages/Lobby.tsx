@@ -11,7 +11,7 @@ import { MatchList } from "../components/list/MatchList";
 import { UserSettingButton } from '../components/button/UserSettingButton';
 import { CreateMatchModal } from '../components/modal/CreateMatchModal';
 
-export default function LobbyPage() {
+export default function lobbyPage() {
 
   const [matches, setMatches] = useState<Match[]>([]);
   const [allMatches, setAllMatches] = useState<Match[]>([]);

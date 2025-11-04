@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { BaseText } from "../../../components/base/text/BaseText";
-import { BaseButtonDelete } from "../../../components/base/button/BaseButtonDelete";
-import type { Ship } from "../../../models/ship";
+import { BaseText } from "../base/text/BaseText";
+import { BaseButtonDelete } from "../base/button/BaseButtonDelete";
+import type { Ship } from "../../models/ship";
 import {
   fetchAll as fetchAllShips,
   deleteOne as deleteShip,
-} from "../../../repositories/ships";
-import { ErrorHelper } from "../../../helper/errorHelper.js";
+} from "../../repositories/ships";
+import { ErrorHelper } from "../../helper/errorHelper.js";
 
 const ShipsTab = function ShipsTab() {
   const [ships, setShips] = useState<Ship[]>([]);

@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { toChakraColor } from "../../../helper/toChakraColor.js";
 
 interface BaseTextProps {
-  name?: string;
   fontSize?: string;
   fontWeight?: string;
   truncate?: boolean;
@@ -16,7 +15,6 @@ interface BaseTextProps {
 }
 
 const BaseText = function BaseText({
-  name,
   fontSize = "md",
   fontWeight = "light",
   truncate,
@@ -38,7 +36,6 @@ const BaseText = function BaseText({
 
   return (
     <Text
-      name={name}
       fontSize={fontSize}
       fontWeight={fontWeight}
       isTruncated={truncate}

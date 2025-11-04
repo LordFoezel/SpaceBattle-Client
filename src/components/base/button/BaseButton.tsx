@@ -6,10 +6,12 @@ interface BaseButtonProps {
   children?: ReactNode;
   isDisabled?: boolean;
   variant?: string; // flexible to match Chakra variants
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: "xs" | "sm" | "md" | "lg";
   colorScheme?: string;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  width?: string;
+  className?: string;
   [key: string]: any;
 }
 
@@ -18,13 +20,25 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(function BaseB
     name,
     children,
     isDisabled = false,
-    variant = 'solid',
-    size = 'md',
-    colorScheme = 'blue',
-    type = 'button',
+    variant = "solid",
+    size = "md",
+    colorScheme = "blue",
+    type = "button",
     onClick,
+    width,
+    className,
     ...rest
-  }, ref) {
+  },
+  ref
+) {
+  const hasWidthClass =
+    typeof className === "string" && /\bw-(?:\S+)/.test(className);
+  const widthClass = width ? `w-${width}` : undefined;
+  const mergedClassName = [widthClass, className, !widthClass && !hasWidthClass ? "w-full" : undefined]
+    .filter(Boolean)
+    .join(" ")
+    .trim() || undefined;
+
   return (
     <Button
       ref={ref}
@@ -34,10 +48,12 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(function BaseB
       size={size}
       colorScheme={colorScheme}
       type={type}
-      className='w-full'
+      className={mergedClassName}
       onClick={onClick}
       {...rest}
-    >{children}</Button>
+    >
+      {children}
+    </Button>
   );
 });
 
