@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { BaseText } from "../../../components/base/text/BaseText";
+import { BaseButtonDelete } from "../../../components/base/button/BaseButtonDelete";
 import type { Ship } from "../../../models/ship";
-import { fetchAll as fetchAllShips } from "../../../repositories/ships";
+import {
+  fetchAll as fetchAllShips,
+  deleteOne as deleteShip,
+} from "../../../repositories/ships";
 import { ErrorHelper } from "../../../helper/errorHelper.js";
 
 const ShipsTab = function ShipsTab() {
   const [ships, setShips] = useState<Ship[]>([]);
 
   useEffect(() => {
-    void loadShips();
+    loadShips();
   }, []);
 
   async function loadShips() {
@@ -20,6 +24,16 @@ const ShipsTab = function ShipsTab() {
     }
   }
 
+  async function handleDelete(id: number) {
+    try {
+      await deleteShip(id);
+      loadShips();
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
+
   return (
     <div className="flex flex-col gap-3">
       {ships.map((ship, index) => (
@@ -27,10 +41,15 @@ const ShipsTab = function ShipsTab() {
           key={ship.id ?? index}
           className="rounded-lg border border-slate-800 bg-slate-900/70 px-4 py-3 shadow-sm transition-colors hover:bg-slate-800/70"
         >
-          <BaseText fontWeight="semibold">{ship.name}</BaseText>
-          <BaseText fontSize="sm" color="gray-400">
-            {`${globalThis.t?.("match.dimension")}: ${ship.dimension}`}
-          </BaseText>
+          <div className="flex items-start justify-between gap-3">
+            <BaseText fontWeight="semibold">{ship.name}</BaseText>
+            {ship.id != null && (
+              <BaseButtonDelete
+                id={ship.id}
+                onClick={handleDelete}
+              />
+            )}
+          </div>
         </div>
       ))}
     </div>
