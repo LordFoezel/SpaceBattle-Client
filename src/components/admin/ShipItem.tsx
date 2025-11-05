@@ -1,30 +1,30 @@
 import { BaseText } from "../base/text/BaseText";
 import { BaseButtonDelete } from "../base/button/BaseButtonDelete";
-import type { ConfigFleet } from "../../models/config_fleet";
+import type { Ship } from "../../models/ship";
 import { BaseCard } from "../base/layout/BaseCard";
 import { TransparentCard } from "../layout/TransparentCard";
 
 interface ItemProps {
-    configFleet: ConfigFleet;
+    ship: Ship;
     handleDelete: (id: number) => void;
 }
 
-const FleetConfigItem = function FleetConfigItem({
-    configFleet,
+const ShipItem = function ShipItem({
+    ship,
     handleDelete,
 }: ItemProps) {
 
     return (
         <BaseCard
-            key={configFleet.id}
+            key={ship.id}
             variant="medium"
             padding="2"
         >
             <TransparentCard className="flex items-start justify-between gap-3">
-                <BaseText fontWeight="semibold">{configFleet.name}</BaseText>
+                <BaseText fontWeight="semibold">{ship.name}</BaseText>
                 <BaseButtonDelete
                     width="10"
-                    id={configFleet.id}
+                    id={ship.id}
                     onClick={handleDelete}
                 />
             </TransparentCard>
@@ -32,4 +32,4 @@ const FleetConfigItem = function FleetConfigItem({
     );
 };
 
-export { FleetConfigItem };
+export { ShipItem };

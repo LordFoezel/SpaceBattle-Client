@@ -8,7 +8,6 @@ import {
 import { ErrorHelper } from "../../helper/errorHelper.js";
 import { FleetConfigItem } from "./FleetConfigItem";
 import { BaseButtonAdd } from "../base/button/BaseButtonAdd";
-import { BaseCard } from "../base/layout/BaseCard";
 import { TransparentCard } from "../layout/TransparentCard";
 
 const FleetConfigsTab = function FleetConfigsTab() {
@@ -47,7 +46,6 @@ const FleetConfigsTab = function FleetConfigsTab() {
   }
 
   return (
-
     <TransparentCard direction="col" gap="2">
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">

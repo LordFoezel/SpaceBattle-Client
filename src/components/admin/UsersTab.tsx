@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { BaseText } from "../base/text/BaseText";
-import { BaseButtonDelete } from "../base/button/BaseButtonDelete";
-import type { User } from "../../models/user";
+﻿import { useEffect, useState } from "react";
+import type { User, UserCreate } from "../../models/user";
 import {
-  fetchAll as fetchAllUsers,
-  deleteOne as deleteUser,
+  fetchAll,
+  deleteOne,
+  createOne
 } from "../../repositories/user";
 import { ErrorHelper } from "../../helper/errorHelper.js";
+import { TransparentCard } from "../layout/TransparentCard";
+import { UserItem } from "./UserItem";
+import { BaseButtonAdd } from "../base/button/BaseButtonAdd";
 
 const UsersTab = function UsersTab() {
   const [users, setUsers] = useState<User[]>([]);
@@ -17,7 +19,7 @@ const UsersTab = function UsersTab() {
 
   async function loadUsers() {
     try {
-      const data = await fetchAllUsers({});
+      const data = await fetchAll({});
       setUsers(data);
     } catch (error) {
       ErrorHelper.handleError(error);
@@ -26,7 +28,17 @@ const UsersTab = function UsersTab() {
 
   async function handleDelete(id: number) {
     try {
-      await deleteUser(id);
+      await deleteOne(id);
+      loadUsers();
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
+  async function handleAdd() {
+    try {
+      const newItem: UserCreate = { name: "test", email: 'email', password_hash: "2b$12$F0iVmf7fE6RuOFTNOy/wk.yuwXgLjKx/XCgkGHpXIKcuE03Us3kfy" }
+      await createOne(newItem);
       loadUsers();
     } catch (error) {
       ErrorHelper.handleError(error);
@@ -34,33 +46,18 @@ const UsersTab = function UsersTab() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      {users.map((user, index) => {
-        return (
-          <div
+    <TransparentCard direction="col" gap="2">
+      <BaseButtonAdd onClick={handleAdd} />
+      <TransparentCard direction="col" gap="2">
+        {users.map((user, index) => (
+          <UserItem
             key={user.id ?? index}
-            className="rounded-lg border border-slate-800 bg-slate-900/70 px-4 py-3 shadow-sm transition-colors hover:bg-slate-800/70"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <BaseText fontWeight="semibold">{user.name}</BaseText>
-              {user.id != null && (
-                <BaseButtonDelete
-                  id={user.id}
-                  onClick={handleDelete}
-                />
-              )}
-            </div>
-            <BaseText fontSize="sm" color="gray-400">
-              {user.email}
-            </BaseText>
-            <BaseText fontSize="xs" color="gray-500">
-              {`${user.name}: ${user.role}`}{" | "}
-              {user.verified}
-            </BaseText>
-          </div>
-        );
-      })}
-    </div>
+            user={user}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </TransparentCard>
+    </TransparentCard>
   );
 };
 
