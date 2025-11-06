@@ -3,6 +3,7 @@
     "title": "SpaceBattle"
   },
   "admin": {
+    "toAdmin": "Admin",
     "tabs": {
       "users": "Users",
       "ships" : "Ships",

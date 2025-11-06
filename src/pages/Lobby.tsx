@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { MatchList } from "../components/list/MatchList";
 import { UserSettingButton } from '../components/button/UserSettingButton';
 import { CreateMatchModal } from '../components/modal/CreateMatchModal';
+import { ToAdminButton } from '../components/button/ToAdminButton';
 
 export default function lobbyPage() {
 
@@ -40,7 +41,7 @@ export default function lobbyPage() {
     filterMatches();
   }
 
-    async function onDeleteMatch() {
+  async function onDeleteMatch() {
     await loadMatches();
     filterMatches();
   }
@@ -95,9 +96,10 @@ export default function lobbyPage() {
           <CreateMatchModal onCreated={onCreateMatch} />
         </TransparentCard>
         <TransparentCard direction='row' gap='2'>
-          <MatchList matches={matches} onDeleted={onDeleteMatch}/>
+          <MatchList matches={matches} onDeleted={onDeleteMatch} />
         </TransparentCard>
-        <TransparentCard direction='col' items='end'>
+        <TransparentCard direction='row' gap='2' justify='end'>
+          <ToAdminButton />
           <UserSettingButton />
         </TransparentCard>
       </MainCard>

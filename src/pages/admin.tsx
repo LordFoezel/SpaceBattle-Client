@@ -6,6 +6,7 @@ import { UsersTab } from "../components/admin/UsersTab";
 import { ShipsTab } from "../components/admin/ShipsTab";
 import { FleetConfigsTab } from "../components/admin/FleetConfigsTab";
 import { TransparentCard } from "../components/layout/TransparentCard";
+import { ToLobbyButton } from '../components/button/ToLobbyButton';
 
 export default function DashboardPage() {
   const tabItems = useMemo<BaseTabItem[]>(
@@ -42,6 +43,7 @@ export default function DashboardPage() {
         <TransparentCard direction="col">
           <BaseTab tabs={tabItems} isFitted />
         </TransparentCard>
+        <ToLobbyButton />
       </MainCard>
     </section>
   );

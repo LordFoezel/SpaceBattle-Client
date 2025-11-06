@@ -11,7 +11,7 @@ const UserSettingButton = function UserSettingButton({
 
 
   return (
-    <BaseButton name="join" size="sm" height="45" width="20" >
+    <BaseButton name="user-setting" width="20" >
       <Link to="/user-setting" >
         <ButtonText>
           <IconGear />

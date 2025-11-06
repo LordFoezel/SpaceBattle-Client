@@ -37,7 +37,7 @@ const FleetConfigsTab = function FleetConfigsTab() {
 
   async function handleAdd() {
      try {
-      const newItem: ConfigFleetCreate = { name: "tset" }
+      const newItem: ConfigFleetCreate = { name: "test" }
       await createOne(newItem);
       loadFleetConfigs();
     } catch (error) {
