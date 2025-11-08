@@ -49,9 +49,9 @@ const UsersTab = function UsersTab() {
     <TransparentCard direction="col" gap="2">
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">
-        {users.map((user, index) => (
+        {users.map((user) => (
           <UserItem
-            key={user.id ?? index}
+            key={user.id}
             user={user}
             handleDelete={handleDelete}
           />

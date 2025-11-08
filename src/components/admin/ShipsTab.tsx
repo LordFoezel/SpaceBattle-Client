@@ -50,7 +50,7 @@ const ShipsTab = function ShipsTab() {
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">
         {ships.map((ship) => (
-          <ShipItem ship={ship} handleDelete={handleDelete} />
+          <ShipItem ship={ship} handleDelete={handleDelete} key={ship.id} />
         ))}
       </TransparentCard>
     </TransparentCard>

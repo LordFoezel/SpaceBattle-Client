@@ -50,7 +50,7 @@ const FleetConfigsTab = function FleetConfigsTab() {
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">
         {fleetConfigs.map((config) => (
-          <FleetConfigItem configFleet={config} handleDelete={handleDelete} />
+          <FleetConfigItem configFleet={config} handleDelete={handleDelete} key={config.id} />
         ))}
       </TransparentCard>
     </TransparentCard>
