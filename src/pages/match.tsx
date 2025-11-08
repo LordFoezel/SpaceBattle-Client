@@ -29,7 +29,6 @@ export default function MatchPage() {
     }
     loadMatch();
     loadPlayer();
-
   }, [matchId, navigate]);
 
   async function loadMatch() {
@@ -64,7 +63,7 @@ export default function MatchPage() {
   }
 
   function onDeletedPlayer(playerId: number) {
-    if (SelfCheck({playerId})) navigate("/lobby", { replace: true });
+    if (SelfCheck({ playerId })) navigate("/lobby", { replace: true });
     loadPlayer();
     loadMatch();
   }
@@ -77,20 +76,29 @@ export default function MatchPage() {
     loadMatch();
   }
 
-  return (
+  function onLeave() {
+    loadPlayer();
+  }
+
+  if (match) return (
     <section className="match-page">
       <MainCard>
-        <PageHeader title={match?.name} info={match?.description} />
+        <PageHeader title={match.name} info={match.description} />
         <TransparentCard direction='col' gap='2'>
           <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
-            {SelfCheck({userId: match?.created_by}) && <MatchConfigModal match={match} onChange={onConfigChange}/>}
-            <FleetModal match={match}/>
-            <LeaveButton matchId={numericMatchId} />
+            {SelfCheck({ userId: match?.created_by }) && <MatchConfigModal match={match} onChange={onConfigChange} />}
+            <FleetModal match={match} />
+            <LeaveButton matchId={numericMatchId} onLeave={onLeave} />
           </ TransparentCard>
         </ TransparentCard>
       </MainCard>
+    </section>
+  );
+  return (
+    <section className="match-page">
+      <MainCard></MainCard>
     </section>
   );
 }

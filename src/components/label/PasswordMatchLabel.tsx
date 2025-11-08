@@ -19,7 +19,7 @@ const PasswordMatchLabel = function PasswordMatchLabel({
 
     return (
         <BaseLabel variant='transparent' label={globalThis.t("lobby.password.label")} info={globalThis.t("lobby.password.info")}>
-            <BaseInputPassword name="password" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
+            <BaseInputPassword name="password" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} autoComplete="off" />
         </BaseLabel>
     );
 };

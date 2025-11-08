@@ -10,7 +10,7 @@ interface BaseInputPasswordProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
   isDisabled?: boolean;
   placeholder?: string;
-  autoComplete?: 'current-password' | 'new-password';
+  autoComplete?: 'current-password' | 'new-password' | 'off';
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onFocus?: FocusEventHandler<HTMLInputElement>;

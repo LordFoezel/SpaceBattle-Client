@@ -17,7 +17,7 @@ const DescriptionLabel = function DescriptionLabel({
 }: LabelProps) {
     return (
         <BaseLabel variant='transparent' label={globalThis.t("lobby.description.label")} info={globalThis.t("lobby.description.info")}>
-            <BaseInput name="description" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
+            <BaseInput name="description" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} autoComplete="off" />
         </BaseLabel>
     );
 };
