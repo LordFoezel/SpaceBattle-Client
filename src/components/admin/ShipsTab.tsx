@@ -4,6 +4,7 @@ import {
   fetchAll,
   deleteOne,
   createOne,
+  updateOne,
 } from "../../repositories/ships";
 import { ErrorHelper } from "../../helper/errorHelper.js";
 import { BaseButtonAdd } from "../base/button/BaseButtonAdd";
@@ -45,12 +46,27 @@ const ShipsTab = function ShipsTab() {
     }
   }
 
+  async function handleUpdate(update: { id: number; [key: string]: any }) {
+    const { id, ...payload } = update;
+    try {
+      await updateOne(id, payload);
+      loadShips();
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
   return (
     <TransparentCard direction="col" gap="2">
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">
         {ships.map((ship) => (
-          <ShipItem ship={ship} handleDelete={handleDelete} key={ship.id} />
+          <ShipItem
+            ship={ship}
+            handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
+            key={ship.id}
+          />
         ))}
       </TransparentCard>
     </TransparentCard>

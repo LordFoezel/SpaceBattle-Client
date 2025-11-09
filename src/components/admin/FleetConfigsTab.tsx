@@ -3,7 +3,8 @@ import type { ConfigFleet, ConfigFleetCreate } from "../../models/config_fleet";
 import {
   fetchAll,
   deleteOne,
-  createOne
+  createOne,
+  updateOne,
 } from "../../repositories/config_fleet";
 import { ErrorHelper } from "../../helper/errorHelper.js";
 import { FleetConfigItem } from "./FleetConfigItem";
@@ -45,12 +46,36 @@ const FleetConfigsTab = function FleetConfigsTab() {
     }
   }
 
+  async function handleUpdate(update: { id: number; [key: string]: any }) {
+    const { id, ...payload } = update;
+    if (!id || Object.keys(payload).length === 0) return;
+
+    setFleetConfigs((prev) =>
+      prev.map((existing) =>
+        existing.id === id ? { ...existing, ...payload } : existing
+      )
+    );
+
+    try {
+      await updateOne(id, payload);
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    } finally {
+      loadFleetConfigs();
+    }
+  }
+
   return (
     <TransparentCard direction="col" gap="2">
       <BaseButtonAdd onClick={handleAdd} />
       <TransparentCard direction="col" gap="2">
         {fleetConfigs.map((config) => (
-          <FleetConfigItem configFleet={config} handleDelete={handleDelete} key={config.id} />
+          <FleetConfigItem
+            configFleet={config}
+            handleDelete={handleDelete}
+            // handleUpdate={handleUpdate}
+            key={config.id}
+          />
         ))}
       </TransparentCard>
     </TransparentCard>

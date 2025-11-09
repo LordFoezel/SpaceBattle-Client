@@ -175,5 +175,10 @@
     "game": "Game",
     "winn": "Winn",
     "loose": "Loose"
+  },
+  "role": {
+    "role": "Role",
+    "admin": "Admin",
+    "player": "Player"
   }
 }

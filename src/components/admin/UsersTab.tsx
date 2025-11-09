@@ -1,9 +1,10 @@
 ﻿import { useEffect, useState } from "react";
-import type { User, UserCreate } from "../../models/user";
+import { UserRole, type User, type UserCreate } from "../../models/user";
 import {
   fetchAll,
   deleteOne,
-  createOne
+  createOne,
+  updateOne,
 } from "../../repositories/user";
 import { ErrorHelper } from "../../helper/errorHelper.js";
 import { TransparentCard } from "../layout/TransparentCard";
@@ -37,8 +38,18 @@ const UsersTab = function UsersTab() {
 
   async function handleAdd() {
     try {
-      const newItem: UserCreate = { name: "test", email: 'email', password_hash: "2b$12$F0iVmf7fE6RuOFTNOy/wk.yuwXgLjKx/XCgkGHpXIKcuE03Us3kfy" }
+      const newItem: UserCreate = { name: "test", email: 'email', password_hash: "2b$12$F0iVmf7fE6RuOFTNOy/wk.yuwXgLjKx/XCgkGHpXIKcuE03Us3kfy"}
       await createOne(newItem);
+      loadUsers();
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
+  async function handleUpdate(update: { id: number;[key: string]: any }) {
+    const { id, ...payload } = update;
+    try {
+      await updateOne(id, payload);
       loadUsers();
     } catch (error) {
       ErrorHelper.handleError(error);
@@ -54,6 +65,7 @@ const UsersTab = function UsersTab() {
             key={user.id}
             user={user}
             handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
           />
         ))}
       </TransparentCard>
