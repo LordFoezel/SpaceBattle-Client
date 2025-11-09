@@ -37,7 +37,7 @@ const FleetConfigsTab = function FleetConfigsTab() {
   }
 
   async function handleAdd() {
-     try {
+    try {
       const newItem: ConfigFleetCreate = { name: "test" }
       await createOne(newItem);
       loadFleetConfigs();
@@ -46,22 +46,15 @@ const FleetConfigsTab = function FleetConfigsTab() {
     }
   }
 
-  async function handleUpdate(update: { id: number; [key: string]: any }) {
+  async function handleUpdate(update: { id: number;[key: string]: any }) {
     const { id, ...payload } = update;
-    if (!id || Object.keys(payload).length === 0) return;
 
-    setFleetConfigs((prev) =>
-      prev.map((existing) =>
-        existing.id === id ? { ...existing, ...payload } : existing
-      )
-    );
 
     try {
       await updateOne(id, payload);
+      loadFleetConfigs();
     } catch (error) {
       ErrorHelper.handleError(error);
-    } finally {
-      loadFleetConfigs();
     }
   }
 
@@ -73,7 +66,7 @@ const FleetConfigsTab = function FleetConfigsTab() {
           <FleetConfigItem
             configFleet={config}
             handleDelete={handleDelete}
-            // handleUpdate={handleUpdate}
+            handleUpdate={handleUpdate}
             key={config.id}
           />
         ))}

@@ -1,5 +1,5 @@
 import { BaseModal } from "../base/modal/BaseModal";
-import { PasswordMatchLabel } from "../label/PasswordMatchLabel";
+import { PasswordMatchDisplayLabel } from "../label/PasswordMatchDisplayLabel";
 import { NameLabel } from "../label/NameLabel";
 import { DescriptionLabel } from "../label/DescriptionLabel";
 import { TransparentCard } from "../layout/TransparentCard";
@@ -122,7 +122,7 @@ const CreateMatchModal = function CreateMatchModal({
             <TransparentCard direction="col" gap="2">
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} />
-                <PasswordMatchLabel value={password} onChange={(e) => setPassword(e.target.value)} />
+                <PasswordMatchDisplayLabel value={password} onChange={(e) => setPassword(e.target.value)} />
                 <PlayerCountLabel value={playerCount} onChange={(e) => setPlayerCount(Number(e.target.value))} />
                 <ConfigFleetLabel value={configFleet} onChange={(e) => setConfigFleet(Number(e.target.value))} options={configFleetOptions} />
                 <TransparentCard direction="row" gap="2">

@@ -1,6 +1,6 @@
 import { BaseModal } from "../base/modal/BaseModal";
 import { TransparentCard } from "../layout/TransparentCard";
-import { PasswordMatchLabel } from "../label/PasswordMatchLabel";
+import { PasswordMatchDisplayLabel } from "../label/PasswordMatchDisplayLabel";
 import { DescriptionLabel } from "../label/DescriptionLabel";
 import { NameLabel } from "../label/NameLabel";
 import { PlayerCountLabel } from "../label/PlayerCountLabel";
@@ -80,7 +80,7 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
             <TransparentCard direction="col" gap="2">
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} onBlur={(e) => onChangeConfig('name', e)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} onBlur={(e) => onChangeConfig('description', e)} />
-                <PasswordMatchLabel value={password} onChange={(e) => setPassword(e.target.value)} onBlur={(e) => onChangeConfig('password', e)} />
+                <PasswordMatchDisplayLabel value={password} onChange={(e) => setPassword(e.target.value)} onBlur={(e) => onChangeConfig('password', e)} />
                 <PlayerCountLabel value={playerCount} onChange={(e) => setPlayerCount(Number(e.target.value))} onBlur={(e) => onChangeConfig('playerCount', e)} />
                 <ConfigFleetLabel value={configFleet} onChange={(e) => onChangeConfig('configFleet', e)} options={configFleetOptions} />
                 <TransparentCard direction="row" gap="2">
