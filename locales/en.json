@@ -4,6 +4,22 @@
   },
   "admin": {
     "toAdmin": "Admin",
+    "verified": {
+      "info": "",
+      "label": "Verified"
+    },
+    "blocked": {
+      "info": "",
+      "label": "Blocked"
+    },
+     "role": {
+      "info": "",
+      "label": "Role"
+    },
+     "dimension": {
+      "info": "",
+      "label": "Dimension"
+    },
     "tabs": {
       "users": "Users",
       "ships" : "Ships",

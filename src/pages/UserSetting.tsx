@@ -8,12 +8,14 @@ export default function userSettingPage() {
 
   return (
     <section className="user-setting-page">
-      <MainCard>
+      <MainCard>        
+        <TransparentCard direction='col' gap='2'>
         <PageHeader title={globalThis.t("page.userSetting.title")} info={globalThis.t("page.userSetting.info")} />
-        <TransparentCard direction='col' gap='2' justify='center'>
+        <TransparentCard direction='row' gap='2'>
           <LogoutButton />
           <ToLobbyButton />
         </TransparentCard>
+      </TransparentCard>
       </MainCard>
     </section>
   );

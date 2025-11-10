@@ -2,6 +2,7 @@ import type { MouseEvent, MouseEventHandler } from "react";
 import { BaseButton } from "../base/button/BaseButton";
 import { ButtonText } from "../text/ButtonText";
 import { useNavigate } from "react-router-dom";
+import { IconLogout } from "../icon/IconLogout";
 
 interface ButtonProps {
   isDisabled?: boolean;
@@ -29,9 +30,7 @@ const LogoutButton = function LogoutButton({
 
   return (
     <BaseButton name="logout" onClick={onClickLogout} isDisabled={isDisabled} variant={variant} size={size} colorScheme="red">
-        <ButtonText >
-          {globalThis.t("userSetting.logout")}
-        </ButtonText>
+      <IconLogout />
     </BaseButton>
   );
 };
