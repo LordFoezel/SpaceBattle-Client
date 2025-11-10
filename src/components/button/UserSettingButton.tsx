@@ -1,7 +1,7 @@
 import { BaseButton } from "../base/button/BaseButton";
 import { Link } from "react-router-dom";
 import { ButtonText } from "../text/ButtonText";
-import { IconGear } from "../icon/IconGear";
+import { IconUserGear } from "../icon/IconUserGear";
 
 interface UserSettingButtonProps {
 }
@@ -14,7 +14,7 @@ const UserSettingButton = function UserSettingButton({
     <BaseButton name="user-setting" width="20" >
       <Link to="/user-setting" >
         <ButtonText>
-          <IconGear />
+          <IconUserGear />
         </ButtonText>
       </Link>
     </BaseButton>

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { BaseButton } from "../base/button/BaseButton";
 import { ButtonText } from "../text/ButtonText";
 import { AdminRoleChecker } from "../roleChecker/AdminRoleChecker";
+import { IconGear } from "../icon/IconGear";
+
 
 interface ButtonProps {
   isDisabled?: boolean;
@@ -15,7 +17,7 @@ const ToAdminButton = function ToAdminButton({
       <BaseButton name="to-admin" isDisabled={isDisabled} width="40">
         <Link to="/admin">
           <ButtonText>
-            {globalThis.t("admin.toAdmin")}
+            <IconGear />
           </ButtonText>
         </Link>
       </BaseButton>

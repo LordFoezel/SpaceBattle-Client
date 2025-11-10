@@ -5,6 +5,7 @@ import { toChakraColor } from "../../../helper/toChakraColor.js";
 interface BaseTextProps {
   fontSize?: string;
   fontWeight?: string;
+  width?: string;
   truncate?: boolean;
   uppercase?: boolean;
   lowercase?: boolean;
@@ -22,6 +23,7 @@ const BaseText = function BaseText({
   lowercase = false,
   color = "gray-100",
   children,
+  width = 'full',
   alligment,
   text,
 }: BaseTextProps) {
@@ -31,6 +33,7 @@ const BaseText = function BaseText({
     if (lowercase) classes.push("lowercase");
     if (alligment) classes.push(`justify-${alligment}`);
     if (text) classes.push(`text-${text}`);
+    if (width) classes.push(`w-${width}`);
     return classes.join(" ");
   }
 

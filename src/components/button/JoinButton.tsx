@@ -6,6 +6,7 @@ import { ErrorHelper } from "../../helper/errorHelper";
 import { useNavigate } from "react-router-dom";
 import { AuthTokenHelper } from "../../helper/authToken.js";
 import { fetchOne as fetchPlayer } from "../../repositories/players";
+import { IconLogin } from "../icon/IconLogin";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -66,7 +67,7 @@ const JoinButton = function JoinButton({
   return (
     <BaseButton name="join" onClick={onClick} isDisabled={isDisabled} size="sm" height="full">
       <ButtonText>
-        {globalThis.t("lobby.join")}
+        <IconLogin />
       </ButtonText>
     </BaseButton>
   );

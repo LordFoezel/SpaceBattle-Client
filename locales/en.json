@@ -24,7 +24,8 @@
     "match": "Match",
     "create": "Create",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "edit": "Edit"
   },
   "error": {
     "code": {

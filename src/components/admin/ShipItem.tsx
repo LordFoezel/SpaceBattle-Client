@@ -33,29 +33,31 @@ const ShipItem = function ShipItem({
         <BaseCard
             key={ship.id}
             variant="medium"
-            padding="2"
+            padding="0"
+            margin="0"
             direction="row"
             items="start"
             justify="between"
             gap="3"
         >
-            <TransparentCard className="flex items-start justify-between gap-3" direction="col">
+            <TransparentCard direction="row" justify="between">
                 <BaseText fontWeight="semibold">{ship.name}</BaseText>
-                <BaseEditModal
-                    title={`${globalThis.t("core.edit")}`}
-                    PageTitle={`${globalThis.t?.("ships.dimension") ?? "Dimension"}: ${ship.dimension}`}
-                    showSave={false}
-                >
-                    <TransparentCard direction="col" gap="3">
-                        <NameLabel value={ship.name} onChange={onChangeName} />
-                        <DimensionLabel value={ship.dimension} onChange={onChangeDimension} />
-                    </TransparentCard>
-                </BaseEditModal>
-                <BaseButtonDelete
-                    width="10"
-                    id={ship.id}
-                    onClick={handleDelete}
-                />
+                <TransparentCard direction="row" justify="end gap-2">
+                    <BaseEditModal
+                        title={`${globalThis.t("core.edit")}`}
+                        showSave={false}
+                    >
+                        <TransparentCard direction="col" gap="3">
+                            <NameLabel value={ship.name} onChange={onChangeName} />
+                            <DimensionLabel value={ship.dimension} onChange={onChangeDimension} />
+                        </TransparentCard>
+                    </BaseEditModal>
+                    <BaseButtonDelete
+                        width="10"
+                        id={ship.id}
+                        onClick={handleDelete}
+                    />
+                </TransparentCard>
             </TransparentCard>
         </BaseCard>
     );
