@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FocusEvent } from "react";
+import { useEffect, useState, type FocusEvent } from "react";
 import { BaseText } from "../base/text/BaseText";
 import { BaseButtonDelete } from "../base/button/BaseButtonDelete";
 import type { ConfigFleet } from "../../models/config_fleet";
@@ -6,6 +6,18 @@ import { BaseCard } from "../base/layout/BaseCard";
 import { TransparentCard } from "../layout/TransparentCard";
 import { BaseEditModal } from "../base/modal/BaseEditModal";
 import { NameLabel } from "../label/NameLabel";
+import {
+  fetchAll as fetchAllShips,
+} from "../../repositories/ships";
+import type { Ship } from "../../models/ship";
+import { ErrorHelper } from "../../helper/errorHelper";
+import { BaseInputNumber } from "../base/input/BaseInputNumber";
+import {
+  fetchAll as fetchAllConfigShips,
+  updateOne,
+  createOne,
+} from "../../repositories/config_fleet_ship";
+import { ConfigFleetShip } from "src/models/config_fleet_ship";
 
 interface ItemProps {
   configFleet: ConfigFleet;
@@ -19,9 +31,58 @@ const FleetConfigItem = function FleetConfigItem({
   handleUpdate,
 }: ItemProps) {
 
+  const [ships, setShips] = useState<Ship[]>([]);
+  const [shipConfigs, setShipConfigs] = useState<ConfigFleetShip[]>([]);
+
   function onChangeName(e: any) {
     configFleet.name = e.target.value;
     handleUpdate({ id: configFleet.id, name: e.target.value })
+  }
+
+  useEffect(() => {
+    loadShips();
+    loadShipConfigs();
+  }, [configFleet]);
+
+  async function loadShipConfigs() {
+    try {
+      const data = await fetchAllConfigShips({ config_fleet_id: configFleet.id });
+      setShipConfigs(data);
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
+  async function loadShips() {
+    try {
+      const data = await fetchAllShips({});
+      setShips(data);
+    } catch (error) {
+      ErrorHelper.handleError(error);
+    }
+  }
+
+  function updateShip(shipId: number) {
+
+    return async (event: FocusEvent<HTMLInputElement>) => {
+      const count = Number(event.target.value ?? 0);
+      const existing = shipConfigs.find((item) => item.ship_id === shipId);
+      try {
+        if (existing) {
+          await updateOne(existing.id, { count });
+          loadShipConfigs();
+        } else {
+          await createOne({
+            config_fleet_id: configFleet.id,
+            ship_id: shipId,
+            count,
+          });
+          loadShipConfigs();
+        }
+      } catch (error) {
+        ErrorHelper.handleError(error);
+      }
+    };
   }
 
   return (
@@ -44,6 +105,24 @@ const FleetConfigItem = function FleetConfigItem({
           >
             <TransparentCard direction="col" gap="3">
               <NameLabel value={configFleet.name} onChange={onChangeName} />
+              {ships.map((ship) => {
+                const count =
+                  shipConfigs.find((item) => item.ship_id === ship.id)?.count ||
+                  0;
+
+                return (
+                  <TransparentCard key={ship.id} direction="row">
+                    <BaseText>{ship.name}</BaseText>
+                    <BaseInputNumber
+                      min={0}
+                      max={10}
+                      key={ship.id}
+                      value={count}
+                      onChange={updateShip(ship.id)}
+                    />
+                  </TransparentCard>
+                );
+              })}
             </TransparentCard>
           </BaseEditModal>
           <BaseButtonDelete

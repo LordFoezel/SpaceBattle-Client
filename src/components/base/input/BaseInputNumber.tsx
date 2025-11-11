@@ -1,6 +1,5 @@
 import { forwardRef, type FocusEventHandler } from "react";
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
-import { cn } from "../../../helper/classNames.js";
 import colors from "../../../theme/colors.js";
 
 interface BaseInputNumberProps {
