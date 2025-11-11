@@ -75,6 +75,10 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
       backgroundColor: colors.surface,
       borderRadius: "md",
     },
+    ".chakra-tabs__tab-panel": {
+      padding: 0,
+      paddingTop: 2,
+    },
   };
   const mergedSx: SystemStyleObject =
     typeof sx === "object" && sx !== null ? { ...baseSx, ...sx } : baseSx;
@@ -87,7 +91,7 @@ const BaseTab = forwardRef<HTMLDivElement, BaseTabProps>(function BaseTab(
       {...rest}
       sx={mergedSx}
     >
-      <TabList gap={2} {...tabListProps}>
+      <TabList {...tabListProps}>
         {visibleTabs.map((tabItem, index) => {
           const key = tabItem.key ?? index;
           return (

@@ -40,9 +40,7 @@ export default function DashboardPage() {
           title={globalThis.t("page.admin.title")}
           info={globalThis.t("page.admin.info")}
         />
-        <TransparentCard direction="col">
-          <BaseTab tabs={tabItems} isFitted />
-        </TransparentCard>
+          <BaseTab tabs={tabItems} />
         <ToLobbyButton />
       </MainCard>
     </section>
