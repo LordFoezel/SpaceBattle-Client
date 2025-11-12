@@ -142,7 +142,9 @@
   },
   "fleet": {
     "fleet": "Fleet",
-    "fleetManager": "Fleet-Manager"
+    "fleetManager": "Fleet-Manager",
+    "availableShips": "Available ships",
+    "allShipsPlaced": "All Ships Placed"
   },
   "page": {
     "admin": {
