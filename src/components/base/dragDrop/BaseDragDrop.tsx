@@ -23,7 +23,7 @@ const normalizeEntities = (
     return entities.map((entity, index) => ({
         ...entity,
         startIndex: entity.startIndex ?? null,
-        id: String(entity.id ?? index),
+        id: entity.id ?? index,
     }));
 };
 
@@ -48,7 +48,7 @@ const BaseDragDrop: React.FC<BaseDragDropProps> = (props) => {
     }, [entitiesProp]);
 
     const entityMap = useMemo(() => {
-        const map = new Map<string, PlacedEntity>();
+        const map = new Map<number, PlacedEntity>();
         for (const entity of entities) {
             map.set(entity.id, entity);
         }
@@ -79,7 +79,7 @@ const BaseDragDrop: React.FC<BaseDragDropProps> = (props) => {
         return cells;
     };
 
-    const canPlaceAt = (entityId: string, startIndex: number | null): boolean => {
+    const canPlaceAt = (entityId: number, startIndex: number | null): boolean => {
         if (startIndex == null || startIndex < 0) return false;
         const entity = entityMap.get(entityId);
         if (!entity) return false;
@@ -109,7 +109,7 @@ const BaseDragDrop: React.FC<BaseDragDropProps> = (props) => {
         item: entity,
     });
 
-    const findEntity = (entityId: string): PlacedEntity | null => {
+    const findEntity = (entityId: number): PlacedEntity | null => {
         return entityMap.get(entityId) ?? null;
     };
 

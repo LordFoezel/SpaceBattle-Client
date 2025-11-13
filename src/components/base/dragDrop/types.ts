@@ -1,7 +1,8 @@
 export type DragDirection = "horizontal" | "vertical";
 
 export interface DragEntity {
-    id: string;
+    id: number;
+    ident: string,
     name: string;
     length: number;
     direction: DragDirection;
