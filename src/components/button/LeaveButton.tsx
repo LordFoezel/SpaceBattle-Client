@@ -5,6 +5,7 @@ import { deleteOne as deletePlayer, fetchOne as fetchPlayer } from "../../reposi
 import { ErrorHelper } from "../../helper/errorHelper";
 import { useNavigate } from "react-router-dom";
 import { AuthTokenHelper } from "../../helper/authToken.js";
+import { deleteOne, fetchAll } from "../../repositories/fleet";
 
 interface ButtonProps {
   isDisabled?: boolean;
@@ -34,6 +35,10 @@ const LeaveButton = function LeaveButton({
       const player = await fetchPlayer({ where: { userId, matchId } });
       deletePlayer(player.id);
       onLeave();
+      const fleets = await fetchAll({ match_id: matchId, player_id: player.id });
+      fleets.forEach((fleet) => {
+        deleteOne(fleet.id);
+      });
       navigate("/lobby", { replace: true });
     } catch (error) {
       ErrorHelper.handleError(error);

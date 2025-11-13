@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthTokenHelper } from "../../helper/authToken.js";
 import { fetchOne as fetchPlayer } from "../../repositories/players";
 import { IconLogin } from "../icon/IconLogin";
+import { fetchOne as fetchOneFleet, createOne as createOneFleet } from "../../repositories/fleet";
+import {
+  fetchAll as fetchConfig,
+} from "../../repositories/config_fleet_ship";
+import { ShipDirection } from "../../models/fleet";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -35,6 +40,18 @@ const JoinButton = function JoinButton({
           const player = await fetchPlayer({ where: { userId, matchId } });
           if (player) {
             window.localStorage.setItem("spacebattle.playerId", `${player.id}`);
+            const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
+            shipConfigs.forEach(async (shipConfig) => {
+              let count = 1;
+              while (count <= shipConfig.count) {
+                const ident = `${player.id}-${match.id}-${shipConfig.ship_id}-${count}`;
+                const existingFleet = await fetchOneFleet({ ident });
+                if (!existingFleet) {
+                  createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
+                }
+                count++;
+              }
+            });
             navigate(`/match/${match.id}`, { replace: true });
             return;
           }
@@ -57,6 +74,22 @@ const JoinButton = function JoinButton({
         });
 
         window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
+        const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
+        for (const shipConfig of shipConfigs) {
+          console.log(shipConfig.count, 'count', shipConfig.ship_id, 'ship');
+          if (shipConfig.count === 0) continue;
+          let count = 1;
+          while (count <= shipConfig.count) {
+            const ident = `${newPlayer.id}_${match.id}_${shipConfig.ship_id}_${count}`;
+            const existingFleet = await fetchOneFleet({ where: { ident } });
+            console.log(existingFleet, { where: { ident } } );
+            
+            if (!existingFleet) {
+              await createOneFleet({ ident, player_id: newPlayer.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
+            }
+            count++;
+          }
+        };
         navigate(`/match/${match.id}`, { replace: true });
       } catch (error) {
         ErrorHelper.handleError(error);

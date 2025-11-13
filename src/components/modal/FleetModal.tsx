@@ -6,49 +6,72 @@ import { BaseDragDrop, DragEntity } from "../base/dragDrop/BaseDragDrop";
 import {
     fetchAll,
 } from "../../repositories/config_fleet_ship";
-import { ConfigFleetShip } from "../../models/config_fleet_ship";
 import { ErrorHelper } from "../../helper/errorHelper";
 import {
     fetchById,
+    fetchAll as fetchAllShip,
 } from "../../repositories/ships";
+import { Fleet } from "../../models/fleet";
+import { fetchAll as fetchAllFleet } from "../../repositories/fleet";
+
 interface ModalProps {
-    onChange?: (e: any) => any;
     match: Match;
 }
 
 const FleetModal = function FleetModal(props: ModalProps) {
     const {
-        onChange,
         match,
     } = props;
 
     const [dragEntity, setDragEntity] = useState<DragEntity[]>([]);
+    const [fleets, setFleets] = useState<Fleet[]>([]);
 
     if (!match) return;
 
     useEffect(() => {
         if (!match.config) return;
-        loadShipConfigs();
-    }, []);
+        // loadShipConfigs();
+        placeShips();
+    }, [match]);
 
-    async function loadShipConfigs() {
+    // async function loadShipConfigs() {
+    //     try {
+    //         const data = await fetchAll({ config_fleet_id: match.config.fleet_config_id });
+    //         const temp: DragEntity[] = [];
+    //         data.forEach(async (shipConfig, index) => {
+    //             if (shipConfig.count > 0) {
+    //                 const ship = await fetchById(shipConfig.ship_id);
+    //                 let cnt = 0;
+    //                 while (cnt < shipConfig.count) {
+    //                     // todo: add fleet
+    //                     temp.push({ id: `${ship.name}-${index}-${cnt}`, name: ship.name, length: ship.dimension, direction: "horizontal" });
+    //                     cnt++;
+    //                 }
+    //             }
+    //         });
+    //         setDragEntity(temp);
+    //     } catch (error) {
+    //         ErrorHelper.handleError(error);
+    //     }
+    // }
+
+    async function placeShips() {
         try {
-            const data = await fetchAll({ config_fleet_id: match.config.fleet_config_id });
+            const playerId = window.localStorage.getItem("spacebattle.playerId");
+            const fleets = await fetchAllFleet({ player_id: playerId, match_id: match.id });
             const temp: DragEntity[] = [];
-            data.forEach(async (shipConfig, index) => {
-                if (shipConfig.count > 0) {
-                    const ship = await fetchById(shipConfig.ship_id);
-                    let cnt = 0;
-                    while (cnt < shipConfig.count) {
-                        temp.push({ id: `${ship.name}-${index}-${cnt}`, name: ship.name, length: ship.dimension, direction: "horizontal" });
-                        cnt++;
-                    }
-                }
+            fleets.map(async (fleet) => {
+                const ship = await fetchById(fleet.ship_id);
+                temp.push({ id: fleet.ident, name: ship.name, length: ship.dimension, direction: "horizontal" });
             });
             setDragEntity(temp);
         } catch (error) {
             ErrorHelper.handleError(error);
         }
+    }
+
+    function onChange() {
+        // todo: add update or delete a fleet entrie 
     }
 
     return (

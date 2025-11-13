@@ -5,6 +5,7 @@ export enum ShipDirection {
 
 export interface Fleet {
   id: number;
+  ident: string;
   player_id: number;
   match_id: number;
   ship_id: number;
@@ -15,6 +16,7 @@ export interface Fleet {
 
 export interface FleetCreate {
   player_id: number;
+  ident: string;
   match_id: number;
   ship_id: number;
   position_x: number;
@@ -24,6 +26,7 @@ export interface FleetCreate {
 
 export interface FleetUpdate {
   player_id?: number | null;
+  ident?: string | null;
   match_id?: number | null;
   ship_id?: number | null;
   position_x?: number | null;
@@ -34,6 +37,7 @@ export interface FleetUpdate {
 export function adaptFleet(raw: any): Fleet {
   return {
     id: raw.id,
+    ident: raw.ident,
     player_id: raw.player_id,
     match_id: raw.match_id,
     ship_id: raw.ship_id,
