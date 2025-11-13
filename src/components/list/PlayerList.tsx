@@ -4,6 +4,7 @@ import { PlayerListItem } from "./PlayerListItem";
 
 interface ListProps {
   players: Player[];
+  matchId: number;
   onDeleted?: (id: number) => void;
   onChangeState: () => void;
 }
@@ -11,6 +12,7 @@ interface ListProps {
 const PlayerList = function PlayerList(props: ListProps) {
   const {
     players,
+    matchId,
     onDeleted,
     onChangeState,
   } = props;
@@ -18,7 +20,7 @@ const PlayerList = function PlayerList(props: ListProps) {
   return (
     <TransparentCard gap="2" direction="col">
       {players.map((player) => (
-        <PlayerListItem player={player} key={player.id} onDeleted={onDeleted} onChangeState={onChangeState} />
+        <PlayerListItem player={player} key={player.id} onDeleted={onDeleted} onChangeState={onChangeState} matchId={matchId} />
       ))}
     </TransparentCard>
   );

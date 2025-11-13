@@ -3,23 +3,30 @@ import { IconCross } from "../icon/IconCross";
 import { deleteOne as deletePlayer } from "../../repositories/players";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { AdminRoleChecker } from "../roleChecker/AdminRoleChecker";
+import { deleteOne, fetchAll } from "../../repositories/fleet";
 
 interface ButtonProps {
   isDisabled?: boolean;
   playerId: number;
+  matchId: number;
   onDeleted?: (id: number) => void;
 }
 
 const DeletePlayerButton = function DeletePlayerButton({
   isDisabled,
   playerId,
+  matchId,
   onDeleted,
 }: ButtonProps) {
 
- async function onClick() {
+  async function onClick() {
     try {
       await deletePlayer(playerId);
       onDeleted?.(playerId);
+      const fleets = await fetchAll({ match_id: matchId, player_id: playerId });
+      fleets.forEach((fleet) => {
+        deleteOne(fleet.id);
+      });
     } catch (error) {
       ErrorHelper.handleError(error);
     }

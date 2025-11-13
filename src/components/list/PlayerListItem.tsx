@@ -9,6 +9,7 @@ import { SelfCheck } from "../../helper/SelfCheck";
 interface ListItemProps {
     player: Player;
     key: number;
+    matchId: number;
     onDeleted?: (id: number) => void;
     onChangeState?: () => void;
 }
@@ -16,6 +17,7 @@ interface ListItemProps {
 const PlayerListItem = function PlayerListItem(props: ListItemProps) {
     const {
         player,
+        matchId,
         onDeleted,
         onChangeState,
     } = props;
@@ -28,8 +30,8 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
                     <BaseText fontSize="lg" color="gray">{globalThis.t(`playerState.${player.state}`)}</BaseText>
                 </TransparentCard>
                 <TransparentCard direction="row" gap="2" justify="end">
-                    {SelfCheck({userId: player.user_id}) && <ReadySwitch player={player} onChange={onChangeState} />}
-                    <DeletePlayerButton playerId={player.id} onDeleted={onDeleted} />
+                    {SelfCheck({ userId: player.user_id }) && <ReadySwitch player={player} onChange={onChangeState} />}
+                    <DeletePlayerButton playerId={player.id} onDeleted={onDeleted} matchId={matchId} />
                 </TransparentCard>
             </TransparentCard>
         </BaseCard>

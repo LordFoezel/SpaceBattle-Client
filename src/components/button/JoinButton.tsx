@@ -41,17 +41,18 @@ const JoinButton = function JoinButton({
           if (player) {
             window.localStorage.setItem("spacebattle.playerId", `${player.id}`);
             const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
-            shipConfigs.forEach(async (shipConfig) => {
+            for (const shipConfig of shipConfigs) {
+              if (shipConfig.count === 0) continue;
               let count = 1;
               while (count <= shipConfig.count) {
-                const ident = `${player.id}-${match.id}-${shipConfig.ship_id}-${count}`;
-                const existingFleet = await fetchOneFleet({ ident });
+                const ident = `${player.id}_${match.id}_${shipConfig.ship_id}_${count}`;
+                const existingFleet = await fetchOneFleet({ where: { ident } });
                 if (!existingFleet) {
-                  createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
+                  await createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
                 }
                 count++;
               }
-            });
+            };
             navigate(`/match/${match.id}`, { replace: true });
             return;
           }
@@ -76,14 +77,11 @@ const JoinButton = function JoinButton({
         window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
         const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
         for (const shipConfig of shipConfigs) {
-          console.log(shipConfig.count, 'count', shipConfig.ship_id, 'ship');
           if (shipConfig.count === 0) continue;
           let count = 1;
           while (count <= shipConfig.count) {
             const ident = `${newPlayer.id}_${match.id}_${shipConfig.ship_id}_${count}`;
             const existingFleet = await fetchOneFleet({ where: { ident } });
-            console.log(existingFleet, { where: { ident } } );
-            
             if (!existingFleet) {
               await createOneFleet({ ident, player_id: newPlayer.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
             }

@@ -85,7 +85,7 @@ export default function MatchPage() {
       <MainCard>
         <PageHeader title={match.name} info={match.description} />
         <TransparentCard direction='col' gap='2'>
-          <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} />
+          <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} matchId={Number(matchId)} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
             {SelfCheck({ userId: match?.created_by }) && <MatchConfigModal match={match} onChange={onConfigChange} />}
