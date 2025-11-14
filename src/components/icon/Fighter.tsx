@@ -1,7 +1,22 @@
 import React from "react";
 
-export const Fighter: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg width={80} height={40} viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" {...props}>
+interface FighterProps extends React.SVGProps<SVGSVGElement> {
+    flipped?: boolean;
+}
+
+export const Fighter: React.FC<FighterProps> = ({ flipped = false, style, ...props }) => (
+    <svg
+        width={80}
+        height={40}
+        viewBox="0 0 80 40"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+            transform: flipped ? "rotate(180deg)" : undefined,
+            transformOrigin: "center",
+            ...style,
+        }}
+        {...props}
+    >
         {/* Rumpf */}
         <rect x={18} y={12} width={44} height={16} rx={8} fill="#4f46e5" stroke="#1e293b" strokeWidth={2} />
 

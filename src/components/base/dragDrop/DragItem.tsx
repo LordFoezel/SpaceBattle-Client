@@ -17,6 +17,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
     const draggable = !entity.disabled;
     const previewRef = useRef<HTMLElement | null>(null);
     const ShipIllustration = useMemo(() => getShipImage(entity.name), [entity.name]);
+    const shouldFlip = typeof entity.id === "number" && entity.id % 2 === 0;
 
     const payload: DragData = useMemo(
         () => ({
@@ -124,6 +125,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
                                     transformOrigin: "top left",
                                     transform: `translateX(${CELL_SIZE}px) rotate(90deg)`,
                                 }}
+                                flipped={shouldFlip}
                             />
                         </div>
                     ) : (
@@ -132,6 +134,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
                                 width: `${shipPixelLength}px`,
                                 height: `${CELL_SIZE}px`,
                             }}
+                            flipped={shouldFlip}
                         />
                     )
                 ) : (

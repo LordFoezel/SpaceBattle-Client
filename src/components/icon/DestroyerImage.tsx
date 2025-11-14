@@ -1,7 +1,22 @@
 import React from "react";
 
-export const DestroyerImage: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg width={150} height={48} viewBox="0 0 150 48" xmlns="http://www.w3.org/2000/svg" {...props}>
+interface DestroyerImageProps extends React.SVGProps<SVGSVGElement> {
+    flipped?: boolean;
+}
+
+export const DestroyerImage: React.FC<DestroyerImageProps> = ({ flipped = false, style, ...props }) => (
+    <svg
+        width={150}
+        height={48}
+        viewBox="0 0 150 48"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+            transform: flipped ? "rotate(180deg)" : undefined,
+            transformOrigin: "center",
+            ...style,
+        }}
+        {...props}
+    >
         {/* Main hull */}
         <rect x={28} y={14} width={84} height={20} rx={10} fill="#4338ca" stroke="#1e293b" strokeWidth={2} />
         <rect x={48} y={10} width={44} height={28} rx={8} fill="#4f46e5" stroke="#1e293b" strokeWidth={2} />

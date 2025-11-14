@@ -6,15 +6,16 @@ import { CargoImage } from "../../icon/CargoImage";
 import { CapitalImage } from "../../icon/CapitalImage";
 
 type ShipName = "Satelite" | "Fighter" | "Destroyer" | "Cargo" | "Capital";
+type ShipImageComponent = React.ComponentType<{ style?: React.CSSProperties; flipped?: boolean }>;
 
-const shipImageMap: Record<ShipName, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-    Satelite: SatelliteImage,
-    Fighter: FighterImage,
-    Destroyer: DestroyerImage,
-    Cargo: CargoImage,
-    Capital: CapitalImage,
+const shipImageMap: Record<ShipName, ShipImageComponent> = {
+    Satelite: SatelliteImage as ShipImageComponent,
+    Fighter: FighterImage as ShipImageComponent,
+    Destroyer: DestroyerImage as ShipImageComponent,
+    Cargo: CargoImage as ShipImageComponent,
+    Capital: CapitalImage as ShipImageComponent,
 };
 
-export const getShipImage = (name: string): React.ComponentType<React.SVGProps<SVGSVGElement>> | null => {
-    return (shipImageMap as Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>> | undefined>)[name] ?? null;
+export const getShipImage = (name: string): ShipImageComponent | null => {
+    return (shipImageMap as Record<string, ShipImageComponent | undefined>)[name] ?? null;
 };

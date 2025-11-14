@@ -1,7 +1,22 @@
 import React from "react";
 
-export const Capital: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg width={150} height={36} viewBox="0 0 150 36" xmlns="http://www.w3.org/2000/svg" {...props}>
+interface CapitalProps extends React.SVGProps<SVGSVGElement> {
+    flipped?: boolean;
+}
+
+export const Capital: React.FC<CapitalProps> = ({ flipped = false, style, ...props }) => (
+    <svg
+        width={150}
+        height={36}
+        viewBox="0 0 150 36"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+            transform: flipped ? "rotate(180deg)" : undefined,
+            transformOrigin: "center",
+            ...style,
+        }}
+        {...props}
+    >
         <rect x={22} y={8} width={108} height={22} rx={9} fill="#4f46e5" stroke="#1e293b" strokeWidth={2} />
         <rect x={22} y={16} width={108} height={12} rx={7} fill="#4338ca" opacity={0.9} />
 

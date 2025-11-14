@@ -2,8 +2,9 @@ export type DragDirection = "horizontal" | "vertical";
 
 export interface DragEntity {
     id: number;
-    ident: string,
+    ident: string;
     name: string;
+    shipId?: number | null;
     length: number;
     direction: DragDirection;
     disabled?: boolean;

@@ -1,7 +1,22 @@
 import React from "react";
 
-export const Cargo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg width={130} height={36} viewBox="0 0 130 36" xmlns="http://www.w3.org/2000/svg" {...props}>
+interface CargoProps extends React.SVGProps<SVGSVGElement> {
+    flipped?: boolean;
+}
+
+export const Cargo: React.FC<CargoProps> = ({ flipped = false, style, ...props }) => (
+    <svg
+        width={130}
+        height={36}
+        viewBox="0 0 130 36"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+            transform: flipped ? "rotate(180deg)" : undefined,
+            transformOrigin: "center",
+            ...style,
+        }}
+        {...props}
+    >
         {/* Base hull */}
         <rect x={18} y={8} width={92} height={20} rx={9} fill="#4f46e5" stroke="#1e293b" strokeWidth={2} />
         <rect x={18} y={16} width={92} height={12} rx={7} fill="#4338ca" opacity={0.9} />

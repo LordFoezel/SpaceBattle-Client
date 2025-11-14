@@ -1,7 +1,22 @@
 import React from "react";
 
-export const FighterImage: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg width={88} height={44} viewBox="0 0 88 44" xmlns="http://www.w3.org/2000/svg" {...props}>
+interface FighterImageProps extends React.SVGProps<SVGSVGElement> {
+    flipped?: boolean;
+}
+
+export const FighterImage: React.FC<FighterImageProps> = ({ flipped = false, style, ...props }) => (
+    <svg
+        width={88}
+        height={44}
+        viewBox="0 0 88 44"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+            transform: flipped ? "rotate(180deg)" : undefined,
+            transformOrigin: "center",
+            ...style,
+        }}
+        {...props}
+    >
         {/* Central fuselage */}
         <rect
             x={20}

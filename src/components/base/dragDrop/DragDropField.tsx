@@ -154,9 +154,11 @@ const DragDropField: React.FC<DragDropFieldProps> = (props) => {
                         top: `${top}px`,
                         pointerEvents: "none",
                     };
+                    const shouldFlip = typeof entity.id === "number" && entity.id % 2 === 0;
 
                     const horizontalImage = (
                         <ShipIllustration
+                            flipped={shouldFlip}
                             style={{
                                 width: `${shipLengthPx}px`,
                                 height: `${CELL_SIZE}px`,

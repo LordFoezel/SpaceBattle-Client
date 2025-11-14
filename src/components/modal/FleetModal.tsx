@@ -39,6 +39,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
                     id: fleet.id,
                     ident: fleet.ident,
                     name: ship.name,
+                    shipId: fleet.ship_id,
                     length: ship.dimension,
                     direction: fleet.direction ?? "horizontal",
                     startIndex,
