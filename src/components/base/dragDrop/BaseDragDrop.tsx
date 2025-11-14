@@ -206,7 +206,8 @@ const BaseDragDrop: React.FC<PropsWithChildren<BaseDragDropProps>> = (props) => 
         (entity: PlacedEntity) => (data: DragData, event: React.DragEvent<HTMLDivElement>) => {
             event.dataTransfer.effectAllowed = "move";
             event.dataTransfer.dropEffect = "move";
-            startDrag(entity, data);
+            const payload: DragData = { ...data, grabIndex: 0 };
+            startDrag(entity, payload);
         };
 
     const handleCellDragStart = (
@@ -214,10 +215,12 @@ const BaseDragDrop: React.FC<PropsWithChildren<BaseDragDropProps>> = (props) => 
         partIndex: number,
         event: React.DragEvent<HTMLDivElement>,
     ) => {
+        const linearOffset = partIndex * (entity.direction === "horizontal" ? 1 : sizeX);
         const payload: DragData = {
             entityId: entity.id,
             fromIndex: entity.startIndex,
-            grabOffset: partIndex,
+            grabOffset: linearOffset,
+            grabIndex: partIndex,
         };
         event.dataTransfer.setData("application/json", JSON.stringify(payload));
         event.dataTransfer.effectAllowed = "move";
@@ -299,7 +302,12 @@ const BaseDragDrop: React.FC<PropsWithChildren<BaseDragDropProps>> = (props) => 
             setEntities(updatedEntities);
 
             if (activeDragRef.current?.entity.id === rotated.id) {
-                const nextDrag: DragState = { entity: rotated, data: activeDragRef.current.data };
+                const grabIndex = activeDragRef.current.data.grabIndex ?? 0;
+                const updatedData: DragData = {
+                    ...activeDragRef.current.data,
+                    grabOffset: grabIndex * (rotated.direction === "horizontal" ? 1 : sizeX),
+                };
+                const nextDrag: DragState = { entity: rotated, data: updatedData };
                 activeDragRef.current = nextDrag;
                 setActiveDrag(nextDrag);
 

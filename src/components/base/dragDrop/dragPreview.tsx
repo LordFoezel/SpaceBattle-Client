@@ -111,11 +111,21 @@ function createShipPreviewDom(entity: { length: number; direction: DragDirection
 
 export function applyShipDragPreview(
     event: React.DragEvent,
-    entity: Pick<PlacedEntity, "length" | "direction" | "name" | "shipId" | "id">,
+    entity: Pick<PlacedEntity, "length" | "direction" | "name" | "shipId">,
     grabbedPartIndex: number,
+    fromGrid: boolean,
 ): HTMLElement | null {
     const ghost = createShipPreviewDom(entity);
     if (!ghost) return null;
+
+    if (fromGrid && grabbedPartIndex > 0) {
+        const axisShift = grabbedPartIndex * CELL_GAP;
+        if (entity.direction === "horizontal") {
+            ghost.style.transform = `translateX(${axisShift}px)`;
+        } else {
+            ghost.style.transform = `translateY(${axisShift}px)`;
+        }
+    }
 
     const offsetX =
         entity.direction === "horizontal" ? grabbedPartIndex * CELL_SIZE + CELL_SIZE / 2 : CELL_SIZE / 2;

@@ -24,6 +24,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
             entityId: entity.id,
             fromIndex: entity.startIndex,
             grabOffset: 0,
+            grabIndex: 0,
         }),
         [entity.id, entity.startIndex],
     );
@@ -37,7 +38,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
         event.dataTransfer.effectAllowed = "move";
         event.dataTransfer.dropEffect = "move";
         event.dataTransfer.setData("application/json", JSON.stringify(payload));
-        previewRef.current = applyShipDragPreview(event, entity, 0);
+        previewRef.current = applyShipDragPreview(event, entity, 0, false);
         onDragStart(payload, event);
     };
 

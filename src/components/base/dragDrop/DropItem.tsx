@@ -54,7 +54,7 @@ const DropItem: React.FC<DropItemProps> = (props) => {
             event.preventDefault();
             return;
         }
-        previewRef.current = applyShipDragPreview(event, occupant, partIndex);
+        previewRef.current = applyShipDragPreview(event, occupant, partIndex, true);
         onDragStartFromCell?.(occupant, partIndex, event);
     };
 

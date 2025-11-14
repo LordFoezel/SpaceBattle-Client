@@ -28,8 +28,12 @@ export interface DragData {
     entityId: PlacedEntity["id"];
     fromIndex: number | null;
     /**
-     * Offset (in cells) from the entity's origin to the cell that initiated
+     * Linear offset (in index units) from the entity's origin cell to the cell that initiated
      * the drag. Used to keep the entity anchored to the pointer while moving.
      */
     grabOffset: number;
+    /**
+     * Raw segment index along the ship (0-based). Helps recompute grab offsets when rotating.
+     */
+    grabIndex?: number;
 }
