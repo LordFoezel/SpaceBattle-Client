@@ -48,7 +48,7 @@ const JoinButton = function JoinButton({
                 const ident = `${player.id}_${match.id}_${shipConfig.ship_id}_${count}`;
                 const existingFleet = await fetchOneFleet({ where: { ident } });
                 if (!existingFleet) {
-                  await createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
+                  await createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position: null, direction: ShipDirection.HORIZONTAL })
                 }
                 count++;
               }
@@ -83,7 +83,7 @@ const JoinButton = function JoinButton({
             const ident = `${newPlayer.id}_${match.id}_${shipConfig.ship_id}_${count}`;
             const existingFleet = await fetchOneFleet({ where: { ident } });
             if (!existingFleet) {
-              await createOneFleet({ ident, player_id: newPlayer.id, match_id: match.id, ship_id: shipConfig.ship_id, position_x: null, position_y: null, direction: ShipDirection.HORIZONTAL })
+              await createOneFleet({ ident, player_id: newPlayer.id, match_id: match.id, ship_id: shipConfig.ship_id, position: null, direction: ShipDirection.HORIZONTAL })
             }
             count++;
           }

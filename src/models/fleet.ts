@@ -9,8 +9,7 @@ export interface Fleet {
   player_id: number;
   match_id: number;
   ship_id: number;
-  position_x: number;
-  position_y: number;
+  position: number;
   direction: ShipDirection;
 }
 
@@ -19,8 +18,7 @@ export interface FleetCreate {
   ident: string;
   match_id: number;
   ship_id: number;
-  position_x: number;
-  position_y: number;
+  position: number;
   direction: ShipDirection;
 }
 
@@ -29,8 +27,7 @@ export interface FleetUpdate {
   ident?: string | null;
   match_id?: number | null;
   ship_id?: number | null;
-  position_x?: number | null;
-  position_y?: number | null;
+  position?: number | null;
   direction?: ShipDirection | null;
 }
 
@@ -41,8 +38,7 @@ export function adaptFleet(raw: any): Fleet {
     player_id: raw.player_id,
     match_id: raw.match_id,
     ship_id: raw.ship_id,
-    position_x: raw.position_x,
-    position_y: raw.position_y,
+    position: raw.position,
     direction: raw.direction as ShipDirection,
   };
 }

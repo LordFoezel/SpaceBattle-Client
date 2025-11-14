@@ -42,7 +42,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
     }
 
     function onChange(e: any) {
-        updateOne(e.item.id, { position_x: 0, position_y: 0 });
+        updateOne(e.item.id, { position: e.indexTo });
     }
 
     return (

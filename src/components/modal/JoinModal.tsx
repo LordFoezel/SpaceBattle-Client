@@ -7,17 +7,21 @@ import { fetchById as fetchMatchById } from "../../repositories/matches";
 import { createOne as createPlayer } from "../../repositories/players";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { AuthTokenHelper } from "../../helper/authToken.js";
+import { fetchOne as fetchOneFleet, createOne as createOneFleet } from "../../repositories/fleet";
+import {
+    fetchAll as fetchConfig,
+} from "../../repositories/config_fleet_ship";
+import { fetchOne as fetchPlayer } from "../../repositories/players";
+import { ShipDirection } from "../../models/fleet";
 
 interface JoinModalProps {
     matchId: number;
     disabledSave?: boolean;
-    onChange?: (e: any) => any;
 }
 
 const JoinModal = function JoinModal(props: JoinModalProps) {
     const {
         matchId,
-        onChange,
         disabledSave = false,
     } = props;
 
@@ -41,6 +45,32 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                     return;
                 }
 
+                const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
+
+                try {
+                    const player = await fetchPlayer({ where: { userId, matchId } });
+                    if (player) {
+                        window.localStorage.setItem("spacebattle.playerId", `${player.id}`);
+                        const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
+                        for (const shipConfig of shipConfigs) {
+                            if (shipConfig.count === 0) continue;
+                            let count = 1;
+                            while (count <= shipConfig.count) {
+                                const ident = `${player.id}_${match.id}_${shipConfig.ship_id}_${count}`;
+                                const existingFleet = await fetchOneFleet({ where: { ident } });
+                                if (!existingFleet) {
+                                    await createOneFleet({ ident, player_id: player.id, match_id: match.id, ship_id: shipConfig.ship_id, position: null, direction: ShipDirection.HORIZONTAL })
+                                }
+                                count++;
+                            }
+                        };
+                        navigate(`/match/${match.id}`, { replace: true });
+                        return;
+                    }
+                } catch (error) {
+                    ErrorHelper.handleError(error);
+                }
+
                 const maxPlayers = match.config?.player_count ?? 0;
                 const currentPlayers = match.current_player_count ?? 0;
                 if (maxPlayers > 0 && currentPlayers >= maxPlayers) {
@@ -48,7 +78,6 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                     return;
                 }
 
-                const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
 
                 const newPlayer = await createPlayer({
                     name: userName,
@@ -56,10 +85,20 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                     match_id: match.id,
                 });
 
-                onChange?.(match.id);
-                setPassword("");
-
                 window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
+                const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });
+                for (const shipConfig of shipConfigs) {
+                    if (shipConfig.count === 0) continue;
+                    let count = 1;
+                    while (count <= shipConfig.count) {
+                        const ident = `${newPlayer.id}_${match.id}_${shipConfig.ship_id}_${count}`;
+                        const existingFleet = await fetchOneFleet({ where: { ident } });
+                        if (!existingFleet) {
+                            await createOneFleet({ ident, player_id: newPlayer.id, match_id: match.id, ship_id: shipConfig.ship_id, position: null, direction: ShipDirection.HORIZONTAL })
+                        }
+                        count++;
+                    }
+                };
                 navigate(`/match/${match.id}`, { replace: true });
             } catch (error) {
                 ErrorHelper.handleError(error);
