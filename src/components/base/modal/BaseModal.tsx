@@ -73,16 +73,14 @@ const BaseModal = function BaseModal(props: BaseModalProps) {
   const controlled = typeof isOpen === 'boolean';
   const modalIsOpen = controlled ? !!isOpen : disc.isOpen;
   const doOpen = () => {
-    if (controlled) {
-      if (typeof onOpen === 'function') onOpen();
-    } else {
+    if (typeof onOpen === 'function') onOpen();
+    if (!controlled) {
       disc.onOpen();
     }
   };
   const doClose = () => {
-    if (controlled) {
-      if (typeof onClose === 'function') onClose();
-    } else {
+    if (typeof onClose === 'function') onClose();
+    if (!controlled) {
       disc.onClose();
     }
   };

@@ -241,11 +241,7 @@ const BaseDragDrop: React.FC<BaseDragDropProps> = (props) => {
                     {globalThis.t?.("fleet.availableShips") ?? "Available Ships"}
                 </h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    {paletteItems.length === 0 ? (
-                        <span style={{ fontSize: "12px", color: "#cbd5f5" }}>
-                            {globalThis.t?.("fleet.allShipsPlaced") ?? "All ships placed on the field"}
-                        </span>
-                    ) : (
+                    {
                         paletteItems.map((entity) => (
                             <DragItem
                                 key={entity.id}
@@ -254,7 +250,7 @@ const BaseDragDrop: React.FC<BaseDragDropProps> = (props) => {
                                 onDragEnd={endDrag}
                             />
                         ))
-                    )}
+                    }
                 </div>
             </div>
 
