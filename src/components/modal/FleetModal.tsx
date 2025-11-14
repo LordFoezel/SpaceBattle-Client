@@ -52,7 +52,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
     }
 
     function onChange(e: any) {
-        updateShip(e.item.id, { position: e.indexTo });
+        updateShip(e.item.id, { position: e.indexTo, direction: e.item.direction });
     }
 
     async function updateShip(shipId: number, payload: FleetUpdate) {

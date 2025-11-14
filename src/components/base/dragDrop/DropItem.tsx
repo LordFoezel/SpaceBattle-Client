@@ -6,12 +6,13 @@ interface DropItemProps {
     index: number;
     occupant: PlacedEntity | null;
     partIndex: number;
-    isHover: boolean;
-    isValidTarget: boolean;
+    isHighlighted: boolean;
+    highlightValid: boolean;
     onDrop: (index: number, event: React.DragEvent<HTMLDivElement>) => void;
     onDragOver: (index: number, event: React.DragEvent<HTMLDivElement>) => void;
     onDragLeave: (index: number) => void;
     onDragStartFromCell?: (entity: PlacedEntity, partIndex: number, event: React.DragEvent<HTMLDivElement>) => void;
+    onDoubleClickFromCell?: (entity: PlacedEntity) => void;
     onDragEndFromCell?: () => void;
 }
 
@@ -20,18 +21,19 @@ const DropItem: React.FC<DropItemProps> = (props) => {
         index,
         occupant,
         partIndex,
-        isHover,
-        isValidTarget,
+        isHighlighted,
+        highlightValid,
         onDrop,
         onDragOver,
         onDragLeave,
         onDragStartFromCell,
+        onDoubleClickFromCell,
         onDragEndFromCell,
     } = props;
 
+    const previewRef = useRef<HTMLElement | null>(null);
     const occupied = Boolean(occupant);
     const canDrag = occupied && !occupant?.disabled;
-    const previewRef = useRef<HTMLElement | null>(null);
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -62,7 +64,11 @@ const DropItem: React.FC<DropItemProps> = (props) => {
         onDragEndFromCell?.();
     };
 
-    const hoverStyle = isHover ? (isValidTarget ? "rgba(34,197,94,0.4)" : "rgba(248,113,113,0.4)") : "transparent";
+    const highlightColor = isHighlighted
+        ? highlightValid
+            ? "rgba(16,185,129,0.9)"
+            : "rgba(239,68,68,0.9)"
+        : "rgba(148,163,184,0.35)";
 
     return (
         <div
@@ -72,14 +78,15 @@ const DropItem: React.FC<DropItemProps> = (props) => {
             style={{
                 width: "40px",
                 height: "40px",
-                border: "1px solid rgba(148,163,184,0.6)",
-                backgroundColor: occupied ? "rgba(99,102,241,0.6)" : hoverStyle,
+                borderRadius: "6px",
+                border: `2px solid ${highlightColor}`,
+                backgroundColor: "rgba(15,23,42,0.65)",
                 position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "background-color 120ms ease",
-                boxShadow: isHover ? `0 0 0 2px ${hoverStyle}` : "none",
+                overflow: "visible",
+                boxShadow: isHighlighted
+                    ? `0 0 10px ${highlightColor}`
+                    : "0 0 0 1px rgba(15,23,42,0.4) inset",
+                transition: "box-shadow 120ms ease, transform 120ms ease",
             }}
         >
             {occupied && (
@@ -87,18 +94,23 @@ const DropItem: React.FC<DropItemProps> = (props) => {
                     draggable={canDrag}
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
+                    onDoubleClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        if (occupant) {
+                            onDoubleClickFromCell?.(occupant);
+                        }
+                    }}
                     style={{
                         width: "100%",
                         height: "100%",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: partIndex === 0 ? "11px" : 0,
-                        fontWeight: 600,
-                        color: "white",
-                        cursor: canDrag ? "grab" : "not-allowed",
                         userSelect: "none",
-                        backgroundColor: partIndex === 0 ? "rgba(79,70,229,0.8)" : "transparent",
+                        cursor: canDrag ? "grab" : "not-allowed",
+                        opacity: 0,
+                        zIndex: 4,
                     }}
                 >
                     {partIndex === 0 ? occupant?.name : null}

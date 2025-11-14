@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <rect width="240" height="240" rx="32" fill="#030712"/>
+  <g filter="url(#shadow)">
+    <rect x="74" y="90" width="92" height="60" rx="12" fill="#38bdf8" opacity="0.15"/>
+  </g>
+  <rect x="82" y="96" width="76" height="48" rx="10" fill="url(#body)"/>
+  <rect x="56" y="84" width="18" height="72" rx="4" fill="url(#wing)"/>
+  <rect x="166" y="84" width="18" height="72" rx="4" fill="url(#wing)"/>
+  <rect x="112" y="52" width="16" height="52" rx="8" fill="#e2e8f0"/>
+  <rect x="140" y="60" width="12" height="24" rx="6" fill="#e2e8f0" opacity="0.65"/>
+  <rect x="88" y="60" width="12" height="24" rx="6" fill="#e2e8f0" opacity="0.65"/>
+  <circle cx="120" cy="120" r="26" fill="#0f172a" stroke="#bae6fd" stroke-width="4"/>
+  <circle cx="120" cy="120" r="10" fill="#38bdf8"/>
+  <path d="M44 120h36" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M160 120h36" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M120 140v32" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="120" cy="188" r="10" fill="#22d3ee"/>
+  <g stroke="#38bdf8" stroke-width="3" opacity="0.45">
+    <path d="M204 100c14 16 14 44 0 60"/>
+    <path d="M36 100c-14 16-14 44 0 60"/>
+  </g>
+  <defs>
+    <linearGradient id="body" x1="82" y1="96" x2="158" y2="144" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="56" y1="84" x2="74" y2="156" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <filter id="shadow" x="44" y="70" width="144" height="112" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feGaussianBlur stdDeviation="10"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+    </filter>
+  </defs>
+</svg>
