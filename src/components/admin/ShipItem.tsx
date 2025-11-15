@@ -7,6 +7,7 @@ import { BaseEditModal } from "../base/modal/BaseEditModal";
 import { NameLabel } from "../label/NameLabel";
 import { DimensionLabel } from "../label/DimensionLabel";
 import { IconTagLabel } from "../label/IconTagLabel";
+import { BaseSpacer } from "../base/layout/BaseSpacer";
 
 interface ItemProps {
     ship: Ship;
@@ -43,8 +44,9 @@ const ShipItem = function ShipItem({
             gap="3"
         >
             <TransparentCard direction="row" justify="between">
+                <BaseSpacer width="2"/>
                 <BaseText fontWeight="semibold">{ship.name}</BaseText>
-                <TransparentCard direction="row" justify="end gap-2">
+                <TransparentCard direction="row" justify="end" gap="2">
                     <BaseEditModal
                         title={`${globalThis.t("core.edit")}`}
                         showSave={false}

@@ -17,7 +17,7 @@
   "error": {
     "code": {
       "422": "Ungültige Eingabe!",
-      "ALREADY_EXISTS": "E-Mail existiert bereits!",
+      "ALREADY_EXISTS": "Eintrag existiert bereits!",
       "INVALID_CREDENTIALS": "Falsche E-Mail oder falsches Passwort!",
       "USER_NOT_VALIDATED": "Benutzer ist nicht verifiziert. Überprüfe deine E-Mail!"
     },

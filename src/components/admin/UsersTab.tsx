@@ -38,7 +38,7 @@ const UsersTab = function UsersTab() {
 
   async function handleAdd() {
     try {
-      const newItem: UserCreate = { name: "test", email: 'email', password_hash: "2b$12$F0iVmf7fE6RuOFTNOy/wk.yuwXgLjKx/XCgkGHpXIKcuE03Us3kfy"}
+      const newItem: UserCreate = { name: "test", email: 'email@email.ch', password_hash: "2b$12$F0iVmf7fE6RuOFTNOy/wk.yuwXgLjKx/XCgkGHpXIKcuE03Us3kfy"}
       await createOne(newItem);
       loadUsers();
     } catch (error) {

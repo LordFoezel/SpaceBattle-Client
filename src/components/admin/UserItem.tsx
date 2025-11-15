@@ -7,6 +7,7 @@ import { BaseEditModal } from "../base/modal/BaseEditModal";
 import { RoleLabel } from "../label/RoleLabel";
 import { VerifiedLabel } from "../label/VerifiedLabel";
 import { BlockedLabel } from "../label/BlockedLabel";
+import { BaseSpacer } from "../base/layout/BaseSpacer";
 
 interface ItemProps {
   user: User;
@@ -47,6 +48,7 @@ const UserItem = function UserItem({
       gap="3"
     >
       <TransparentCard direction="row" justify="between">
+        <BaseSpacer width="2" />
         <BaseText fontWeight="semibold">{user.name}</BaseText>
         <TransparentCard direction="row" justify="end gap-2">
           <BaseEditModal

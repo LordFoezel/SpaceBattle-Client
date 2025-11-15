@@ -18,6 +18,7 @@ import {
   createOne,
 } from "../../repositories/config_fleet_ship";
 import { ConfigFleetShip } from "src/models/config_fleet_ship";
+import { BaseSpacer } from "../base/layout/BaseSpacer";
 
 interface ItemProps {
   configFleet: ConfigFleet;
@@ -97,8 +98,9 @@ const FleetConfigItem = function FleetConfigItem({
       gap="3"
     >
       <TransparentCard direction="row" justify="between">
+        <BaseSpacer width="2" />
         <BaseText fontWeight="semibold" >{configFleet.name}</BaseText>
-        <TransparentCard direction="row" justify="end gap-2">
+        <TransparentCard direction="row" justify="end" gap="2">
           <BaseEditModal
             title={`${globalThis.t("core.edit")}`}
             showSave={false}

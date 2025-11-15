@@ -50,7 +50,7 @@
   "error": {
     "code": {
       "422": "Invalide input!",
-      "ALREADY_EXISTS": "E-mail allready exist!",
+      "ALREADY_EXISTS": "Entrie allready exist!",
       "INVALID_CREDENTIALS": "Incorrect e-mail or password!",
       "USER_NOT_VALIDATED": "User is not verified. Check your e-mail!",
       "MATCH_FULL": "MATCH_FULL"
