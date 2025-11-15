@@ -51,6 +51,6 @@ export interface FleetAutoPlacePayload {
 export async function autoplaceFleet(payload: FleetAutoPlacePayload) {
   return requestBase<{ placed: number }>(`${path}/autoplace`, {
     method: "POST",
-    body: payload as string,
+    body: payload as unknown as string,
   });
 }

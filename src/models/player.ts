@@ -6,12 +6,18 @@ export enum PlayerState {
   LOOSE = "loose",
 }
 
+export enum PlayerRace {
+  HUMAN = "human",
+  ALIEN = "aline",
+}
+
 export interface Player {
   id: number;
   name: string;
   user_id: number;
   match_id: number;
   state: PlayerState;
+  race: PlayerRace;
 }
 
 export interface PlayerCreate {
@@ -19,6 +25,7 @@ export interface PlayerCreate {
   user_id: number;
   match_id: number;
   state?: PlayerState;
+  race?: PlayerRace;
 }
 
 export interface PlayerUpdate {
@@ -26,6 +33,7 @@ export interface PlayerUpdate {
   user_id?: number | null;
   match_id?: number | null;
   state?: PlayerState | null;
+  race?: PlayerRace | null;
 }
 
 export function adaptPlayer(raw: any): Player {
@@ -35,5 +43,6 @@ export function adaptPlayer(raw: any): Player {
     user_id: raw.user_id,
     match_id: raw.match_id,
     state: raw.state,
+    race: raw.race,
   };
 }

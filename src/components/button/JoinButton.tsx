@@ -12,6 +12,7 @@ import {
   fetchAll as fetchConfig,
 } from "../../repositories/config_fleet_ship";
 import { ShipDirection } from "../../models/fleet";
+import { PlayerRace } from "../../models/player";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -72,6 +73,7 @@ const JoinButton = function JoinButton({
           name: userName,
           user_id: userId,
           match_id: match.id,
+          race: PlayerRace.HUMAN,
         });
 
         window.localStorage.setItem("spacebattle.playerId", `${newPlayer.id}`);
