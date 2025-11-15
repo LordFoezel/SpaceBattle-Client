@@ -24,7 +24,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
     useEffect(() => {
         if (!match.config) return;
         placeShips();
-    }, [match]); // todo: also make this if open the modal again
+    }, [match]);
 
 
     async function placeShips() {
@@ -39,9 +39,10 @@ const FleetModal = function FleetModal(props: ModalProps) {
                     id: fleet.id,
                     ident: fleet.ident,
                     name: ship.name,
+                    icon_tag: ship.icon_tag,
                     shipId: fleet.ship_id,
                     length: ship.dimension,
-                    direction: fleet.direction ?? "horizontal",
+                    direction: fleet.direction,
                     startIndex,
                 };
             }));

@@ -6,6 +6,7 @@ import { TransparentCard } from "../layout/TransparentCard";
 import { BaseEditModal } from "../base/modal/BaseEditModal";
 import { NameLabel } from "../label/NameLabel";
 import { DimensionLabel } from "../label/DimensionLabel";
+import { IconTagLabel } from "../label/IconTagLabel";
 
 interface ItemProps {
     ship: Ship;
@@ -21,12 +22,13 @@ const ShipItem = function ShipItem({
 }: ItemProps) {
 
     function onChangeName(e: any) {
-        ship.name = e.target.value;
         handleUpdate({ id: ship.id, name: e.target.value })
     }
     function onChangeDimension(e: any) {
-        ship.name = e.target.value;
         handleUpdate({ id: ship.id, dimension: Number(e.target.value) })
+    }
+    function onChangeIconTag(e: any) {
+        handleUpdate({ id: ship.id, iconTag: e.target.value })
     }
 
     return (
@@ -50,6 +52,7 @@ const ShipItem = function ShipItem({
                         <TransparentCard direction="col" gap="3">
                             <NameLabel value={ship.name} onChange={onChangeName} />
                             <DimensionLabel value={ship.dimension} onChange={onChangeDimension} />
+                            <IconTagLabel value={ship.iconTag} onChange={onChangeIconTag} />
                         </TransparentCard>
                     </BaseEditModal>
                     <BaseButtonDelete

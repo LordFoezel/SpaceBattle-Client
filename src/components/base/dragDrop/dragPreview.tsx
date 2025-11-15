@@ -16,7 +16,7 @@ function createSegment(documentRef: Document): HTMLDivElement {
     return el;
 }
 
-function createShipPreviewDom(entity: { length: number; direction: DragDirection; name: string, id: number}): HTMLElement | null {
+function createShipPreviewDom(entity: { length: number; direction: DragDirection; name: string, id: number, icon_tag: string }): HTMLElement | null {
     if (typeof document === "undefined") return null;
     const doc = document;
 
@@ -51,7 +51,7 @@ function createShipPreviewDom(entity: { length: number; direction: DragDirection
     ship.style.borderRadius = "8px";
     wrapper.appendChild(ship);
 
-    const ShipIllustration = getShipImage(entity.name);
+    const ShipIllustration = getShipImage(entity.icon_tag);
     const shouldFlip = typeof entity.id === "number" && entity.id % 2 === 0;
     if (ShipIllustration) {
         const base = (
@@ -111,7 +111,7 @@ function createShipPreviewDom(entity: { length: number; direction: DragDirection
 
 export function applyShipDragPreview(
     event: React.DragEvent,
-    entity: Pick<PlacedEntity, "length" | "direction" | "name" | "shipId">,
+    entity: Pick<PlacedEntity, "length" | "direction" | "name" | "shipId" | "id" | "icon_tag">,
     grabbedPartIndex: number,
     fromGrid: boolean,
 ): HTMLElement | null {

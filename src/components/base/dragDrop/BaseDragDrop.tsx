@@ -24,14 +24,6 @@ interface BaseDragDropProps {
 type DragState = { entity: PlacedEntity; data: DragData } | null;
 type Placement = { cells: number[]; withinBounds: boolean } | null;
 
-const SHIP_NAME_TO_ID: Record<string, number> = {
-    Satelite: 0,
-    Fighter: 1,
-    Destroyer: 2,
-    Cargo: 3,
-    Capital: 4,
-};
-
 const normalizeEntities = (
     entities: Array<PlacedEntity | (DragEntity & { startIndex?: number | null })> | undefined,
 ): PlacedEntity[] => {
@@ -41,16 +33,17 @@ const normalizeEntities = (
 
     return entities.map((entity, index) => {
         const providedShipId = entity.shipId;
-        const normalizedShipId =
+        const parsedShipId =
             typeof providedShipId === "number"
                 ? providedShipId
                 : typeof providedShipId === "string"
                   ? Number(providedShipId)
-                  : SHIP_NAME_TO_ID[entity.name];
-
+                  : null;
+        const normalizedShipId = Number.isFinite(parsedShipId ?? NaN) ? Number(parsedShipId) : null;
         return {
             ...entity,
-            shipId: Number.isFinite(normalizedShipId) ? normalizedShipId : null,
+            shipId: normalizedShipId,
+            iconTag: entity.iconTag ?? null,
             startIndex: entity.startIndex ?? null,
             id: entity.id ?? index,
         };

@@ -4,7 +4,8 @@ export interface DragEntity {
     id: number;
     ident: string;
     name: string;
-    shipId?: number | null;
+    icon_tag: string;
+    shipId: number;
     length: number;
     direction: DragDirection;
     disabled?: boolean;

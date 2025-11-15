@@ -16,7 +16,7 @@ const DragItem: React.FC<DragItemProps> = (props) => {
     const { entity, onDragStart, onDragEnd, className, onDoubleClick } = props;
     const draggable = !entity.disabled;
     const previewRef = useRef<HTMLElement | null>(null);
-    const ShipIllustration = useMemo(() => getShipImage(entity.name), [entity.name]);
+    const ShipIllustration = useMemo(() => getShipImage(entity.icon_tag), [entity.icon_tag]);
     const shouldFlip = typeof entity.id === "number" && entity.id % 2 === 0;
 
     const payload: DragData = useMemo(

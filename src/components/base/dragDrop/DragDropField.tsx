@@ -141,7 +141,7 @@ const DragDropField: React.FC<DragDropFieldProps> = (props) => {
             >
                 {entities.map((entity) => {
                     if (entity.startIndex == null) return null;
-                    const ShipIllustration = getShipImage(entity.name);
+                    const ShipIllustration = getShipImage(entity.icon_tag);
                     if (!ShipIllustration) return null;
                     const col = entity.startIndex % sizeX;
                     const row = Math.floor(entity.startIndex / sizeX);
