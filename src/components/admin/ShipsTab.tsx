@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import type { Ship, ShipCreate } from "../../models/ship";
+import type { Ship } from "../../models/ship";
 import {
   fetchAll,
   deleteOne,
-  createOne,
   updateOne,
 } from "../../repositories/ships";
 import { ErrorHelper } from "../../helper/errorHelper.js";
-import { BaseButtonAdd } from "../base/button/BaseButtonAdd";
 import { TransparentCard } from "../layout/TransparentCard";
 import { ShipItem } from "./ShipItem";
+import { AddShipModal } from "./AddShipModal";
 
 const ShipsTab = function ShipsTab() {
   const [ships, setShips] = useState<Ship[]>([]);
@@ -36,16 +35,6 @@ const ShipsTab = function ShipsTab() {
     }
   }
 
-  async function handleAdd() {
-    try {
-      const newItem: ShipCreate = { name: "New Ship", dimension: 1, icon_tag: "SatelliteImage" };
-      await createOne(newItem);
-      loadShips();
-    } catch (error) {
-      ErrorHelper.handleError(error);
-    }
-  }
-
   async function handleUpdate(update: { id: number; [key: string]: any }) {
     const { id, ...payload } = update;
     try {
@@ -58,7 +47,7 @@ const ShipsTab = function ShipsTab() {
 
   return (
     <TransparentCard direction="col" gap="2">
-      <BaseButtonAdd onClick={handleAdd} />
+      <AddShipModal onCreated={loadShips} />
       <TransparentCard direction="col" gap="2">
         {ships.map((ship) => (
           <ShipItem

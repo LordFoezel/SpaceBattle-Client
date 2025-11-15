@@ -1,33 +1,25 @@
-import type { MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
-import { BaseButton } from "../base/button/BaseButton";
+import type { ComponentProps } from "react";
+import { BaseButtonLink } from "../base/button/BaseButtonLink";
 import { ButtonText } from "../text/ButtonText";
 
-interface ToForgotButtonProps {
-  isDisabled?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  colorScheme?: string;
-  [key: string]: any;
-}
+interface ToForgotButtonProps extends Omit<ComponentProps<typeof BaseButtonLink>, "to"> {}
 
 const ToForgotButton = function ToForgotButton({
-  isDisabled,
-  size,
-  colorScheme,
+  variant = "subtle",
   ...rest
 }: ToForgotButtonProps) {
   return (
-    <BaseButton name="forgot-password" variant="subtle" isDisabled={isDisabled} size={size} colorScheme={colorScheme} {...rest}>
-      <Link to="/forgot-password">
-        <ButtonText>
-          {globalThis.t("login.forgotPassword")}
-        </ButtonText>
-      </Link>
-    </BaseButton>
+    <BaseButtonLink
+      name="forgot-password"
+      variant={variant}
+      to="/forgot-password"
+      {...rest}
+    >
+      <ButtonText>
+        {globalThis.t("login.forgotPassword")}
+      </ButtonText>
+    </BaseButtonLink>
   );
 };
 
 export { ToForgotButton };
-
-
-

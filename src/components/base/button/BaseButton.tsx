@@ -1,7 +1,7 @@
 import { forwardRef, type MouseEventHandler, type ReactNode } from "react";
 import { Button } from "@chakra-ui/react";
 
-interface BaseButtonProps {
+export interface BaseButtonProps {
   name?: string;
   children?: ReactNode;
   isDisabled?: boolean;

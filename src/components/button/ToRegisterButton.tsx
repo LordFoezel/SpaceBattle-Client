@@ -1,6 +1,5 @@
 import type { MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
-import { BaseButton } from "../base/button/BaseButton";
+import { BaseButtonLink } from "../base/button/BaseButtonLink";
 import { ButtonText } from "../text/ButtonText";
 
 interface ToRegisterButtonProps {
@@ -23,17 +22,21 @@ const ToRegisterButton = function ToRegisterButton({
   ...rest
 }: ToRegisterButtonProps) {
   return (
-    <BaseButton name={name} variant={variant} isDisabled={isDisabled} size={size} colorScheme={colorScheme} onClick={onClick} {...rest}>
-      <Link to="/register">
-        <ButtonText>
-          {globalThis.t("login.toRegistration")}
-        </ButtonText>
-      </Link>
-    </BaseButton>
+    <BaseButtonLink
+      name={name}
+      variant={variant}
+      isDisabled={isDisabled}
+      size={size}
+      colorScheme={colorScheme}
+      onClick={onClick}
+      to="/register"
+      {...rest}
+    >
+      <ButtonText>
+        {globalThis.t("login.toRegistration")}
+      </ButtonText>
+    </BaseButtonLink>
   );
 };
 
 export { ToRegisterButton };
-
-
-

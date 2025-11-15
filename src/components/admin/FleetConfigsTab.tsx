@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import type { ConfigFleet, ConfigFleetCreate } from "../../models/config_fleet";
+import type { ConfigFleet } from "../../models/config_fleet";
 import {
   fetchAll,
   deleteOne,
-  createOne,
   updateOne,
 } from "../../repositories/config_fleet";
 import { ErrorHelper } from "../../helper/errorHelper.js";
 import { FleetConfigItem } from "./FleetConfigItem";
-import { BaseButtonAdd } from "../base/button/BaseButtonAdd";
 import { TransparentCard } from "../layout/TransparentCard";
+import { AddFleetConfigModal } from "./AddFleetConfigModal";
 
 const FleetConfigsTab = function FleetConfigsTab() {
   const [fleetConfigs, setFleetConfigs] = useState<ConfigFleet[]>([]);
@@ -36,16 +35,6 @@ const FleetConfigsTab = function FleetConfigsTab() {
     }
   }
 
-  async function handleAdd() {
-    try {
-      const newItem: ConfigFleetCreate = { name: "test" }
-      await createOne(newItem);
-      loadFleetConfigs();
-    } catch (error) {
-      ErrorHelper.handleError(error);
-    }
-  }
-
   async function handleUpdate(update: { id: number;[key: string]: any }) {
     const { id, ...payload } = update;
 
@@ -60,7 +49,7 @@ const FleetConfigsTab = function FleetConfigsTab() {
 
   return (
     <TransparentCard direction="col" gap="2">
-      <BaseButtonAdd onClick={handleAdd} />
+      <AddFleetConfigModal onCreated={loadFleetConfigs} />
       <TransparentCard direction="col" gap="2">
         {fleetConfigs.map((config) => (
           <FleetConfigItem

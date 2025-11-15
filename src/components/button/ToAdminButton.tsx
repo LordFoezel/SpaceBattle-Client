@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { BaseButton } from "../base/button/BaseButton";
+import { BaseButtonLink } from "../base/button/BaseButtonLink";
 import { ButtonText } from "../text/ButtonText";
 import { AdminRoleChecker } from "../roleChecker/AdminRoleChecker";
 import { IconGear } from "../icon/IconGear";
@@ -14,13 +13,17 @@ const ToAdminButton = function ToAdminButton({
 }: ButtonProps) {
   return (
     <AdminRoleChecker>
-      <BaseButton name="to-admin" isDisabled={isDisabled} width="40">
-        <Link to="/admin">
-          <ButtonText>
-            <IconGear />
-          </ButtonText>
-        </Link>
-      </BaseButton>
+      <BaseButtonLink
+        name="to-admin"
+        isDisabled={isDisabled}
+        width="40"
+        to="/admin"
+        aria-label={globalThis.t?.("admin.go") ?? "Admin"}
+      >
+        <ButtonText>
+          <IconGear />
+        </ButtonText>
+      </BaseButtonLink>
     </AdminRoleChecker>
   );
 };

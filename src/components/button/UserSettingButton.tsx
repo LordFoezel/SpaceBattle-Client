@@ -1,5 +1,4 @@
-import { BaseButton } from "../base/button/BaseButton";
-import { Link } from "react-router-dom";
+import { BaseButtonLink } from "../base/button/BaseButtonLink";
 import { ButtonText } from "../text/ButtonText";
 import { IconUserGear } from "../icon/IconUserGear";
 
@@ -11,13 +10,16 @@ const UserSettingButton = function UserSettingButton({
 
 
   return (
-    <BaseButton name="user-setting" width="20" >
-      <Link to="/user-setting" >
-        <ButtonText>
-          <IconUserGear />
-        </ButtonText>
-      </Link>
-    </BaseButton>
+    <BaseButtonLink
+      name="user-setting"
+      width="20"
+      to="/user-setting"
+      aria-label={globalThis.t?.("user.setting") ?? "User settings"}
+    >
+      <ButtonText>
+        <IconUserGear />
+      </ButtonText>
+    </BaseButtonLink>
   );
 };
 

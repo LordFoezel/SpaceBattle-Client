@@ -1,6 +1,5 @@
 import type { MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
-import { BaseButton } from "../base/button/BaseButton";
+import { BaseButtonLink } from "../base/button/BaseButtonLink";
 import { ButtonText } from "../text/ButtonText";
 
 interface ToLoginButtonProps {
@@ -23,17 +22,22 @@ const ToLoginButton = function ToLoginButton({
   ...rest
 }: ToLoginButtonProps) {
   return (
-    <BaseButton name={name} variant={variant} isDisabled={isDisabled} size={size} colorScheme={colorScheme} onClick={onClick} {...rest}>
-      <Link to="/login">
-        <ButtonText>
-          {globalThis.t("login.toLogin")}
-        </ButtonText>
-      </Link>
-    </BaseButton>
+    <BaseButtonLink
+      name={name}
+      variant={variant}
+      isDisabled={isDisabled}
+      size={size}
+      colorScheme={colorScheme}
+      onClick={onClick}
+      to="/login"
+      {...rest}
+    >
+      <ButtonText>
+        {globalThis.t("login.toLogin")}
+      </ButtonText>
+    </BaseButtonLink>
   );
 };
 
 export { ToLoginButton };
-
-
 
