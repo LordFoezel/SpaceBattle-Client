@@ -38,7 +38,7 @@ const ShipsTab = function ShipsTab() {
 
   async function handleAdd() {
     try {
-      const newItem: ShipCreate = { name: "New Ship", dimension: 1, iconTag: "SatelliteImage" };
+      const newItem: ShipCreate = { name: "New Ship", dimension: 1, icon_tag: "SatelliteImage" };
       await createOne(newItem);
       loadShips();
     } catch (error) {
