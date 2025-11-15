@@ -12,7 +12,7 @@ import { MatchConfigModal } from "../components/modal/MatchConfigModal";
 import { SelfCheck } from "../helper/SelfCheck";
 import { MatchConfigDisplay } from "../components/layout/match/MatchConfigDisplay";
 import type { Match } from "../models/match";
-import type { Player } from "../models/player";
+import { PlayerState, type Player } from "../models/player";
 import { FleetModal } from "../components/modal/FleetModal";
 
 export default function MatchPage() {
@@ -21,6 +21,8 @@ export default function MatchPage() {
   const [numericMatchId, setNumericMatchId] = useState<number | null>(null);
   const navigate = useNavigate();
   const [players, setPlayers] = useState<Player[]>([]);
+  const currentPlayer = players.find((player) => SelfCheck({ playerId: player.id }));
+  const isCurrentPlayerReady = currentPlayer?.state === PlayerState.READY;
 
   useEffect(() => {
     if (!matchId) {
@@ -88,9 +90,15 @@ export default function MatchPage() {
           <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} matchId={Number(matchId)} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
-            {SelfCheck({ userId: match?.created_by }) && <MatchConfigModal match={match} onChange={onConfigChange} />}
-            <FleetModal match={match} />
-            <LeaveButton matchId={numericMatchId} onLeave={onLeave} />
+            {SelfCheck({ userId: match?.created_by }) && (
+              <MatchConfigModal
+                match={match}
+                onChange={onConfigChange}
+                isDisabled={isCurrentPlayerReady}
+              />
+            )}
+            <FleetModal match={match} isDisabled={isCurrentPlayerReady} />
+            <LeaveButton matchId={numericMatchId} onLeave={onLeave} isDisabled={isCurrentPlayerReady} />
           </ TransparentCard>
         </ TransparentCard>
       </MainCard>

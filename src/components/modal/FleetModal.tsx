@@ -7,25 +7,27 @@ import { ErrorHelper } from "../../helper/errorHelper";
 import { fetchById } from "../../repositories/ships";
 import { fetchAll, updateOne } from "../../repositories/fleet";
 import { FleetUpdate } from "../../models/fleet";
+import { AutoPlaceButton } from "../button/AutoPlaceButton";
 
 interface ModalProps {
     match: Match;
+    isDisabled?: boolean;
 }
 
 const FleetModal = function FleetModal(props: ModalProps) {
     const {
         match,
+        isDisabled = false,
     } = props;
 
     const [dragEntity, setDragEntity] = useState<PlacedEntity[]>([]);
 
-    if (!match) return;
+    if (!match) return null;
 
     useEffect(() => {
         if (!match.config) return;
-        placeShips();
+        void placeShips();
     }, [match]);
-
 
     async function placeShips() {
         try {
@@ -54,7 +56,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
     }
 
     function onChange(e: any) {
-        updateShip(e.item.id, { position: e.indexTo, direction: e.item.direction });
+        void updateShip(e.item.id, { position: e.indexTo, direction: e.item.direction });
     }
 
     async function updateShip(shipId: number, payload: FleetUpdate) {
@@ -66,16 +68,34 @@ const FleetModal = function FleetModal(props: ModalProps) {
     }
 
     function onOpen() {
-        placeShips();
+        void placeShips();
     }
 
     function onClose() {
-        placeShips();
+        void placeShips();
+    }
+
+    async function handleAutoPlaceComplete() {
+        await placeShips();
     }
 
     return (
-        <BaseModal buttonText={globalThis.t("fleet.fleet")} title={globalThis.t("fleet.fleetManager")} placement="top" showClose={false} showSave={false} onOpen={onOpen} onClose={onClose}>
+        <BaseModal
+            buttonText={globalThis.t("fleet.fleet")}
+            title={globalThis.t("fleet.fleetManager")}
+            placement="top"
+            showClose={false}
+            showSave={false}
+            onOpen={onOpen}
+            onClose={onClose}
+            triggerProps={{ isDisabled }}
+        >
             <TransparentCard direction="col" gap="2">
+                <AutoPlaceButton
+                    match={match}
+                    isDisabled={isDisabled || !match.config}
+                    onPlaced={handleAutoPlaceComplete}
+                />
                 <BaseDragDrop sizeX={match.config?.dimension_x} sizeY={match.config?.dimension_y} onChange={onChange} entities={dragEntity} />
             </TransparentCard>
         </BaseModal>

@@ -5,6 +5,7 @@ import {
   deleteOne as deleteOneBase,
   fetchById as fetchByIdBase,
   createOne as createOneBase,
+  request as requestBase,
 } from "./base.js";
 import { adaptFleet, type FleetCreate, type FleetUpdate } from "../models/fleet.js";
 import type { QueryInterface } from "../models/queryInterface.js";
@@ -38,4 +39,18 @@ export async function updateOne(id: number, payload: FleetUpdate) {
 
 export async function deleteOne(id: number) {
   await deleteOneBase(path, id);
+}
+
+export interface FleetAutoPlacePayload {
+  player_id: number;
+  match_id: number;
+  dimension_x: number;
+  dimension_y: number;
+}
+
+export async function autoplaceFleet(payload: FleetAutoPlacePayload) {
+  return requestBase<{ placed: number }>(`${path}/autoplace`, {
+    method: "POST",
+    body: payload as string,
+  });
 }

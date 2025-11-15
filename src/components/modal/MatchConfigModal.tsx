@@ -17,12 +17,14 @@ import { ConfigFleetLabel } from "../label/ConfigFleetLabel";
 interface ModalProps {
     match: Match;
     onChange?: () => any;
+    isDisabled?: boolean;
 }
 
 const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
     const {
         match,
         onChange,
+        isDisabled = false,
     } = props;
 
     const [name, setName] = useState("");
@@ -76,7 +78,14 @@ const MatchConfigModal = function MatchConfigModal(props: ModalProps) {
         }
     }
     return (
-        <BaseModal buttonText={globalThis.t("match.config")} title={globalThis.t("match.config")} placement="top" showSave={false} showClose={false} >
+        <BaseModal
+            buttonText={globalThis.t("match.config")}
+            title={globalThis.t("match.config")}
+            placement="top"
+            showSave={false}
+            showClose={false}
+            triggerProps={{ isDisabled }}
+        >
             <TransparentCard direction="col" gap="2">
                 <NameLabel value={name} onChange={(e) => setName(e.target.value)} onBlur={(e) => onChangeConfig('name', e)} />
                 <DescriptionLabel value={description} onChange={(e) => setDescription(e.target.value)} onBlur={(e) => onChangeConfig('description', e)} />
