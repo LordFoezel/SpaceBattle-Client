@@ -12,17 +12,21 @@
       "info": "",
       "label": "Blocked"
     },
-     "role": {
+    "role": {
       "info": "",
       "label": "Role"
     },
-     "dimension": {
+    "dimension": {
       "info": "",
       "label": "Dimension"
     },
+    "iconTag": {
+      "info": "",
+      "label": "Icon-Tag"
+    },
     "tabs": {
       "users": "Users",
-      "ships" : "Ships",
+      "ships": "Ships",
       "fleetConfigs": "Fleet-Configs"
     }
   },
@@ -122,7 +126,7 @@
     "dimension": "Dimension",
     "turnTimeout": "Turn timeout",
     "hasPassword": "With password",
-     "configFleet": {
+    "configFleet": {
       "info": "",
       "label": "Fleet-config"
     }

@@ -17,6 +17,5 @@ const shipImageMap: Record<string, ShipImageComponent> = {
 
 export const getShipImage = (iconTag: string | null | undefined): ShipImageComponent | null => {
     if (!iconTag) return null;
-    console.log(iconTag);
     return shipImageMap[iconTag] ?? null;
 };

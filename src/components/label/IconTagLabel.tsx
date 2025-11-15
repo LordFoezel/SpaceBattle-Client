@@ -15,7 +15,7 @@ const IconTagLabel = function IconTagLabel({
     onBlur,
 }: LabelProps) {
     return (
-        <BaseLabel variant="transparent" label={globalThis.t?.("ships.iconTag.label") ?? "Icon Component"} info={globalThis.t?.("ships.iconTag.info") ?? "Name of the icon component to render for this ship."}>
+        <BaseLabel variant="transparent" label={globalThis.t?.("admin.iconTag.label")} info={globalThis.t?.("admin.iconTag.info")}>
             <BaseInput name="iconTag" value={value} defaultValue={defaultValue} onChange={onChange} onBlur={onBlur} />
         </BaseLabel>
     );

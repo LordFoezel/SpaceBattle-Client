@@ -52,7 +52,7 @@ const ShipItem = function ShipItem({
                         <TransparentCard direction="col" gap="3">
                             <NameLabel value={ship.name} onChange={onChangeName} />
                             <DimensionLabel value={ship.dimension} onChange={onChangeDimension} />
-                            <IconTagLabel value={ship.iconTag} onChange={onChangeIconTag} />
+                            <IconTagLabel value={ship.icon_tag} onChange={onChangeIconTag} />
                         </TransparentCard>
                     </BaseEditModal>
                     <BaseButtonDelete
