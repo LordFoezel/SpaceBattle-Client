@@ -28,8 +28,6 @@ export default function GamePage() {
   const [match, setMatch] = useState<Match | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [showShips, setShowShips] = useState(false);
-  const [showShots] = useState(true);
   const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -73,31 +71,11 @@ export default function GamePage() {
     })();
   }, [matchId, navigate]);
 
-  useEffect(() => {
-    setLocalPlayerId(readLocalPlayerId());
-  }, [players]);
-
   const currentPlayer = useMemo(() => {
     if (!players.length) return null;
     const normalizedIndex = ((selectedIndex % players.length) + players.length) % players.length;
     return players[normalizedIndex];
   }, [players, selectedIndex]);
-
-  useEffect(() => {
-    if (!currentPlayer) {
-      setShowShips(false);
-      return;
-    }
-    if (localPlayerId == null) {
-      setShowShips(false);
-      return;
-    }
-    const isOwn = currentPlayer.id === localPlayerId;
-    setShowShips(isOwn ? true : false);
-  }, [currentPlayer?.id, localPlayerId]);
-
-  const disableNavigation = players.length <= 1;
-  const isOwnSelection = !!(currentPlayer && localPlayerId != null && currentPlayer.id === localPlayerId);
 
   function handleNextPlayer() {
     if (!players.length) return;
@@ -128,14 +106,11 @@ export default function GamePage() {
             playerName={currentPlayer?.name}
             onPrevious={handlePreviousPlayer}
             onNext={handleNextPlayer}
-            isDisabled={disableNavigation}
           />
           <Field
             playerId={currentPlayer?.id ?? 0}
             matchId={match.id}
-            showShips={showShips}
-            showShots={showShots}
-            disableInteraction={isOwnSelection}
+            FieldItemComponent={[]}
             onClick={onClick}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">

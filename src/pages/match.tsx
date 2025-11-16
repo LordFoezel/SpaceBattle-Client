@@ -32,6 +32,7 @@ function PlayButton({ match, players }: PlayButtonProps) {
     if (!match.config) return;
     const fleets = await fetchAllFleet({
       where: { player_id: player.id, match_id: match.id },
+      orderBy: "sequence",
     });
     const hasPlacement = fleets.length > 0 && fleets.every((fleet) => typeof fleet.position === "number");
     if (hasPlacement) {
@@ -59,8 +60,8 @@ function PlayButton({ match, players }: PlayButtonProps) {
       await Promise.all([
         updateMatchById(match.id, { state: MatchState.GAME }),
         Promise.all(
-          players.map((player) =>
-            updatePlayerById(player.id, { state: PlayerState.GAME })
+          players.map((player, index) =>
+            updatePlayerById(player.id, { state: PlayerState.GAME, sequence: index })
           )
         ),
       ]);
@@ -80,7 +81,7 @@ function PlayButton({ match, players }: PlayButtonProps) {
       isLoading={isSubmitting}
       colorScheme="green"
     >
-      {globalThis.t?.("match.play") ?? "Play"}
+      {globalThis.t?.("match.play")}
     </BaseButton>
   );
 }

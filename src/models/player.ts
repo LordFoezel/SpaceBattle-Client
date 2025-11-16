@@ -18,7 +18,7 @@ export interface Player {
   match_id: number;
   state: PlayerState;
   race: PlayerRace;
-  order: number;
+  sequence: number;
 }
 
 export interface PlayerCreate {
@@ -27,7 +27,7 @@ export interface PlayerCreate {
   match_id: number;
   state?: PlayerState;
   race?: PlayerRace;
-  order?: number;
+  sequence?: number;
 }
 
 export interface PlayerUpdate {
@@ -36,7 +36,7 @@ export interface PlayerUpdate {
   match_id?: number | null;
   state?: PlayerState | null;
   race?: PlayerRace | null;
-  order?: number | null;
+  sequence?: number | null;
 }
 
 export function adaptPlayer(raw: any): Player {
@@ -47,6 +47,6 @@ export function adaptPlayer(raw: any): Player {
     match_id: raw.match_id,
     state: raw.state,
     race: raw.race,
-    order: raw.order,
+    sequence: raw.sequence,
   };
 }
