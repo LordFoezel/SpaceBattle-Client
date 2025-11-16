@@ -10,6 +10,7 @@ import React, {
 import { DragDropField } from "./DragDropField";
 import { DragItem } from "./DragItem";
 import type { DragData, DragEntity, DropResponse, PlacedEntity } from "./types";
+import { BaseText } from "../text/BaseText";
 
 interface BaseDragDropProps {
     sizeX?: number;
@@ -43,7 +44,7 @@ const normalizeEntities = (
         return {
             ...entity,
             shipId: normalizedShipId,
-            iconTag: entity.iconTag ?? null,
+            iconTag: entity.icon_tag ?? null,
             startIndex: entity.startIndex ?? null,
             id: entity.id ?? index,
         };
@@ -394,9 +395,6 @@ const BaseDragDrop: React.FC<PropsWithChildren<BaseDragDropProps>> = (props) => 
                 gap: "12px",
             }}
         >
-            <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#94a3b8" }}>
-                {globalThis.t?.("fleet.availableShips") ?? "Available Ships"}
-            </h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {paletteItems.map((entity) => (
                     <DragItem

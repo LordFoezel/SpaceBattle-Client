@@ -4,6 +4,7 @@ import { BaseButton } from "../base/button/BaseButton";
 import { Match } from "../../models/match";
 import { autoplaceFleet } from "../../repositories/fleet";
 import { ErrorHelper } from "../../helper/errorHelper";
+import { ButtonText } from "../text/ButtonText";
 
 interface AutoPlaceButtonProps {
     match: Match;
@@ -48,7 +49,7 @@ const AutoPlaceButton = function AutoPlaceButton({ match, isDisabled = false, on
             isLoading={isSubmitting}
             colorScheme="purple"
         >
-            {globalThis.t?.("fleet.autoplace") ?? "Auto place"}
+            <ButtonText>{globalThis.t?.("fleet.autoplace")}</ButtonText>
         </BaseButton>
     );
 };

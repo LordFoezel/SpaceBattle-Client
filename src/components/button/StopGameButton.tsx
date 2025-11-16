@@ -6,6 +6,7 @@ import { Player, PlayerState } from "../../models/player";
 import { updateOne as updateMatchById } from "../../repositories/matches";
 import { updateOne as updatePlayerById } from "../../repositories/players";
 import { ErrorHelper } from "../../helper/errorHelper";
+import { ButtonText } from "../text/ButtonText";
 
 interface StopGameButtonProps {
   match: Match | null;
@@ -47,7 +48,9 @@ export function StopGameButton({ match, players }: StopGameButtonProps) {
       isDisabled={isDisabled}
       isLoading={isSubmitting}
     >
-      {globalThis.t?.("game.stop") ?? "Stop Game"}
+      <ButtonText>
+        {globalThis.t?.("game.stop") ?? "Stop Game"}
+      </ButtonText>
     </BaseButton>
   );
 }

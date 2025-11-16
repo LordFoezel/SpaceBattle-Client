@@ -146,6 +146,7 @@
     "routeBack": "Redirect on page back!"
   },
   "fleet": {
+    "autoplace": "Randomize",
     "fleet": "Fleet",
     "fleetManager": "Fleet-Manager",
     "availableShips": "Available ships",
