@@ -13,6 +13,7 @@ import { PlayerSelectionIndicator } from "../components/layout/game/PlayerSelect
 import { TransparentCard } from "../components/layout/TransparentCard";
 import { StopGameButton } from "../components/button/StopGameButton";
 import { Field } from "../components/game/Field";
+import { FieldItem } from "../components/game/FieldItem";
 
 function readLocalPlayerId(): number | null {
   if (typeof window === "undefined") return null;
@@ -28,6 +29,8 @@ export default function GamePage() {
   const [match, setMatch] = useState<Match | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showShips, setShowShips] = useState(false);
+  const [showShots] = useState(true);
   const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -71,11 +74,31 @@ export default function GamePage() {
     })();
   }, [matchId, navigate]);
 
+  useEffect(() => {
+    setLocalPlayerId(readLocalPlayerId());
+  }, [players]);
+
   const currentPlayer = useMemo(() => {
     if (!players.length) return null;
     const normalizedIndex = ((selectedIndex % players.length) + players.length) % players.length;
     return players[normalizedIndex];
   }, [players, selectedIndex]);
+
+  useEffect(() => {
+    if (!currentPlayer) {
+      setShowShips(false);
+      return;
+    }
+    if (localPlayerId == null) {
+      setShowShips(true);
+      return;
+    }
+    const isOwn = currentPlayer.id === localPlayerId;
+    setShowShips(!isOwn);
+  }, [currentPlayer?.id, localPlayerId]);
+
+  const disableNavigation = players.length <= 1;
+  const isOwnSelection = !!(currentPlayer && localPlayerId != null && currentPlayer.id === localPlayerId);
 
   function handleNextPlayer() {
     if (!players.length) return;
@@ -106,11 +129,15 @@ export default function GamePage() {
             playerName={currentPlayer?.name}
             onPrevious={handlePreviousPlayer}
             onNext={handleNextPlayer}
+            isDisabled={disableNavigation}
           />
           <Field
             playerId={currentPlayer?.id ?? 0}
             matchId={match.id}
-            FieldItemComponent={[]}
+            showShips={showShips}
+            showShots={showShots}
+            disableInteraction={isOwnSelection}
+            FieldItemComponent={FieldItem}
             onClick={onClick}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">

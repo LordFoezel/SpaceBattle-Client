@@ -1,111 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FieldItem, type FieldItemType } from "./FieldItem";
-import type { ShipDirection } from "../../models/fleet";
-import type { Shot } from "../../models/shot";
-import type { Ship } from "../../models/ship";
-import type { Fleet } from "../../models/fleet";
-import { fetchById as fetchMatchById } from "../../repositories/matches.js";
-import { fetchAll as fetchFleet } from "../../repositories/fleet.js";
-import { fetchAll as fetchShips } from "../../repositories/ships.js";
-import { fetchAll as fetchShots } from "../../repositories/shots.js";
+import type { FieldProps, FieldRenderableItem } from "./Field.types";
+import {
+  DEFAULT_FIELD_SIZE,
+  loadFieldShips,
+  loadFieldShots,
+  loadFieldSize,
+  type FieldSize,
+} from "./FieldData";
 import { CELL_GAP, CELL_SIZE } from "../base/dragDrop/constants";
-
-interface FieldProps {
-  playerId: number;
-  matchId: number;
-  showShots?: boolean;
-  showShips?: boolean;
-  disableInteraction?: boolean;
-  onClick?: (payload: { position: number; items: FieldRenderableItem[] }) => void;
-}
-
-interface FieldRenderableItem {
-  id: string | number;
-  type: FieldItemType;
-  startPosition: number;
-  direction: ShipDirection;
-  dimension: number;
-  opacity?: number;
-  selectable?: boolean;
-  payload?: Fleet | Shot | null;
-  iconTag?: string | null;
-}
-
-interface FieldSize {
-  columns: number;
-  rows: number;
-}
-
-const DEFAULT_FIELD_SIZE: FieldSize = { columns: 10, rows: 10 };
-
-function toPositiveIndex(index: number | null | undefined): number {
-  if (!Number.isFinite(index ?? NaN)) return 0;
-  return Math.max(0, Number(index));
-}
-
-async function loadFieldShips(playerId: number, matchId: number): Promise<FieldRenderableItem[]> {
-  if (!playerId || !matchId) return [];
-  const [fleets, ships] = await Promise.all([
-    fetchFleet({ where: { player_id: playerId, match_id: matchId } }),
-    fetchShips({}),
-  ]);
-  const shipDim = new Map<number, Ship>();
-  for (const ship of ships) shipDim.set(ship.id, ship);
-
-  return fleets
-    .filter((fleet) => Number.isFinite(fleet.position))
-    .map<FieldRenderableItem>((fleet) => ({
-      id: `ship-${fleet.id}`,
-      type: "ship",
-      startPosition: toPositiveIndex(fleet.position),
-      direction: fleet.direction,
-      dimension: shipDim.get(fleet.ship_id)?.dimension ?? 1,
-      opacity: 1,
-      selectable: true,
-      payload: fleet,
-      iconTag: shipDim.get(fleet.ship_id)?.icon_tag ?? null,
-    }));
-}
-
-async function loadFieldShots(playerId: number, matchId: number): Promise<FieldRenderableItem[]> {
-  if (!playerId || !matchId) return [];
-  try {
-    const shots = await fetchShots({ where: { player_id: playerId, match_id: matchId } });
-    return shots
-      .filter((shot) => Number.isFinite(shot.position))
-      .map<FieldRenderableItem>((shot) => ({
-        id: `shot-${shot.id}`,
-        type: "shot",
-        startPosition: toPositiveIndex(shot.position),
-        direction: ShipDirection.HORIZONTAL,
-        dimension: 1,
-        opacity: 0.95,
-        selectable: false,
-        payload: shot,
-      }));
-  } catch (error) {
-    // if (process.env.NODE_ENV !== "production") {
-    //   console.warn("[Field] Failed to load shots", error);
-    // }
-    return [];
-  }
-}
-
-async function loadFieldSize(matchId: number): Promise<FieldSize> {
-  if (!matchId) return DEFAULT_FIELD_SIZE;
-  try {
-    const match = await fetchMatchById(matchId);
-    if (!match?.config) return DEFAULT_FIELD_SIZE;
-    const columns = Number(match.config.dimension_x) || DEFAULT_FIELD_SIZE.columns;
-    const rows = Number(match.config.dimension_y) || DEFAULT_FIELD_SIZE.rows;
-    return { columns, rows };
-  } catch (error) {
-    // if (process.env.NODE_ENV !== "production") {
-    //   console.warn("[Field] Failed to load match config", error);
-    // }
-    return DEFAULT_FIELD_SIZE;
-  }
-}
 
 function computeCoverage(item: FieldRenderableItem, columns: number, rows: number): number[] {
   const coverage: number[] = [];
@@ -126,6 +28,7 @@ export function Field({
   showShots = true,
   showShips = true,
   disableInteraction = false,
+  FieldItemComponent,
   onClick,
 }: FieldProps) {
   const [fieldSize, setFieldSize] = useState<FieldSize>(DEFAULT_FIELD_SIZE);
@@ -149,19 +52,18 @@ export function Field({
   useEffect(() => {
     let active = true;
     (async () => {
-      const [ships] = await Promise.all([
-      // const [ships, shots] = await Promise.all([
-        showShips ? loadFieldShips(playerId, matchId) : Promise.resolve([]),
-        // showShots ? loadFieldShots(playerId, matchId) : Promise.resolve([]),
+      const [ships, shots] = await Promise.all([
+        loadFieldShips(playerId, matchId),
+        loadFieldShots(playerId, matchId),
       ]);
       if (!active) return;
-      setShipItems(showShips ? ships : []);
-      // setShotItems(showShots ? shots : []);
+      setShipItems(ships);
+      setShotItems(shots);
     })();
     return () => {
       active = false;
     };
-  }, [playerId, matchId, showShots, showShips]);
+  }, [playerId, matchId]);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -170,7 +72,7 @@ export function Field({
     const updateSize = () => {
       const totalWidth = node.clientWidth;
       if (!totalWidth) return;
-      const usableWidth = Math.max(totalWidth - 24, 0); // subtract inner padding
+      const usableWidth = Math.max(totalWidth - 24, 0);
       const totalGap = (fieldSize.columns - 1) * CELL_GAP;
       const maxCell = (usableWidth - totalGap) / fieldSize.columns;
       const desired = Math.min(CELL_SIZE, maxCell);
@@ -185,20 +87,16 @@ export function Field({
       observer.observe(node);
       return () => observer.disconnect();
     }
+
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, [fieldSize.columns]);
 
-  const renderableItems = useMemo(() => {
-    const items: FieldRenderableItem[] = [];
-    if (showShips) items.push(...shipItems);
-    if (showShots) items.push(...shotItems);
-    return items;
-  }, [shipItems, shotItems, showShips, showShots]);
+  const allItems = useMemo(() => [...shipItems, ...shotItems], [shipItems, shotItems]);
 
   const coverageMap = useMemo(() => {
     const map = new Map<number, FieldRenderableItem[]>();
-    for (const item of renderableItems) {
+    for (const item of allItems) {
       const coverage = computeCoverage(item, fieldSize.columns, fieldSize.rows);
       for (const cell of coverage) {
         const bucket = map.get(cell);
@@ -210,14 +108,14 @@ export function Field({
       }
     }
     return map;
-  }, [renderableItems, fieldSize.columns, fieldSize.rows]);
+  }, [allItems, fieldSize.columns, fieldSize.rows]);
 
   const sortedItems = useMemo(() => {
-    return [...renderableItems].sort((a, b) => {
+    return [...allItems].sort((a, b) => {
       const score = (value: FieldRenderableItem) => (value.type === "shot" ? 1 : 0);
       return score(a) - score(b);
     });
-  }, [renderableItems]);
+  }, [allItems]);
 
   const totalCells = fieldSize.columns * fieldSize.rows;
 
@@ -283,9 +181,10 @@ export function Field({
                 border: "1px solid rgba(148,163,184,0.2)",
                 background: coverageMap.has(index) ? "rgba(59,130,246,0.15)" : "rgba(15,23,42,0.45)",
                 outline: "none",
-                cursor: "pointer",
+                cursor: disableInteraction ? "default" : "pointer",
                 transition: "background 120ms ease",
               }}
+              disabled={disableInteraction}
             />
           ))}
         </div>
@@ -300,27 +199,29 @@ export function Field({
             pointerEvents: "none",
           }}
         >
-          {sortedItems.map((item) => (
-            <FieldItem
-              key={item.id}
-              type={item.type}
-              startPosition={item.startPosition}
-              direction={item.direction}
-              dimension={item.dimension}
-              opacity={item.opacity}
-            selectable={item.selectable && !disableInteraction}
-              iconTag={item.iconTag}
-              columns={fieldSize.columns}
-              cellSize={cellSize}
-              cellGap={CELL_GAP}
-              onSelect={item.selectable ? () => handleItemSelect(item) : undefined}
-            />
-          ))}
+          {sortedItems.map((item) => {
+            const hidden =
+              (item.type === "ship" && !showShips) ||
+              (item.type === "shot" && !showShots);
+            const selectable = !hidden && item.selectable && !disableInteraction;
+            return (
+              <FieldItemComponent
+                key={item.id}
+                {...item}
+                selectable={selectable}
+                columns={fieldSize.columns}
+                cellSize={cellSize}
+                cellGap={CELL_GAP}
+                hidden={hidden}
+                onSelect={selectable ? () => handleItemSelect(item) : undefined}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
 
-export type { FieldProps, FieldRenderableItem };
-export { loadFieldShips, loadFieldShots };
+export type { FieldProps, FieldRenderableItem } from "./Field.types";
+
