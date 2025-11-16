@@ -98,7 +98,6 @@ export default function GamePage() {
             isDisabled={disableNavigation}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">
-            // todo: make a field komponente, die das feld gemäs mathces anzeigt: dimenion x / y
           </TransparentCard>
         </TransparentCard>
       </MainCard>
