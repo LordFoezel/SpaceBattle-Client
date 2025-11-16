@@ -31,7 +31,6 @@ const BaseText = function BaseText({
     const classes = [];
     if (uppercase) classes.push("uppercase");
     if (lowercase) classes.push("lowercase");
-    if (alligment) classes.push(`justify-${alligment}`);
     if (text) classes.push(`text-${text}`);
     if (width) classes.push(`w-${width}`);
     return classes.join(" ");
@@ -44,6 +43,7 @@ const BaseText = function BaseText({
       isTruncated={truncate}
       color={toChakraColor(color)}
       className={className()}
+      textAlign={alligment as any}
     >{children}</Text>
   );
 };

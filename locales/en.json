@@ -151,6 +151,11 @@
     "availableShips": "Available ships",
     "allShipsPlaced": "All Ships Placed"
   },
+  "game": {
+    "previousPlayer": "Previous",
+    "currentPlayer": "Current",
+    "nextPlayer": "Next"
+  },
   "page": {
     "admin": {
       "info": "Staff only things!",
