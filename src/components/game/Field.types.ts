@@ -1,18 +1,24 @@
 import type { ComponentType } from "react";
-import type { ShipDirection, Fleet } from "../../models/fleet";
-import type { Shot } from "../../models/shot";
-import type { FieldItemType } from "./FieldItem";
 
-export interface FieldRenderableItem {
+export type FieldDirection = "horizontal" | "vertical";
+export type FieldItemType = "ship" | "shot" | "mine" | string;
+
+export interface FieldItemDefinition {
   id: string | number;
   type: FieldItemType;
   startPosition: number;
-  direction: ShipDirection;
-  dimension: number;
-  opacity?: number;
+  dimension?: number;
+  direction?: FieldDirection;
   selectable?: boolean;
-  payload?: Fleet | Shot | null;
+  visible?: boolean;
   iconTag?: string | null;
+  opacity?: number;
+  metadata?: Record<string, unknown>;
+}
+
+export interface FieldRenderableItem extends FieldItemDefinition {
+  direction: FieldDirection;
+  dimension: number;
 }
 
 export interface FieldItemRenderProps extends FieldRenderableItem {
@@ -23,13 +29,17 @@ export interface FieldItemRenderProps extends FieldRenderableItem {
   onSelect?: () => void;
 }
 
+export interface FieldClickPayload {
+  position: number;
+  items: FieldItemDefinition[];
+}
+
 export interface FieldProps {
-  playerId: number;
-  matchId: number;
-  showShots?: boolean;
-  showShips?: boolean;
-  disableInteraction?: boolean;
-  FieldItemComponent: ComponentType<FieldItemRenderProps>;
-  onClick?: (payload: { position: number; items: FieldRenderableItem[] }) => void;
+  dimensionX: number;
+  dimensionY: number;
+  interactable?: boolean;
+  items: FieldItemDefinition[];
+  FieldItemComponent?: ComponentType<FieldItemRenderProps>;
+  onClick?: (payload: FieldClickPayload) => void;
 }
 

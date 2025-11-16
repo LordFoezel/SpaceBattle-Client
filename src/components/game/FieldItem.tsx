@@ -1,24 +1,23 @@
 import type { CSSProperties, MouseEvent } from "react";
-import type { ShipDirection } from "../../models/fleet";
 import { getShipImage } from "../base/dragDrop/shipImages";
-
-export type FieldItemType = "ship" | "shot";
+import type { FieldDirection, FieldItemType } from "./Field.types";
 
 interface FieldItemProps {
   opacity?: number;
   selectable?: boolean;
   type: FieldItemType;
   startPosition: number;
-  direction: ShipDirection;
+  direction: FieldDirection;
   dimension: number;
   columns: number;
   cellSize: number;
   cellGap: number;
   iconTag?: string | null;
+  hidden?: boolean;
   onSelect?: () => void;
 }
 
-const shotStyleBase: CSSProperties = {
+const shotStyle: CSSProperties = {
   borderRadius: "50%",
   background: "rgba(248,113,113,0.85)",
   border: "1px solid rgba(248,113,113,0.95)",
@@ -31,25 +30,30 @@ const shotStyleBase: CSSProperties = {
   zIndex: 3,
 };
 
-const shipBaseStyle: CSSProperties = {
+const defaultShipStyle: CSSProperties = {
   position: "absolute",
   pointerEvents: "none",
   zIndex: 2,
 };
 
-export function FieldItem({
-  opacity = 1,
-  selectable = false,
-  type,
-  startPosition,
-  direction,
-  dimension,
-  columns,
-  cellSize,
-  cellGap,
-  iconTag,
-  onSelect,
-}: FieldItemProps) {
+export function FieldItem(props: FieldItemProps) {
+  const {
+    opacity = 1,
+    selectable = false,
+    type,
+    startPosition,
+    direction,
+    dimension,
+    columns,
+    cellSize,
+    cellGap,
+    iconTag,
+    hidden = false,
+    onSelect,
+  } = props;
+
+  if (hidden) return null;
+
   const column = startPosition % columns;
   const row = Math.floor(startPosition / columns);
   const left = column * (cellSize + cellGap);
@@ -57,26 +61,47 @@ export function FieldItem({
 
   if (type === "shot") {
     const size = cellSize * 0.6;
-    const style: CSSProperties = {
-      position: "absolute",
-      left: left + cellSize / 2 - size / 2,
-      top: top + cellSize / 2 - size / 2,
-      width: size,
-      height: size,
-      opacity,
-      ...shotStyleBase,
-    };
     return (
-      <div style={style}>
+      <div
+        style={{
+          position: "absolute",
+          left: left + cellSize / 2 - size / 2,
+          top: top + cellSize / 2 - size / 2,
+          width: size,
+          height: size,
+          opacity,
+          ...shotStyle,
+        }}
+      >
         *
       </div>
+    );
+  }
+
+  if (type === "mine") {
+    const size = cellSize * 0.5;
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: left + cellSize / 2 - size / 2,
+          top: top + cellSize / 2 - size / 2,
+          width: size,
+          height: size,
+          borderRadius: "8px",
+          background: "rgba(251,191,36,0.8)",
+          border: "1px solid rgba(245,158,11,0.9)",
+          boxShadow: "0 0 6px rgba(251,191,36,0.8)",
+          opacity,
+        }}
+      />
     );
   }
 
   const ShipIllustration = iconTag ? getShipImage(iconTag) : null;
   const shipLengthPx = dimension * cellSize;
   const baseStyle: CSSProperties = {
-    ...shipBaseStyle,
+    ...defaultShipStyle,
     left,
     top,
     opacity,

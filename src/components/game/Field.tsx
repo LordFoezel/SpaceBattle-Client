@@ -1,80 +1,71 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { FieldProps, FieldRenderableItem } from "./Field.types";
-import {
-  DEFAULT_FIELD_SIZE,
-  loadFieldShips,
-  loadFieldShots,
-  loadFieldSize,
-  type FieldSize,
-} from "./FieldData";
+import type { FieldItemDefinition, FieldProps, FieldRenderableItem } from "./Field.types";
+import { FieldItem } from "./FieldItem";
+import { placeItems } from "./FieldPlacement";
 import { CELL_GAP, CELL_SIZE } from "../base/dragDrop/constants";
 
-function computeCoverage(item: FieldRenderableItem, columns: number, rows: number): number[] {
-  const coverage: number[] = [];
-  const baseColumn = item.startPosition % columns;
-  const baseRow = Math.floor(item.startPosition / columns);
-  for (let offset = 0; offset < item.dimension; offset += 1) {
-    const column = item.direction === "horizontal" ? baseColumn + offset : baseColumn;
-    const row = item.direction === "vertical" ? baseRow + offset : baseRow;
-    if (column >= columns || row >= rows) break;
-    coverage.push(row * columns + column);
-  }
-  return coverage;
+const TYPE_PRIORITY: Record<string, number> = {
+  shot: 2,
+  mine: 1,
+};
+
+function clampIndex(index: number, max: number): number {
+  if (!Number.isFinite(index)) return 0;
+  return Math.max(0, Math.min(Math.trunc(index), max));
+}
+
+function sortItems(items: FieldRenderableItem[]): FieldRenderableItem[] {
+  return [...items].sort((a, b) => {
+    const scoreA = TYPE_PRIORITY[a.type] ?? 0;
+    const scoreB = TYPE_PRIORITY[b.type] ?? 0;
+    return scoreA - scoreB;
+  });
 }
 
 export function Field({
-  playerId,
-  matchId,
-  showShots = true,
-  showShips = true,
-  disableInteraction = false,
-  FieldItemComponent,
+  dimensionX,
+  dimensionY,
+  interactable = true,
+  items,
   onClick,
 }: FieldProps) {
-  const [fieldSize, setFieldSize] = useState<FieldSize>(DEFAULT_FIELD_SIZE);
-  const [shipItems, setShipItems] = useState<FieldRenderableItem[]>([]);
-  const [shotItems, setShotItems] = useState<FieldRenderableItem[]>([]);
+  const columns = Math.max(1, Math.trunc(dimensionX));
+  const rows = Math.max(1, Math.trunc(dimensionY));
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [cellSize, setCellSize] = useState(CELL_SIZE);
 
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const size = await loadFieldSize(matchId);
-      if (!active) return;
-      setFieldSize(size);
-    })();
-    return () => {
-      active = false;
-    };
-  }, [matchId]);
+  const { normalizedItems, coverageMap } = useMemo(
+    () => placeItems(items, columns, rows),
+    [items, columns, rows],
+  );
 
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const [ships, shots] = await Promise.all([
-        loadFieldShips(playerId, matchId),
-        loadFieldShots(playerId, matchId),
-      ]);
-      if (!active) return;
-      setShipItems(ships);
-      setShotItems(shots);
-    })();
-    return () => {
-      active = false;
-    };
-  }, [playerId, matchId]);
+  const visibleCoverageMap = useMemo(() => {
+    const map = new Map<number, FieldItemDefinition[]>();
+    for (const [cell, defs] of coverageMap.entries()) {
+      const visibleItems = defs.filter((definition) => {
+        const isVisible = definition.visible !== false;
+        const hasOpacity = definition.opacity == null || definition.opacity > 0;
+        return isVisible && hasOpacity;
+      });
+      if (visibleItems.length > 0) {
+        map.set(cell, visibleItems);
+      }
+    }
+    return map;
+  }, [coverageMap]);
+
+  const sortedItems = useMemo(() => sortItems(normalizedItems), [normalizedItems]);
 
   useEffect(() => {
     const node = containerRef.current;
-    if (!node || fieldSize.columns <= 0) return;
+    if (!node) return;
 
     const updateSize = () => {
       const totalWidth = node.clientWidth;
       if (!totalWidth) return;
       const usableWidth = Math.max(totalWidth - 24, 0);
-      const totalGap = (fieldSize.columns - 1) * CELL_GAP;
-      const maxCell = (usableWidth - totalGap) / fieldSize.columns;
+      const totalGap = (columns - 1) * CELL_GAP;
+      const maxCell = (usableWidth - totalGap) / columns;
       const desired = Math.min(CELL_SIZE, maxCell);
       const next = Math.max(20, desired || 0);
       setCellSize((prev) => (Math.abs(prev - next) > 0.5 ? next : prev));
@@ -90,59 +81,37 @@ export function Field({
 
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
-  }, [fieldSize.columns]);
+  }, [columns]);
 
-  const allItems = useMemo(() => [...shipItems, ...shotItems], [shipItems, shotItems]);
+  const totalCells = columns * rows;
+  const gridTemplateColumns = `repeat(${columns}, ${cellSize}px)`;
+  const gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
+  const fieldWidth = columns * cellSize + (columns - 1) * CELL_GAP;
+  const fieldHeight = rows * cellSize + (rows - 1) * CELL_GAP;
 
-  const coverageMap = useMemo(() => {
-    const map = new Map<number, FieldRenderableItem[]>();
-    for (const item of allItems) {
-      const coverage = computeCoverage(item, fieldSize.columns, fieldSize.rows);
-      for (const cell of coverage) {
-        const bucket = map.get(cell);
-        if (bucket) {
-          bucket.push(item);
-        } else {
-          map.set(cell, [item]);
-        }
-      }
-    }
-    return map;
-  }, [allItems, fieldSize.columns, fieldSize.rows]);
-
-  const sortedItems = useMemo(() => {
-    return [...allItems].sort((a, b) => {
-      const score = (value: FieldRenderableItem) => (value.type === "shot" ? 1 : 0);
-      return score(a) - score(b);
-    });
-  }, [allItems]);
-
-  const totalCells = fieldSize.columns * fieldSize.rows;
+  const emitClick = useCallback(
+    (index: number) => {
+      if (!onClick || !interactable) return;
+      const payloadItems = coverageMap.get(index) ?? [];
+      onClick({ position: index, items: payloadItems });
+    },
+    [coverageMap, interactable, onClick],
+  );
 
   const handleCellClick = useCallback(
     (index: number) => {
-      if (!onClick || disableInteraction) return;
-      const items = coverageMap.get(index) ?? [];
-      onClick({ position: index, items });
+      emitClick(index);
     },
-    [coverageMap, disableInteraction, onClick],
+    [emitClick],
   );
 
   const handleItemSelect = useCallback(
     (item: FieldRenderableItem) => {
-      if (!onClick || disableInteraction) return;
-      const [firstCell] = computeCoverage(item, fieldSize.columns, fieldSize.rows);
-      const primary = firstCell ?? item.startPosition;
-      const items = coverageMap.get(primary) ?? [];
-      onClick({ position: primary, items });
+      const primary = clampIndex(item.startPosition, totalCells - 1);
+      emitClick(primary);
     },
-    [coverageMap, disableInteraction, fieldSize.columns, fieldSize.rows, onClick],
+    [emitClick, totalCells],
   );
-
-  const gridTemplateColumns = `repeat(${fieldSize.columns}, ${cellSize}px)`;
-  const gridTemplateRows = `repeat(${fieldSize.rows}, ${cellSize}px)`;
-  const fieldWidth = fieldSize.columns * cellSize + (fieldSize.columns - 1) * CELL_GAP;
-  const fieldHeight = fieldSize.rows * cellSize + (fieldSize.rows - 1) * CELL_GAP;
 
   return (
     <div
@@ -179,12 +148,12 @@ export function Field({
                 height: cellSize,
                 borderRadius: 6,
                 border: "1px solid rgba(148,163,184,0.2)",
-                background: coverageMap.has(index) ? "rgba(59,130,246,0.15)" : "rgba(15,23,42,0.45)",
+                background: visibleCoverageMap.has(index) ? "rgba(59,130,246,0.15)" : "rgba(15,23,42,0.45)",
                 outline: "none",
-                cursor: disableInteraction ? "default" : "pointer",
+                cursor: interactable ? "pointer" : "default",
                 transition: "background 120ms ease",
               }}
-              disabled={disableInteraction}
+              disabled={!interactable}
             />
           ))}
         </div>
@@ -200,16 +169,14 @@ export function Field({
           }}
         >
           {sortedItems.map((item) => {
-            const hidden =
-              (item.type === "ship" && !showShips) ||
-              (item.type === "shot" && !showShots);
-            const selectable = !hidden && item.selectable && !disableInteraction;
+            const hidden = item.visible === false;
+            const selectable = interactable && (item.selectable ?? true) && !hidden;
             return (
-              <FieldItemComponent
+              <FieldItem
                 key={item.id}
                 {...item}
                 selectable={selectable}
-                columns={fieldSize.columns}
+                columns={columns}
                 cellSize={cellSize}
                 cellGap={CELL_GAP}
                 hidden={hidden}
@@ -223,5 +190,4 @@ export function Field({
   );
 }
 
-export type { FieldProps, FieldRenderableItem } from "./Field.types";
-
+export type { FieldProps, FieldRenderableItem, FieldItemDefinition } from "./Field.types";
