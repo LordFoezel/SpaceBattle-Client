@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Player, PlayerState } from "../../models/player";
 import { BaseSwitch } from "../base/checkbox/BaseSwitch";
 import { updateOne } from "../../repositories/players";
-import { fetchAll as fetchFleet } from "../../repositories/fleet";
 import { ErrorHelper } from "../../helper/errorHelper";
 
 interface SwitchProps {
@@ -17,38 +16,10 @@ const ReadySwitch = function ReadySwitch({
     isDisabled,
     onChange,
 }: SwitchProps) {
-    const [value, setValue] = useState(false);
-    const [hasAllShipsPlaced, setHasAllShipsPlaced] = useState(false);
-
-    const checkPlacementStatus = useCallback(async () => {
-        try {
-            const fleets = await fetchFleet({
-                player_id: player.id,
-                match_id: player.match_id,
-            });
-            const allPlaced = fleets.length > 0 && fleets.every((fleet) => typeof fleet.position === "number");
-            setHasAllShipsPlaced(allPlaced);
-        } catch (error) {
-            ErrorHelper.handleError(error);
-            setHasAllShipsPlaced(false);
-        }
-    }, [player.id, player.match_id]);
-
-    useEffect(() => {
-        checkPlacementStatus();
-    }, [checkPlacementStatus]);
-
-    useEffect(() => {
-        const handler = () => {
-            checkPlacementStatus();
-        };
-        window.addEventListener("fleet:update", handler);
-        return () => window.removeEventListener("fleet:update", handler);
-    }, [checkPlacementStatus]);
+    const [value, setValue] = useState(player.state === PlayerState.READY);
 
     async function onChangeState() {
-        const readyDisabled = isDisabled || !hasAllShipsPlaced;
-        if (readyDisabled) {
+        if (isDisabled) {
             return;
         }
         const previousValue = value;
@@ -68,14 +39,8 @@ const ReadySwitch = function ReadySwitch({
     }
 
     useEffect(() => {
-        if (player.state === PlayerState.READY) {
-            setValue(true);
-        } else {
-            setValue(false);
-        }
-    }, [player]);
-
-    const disabled = isDisabled || !hasAllShipsPlaced;
+        setValue(player.state === PlayerState.READY);
+    }, [player.state]);
 
     return (
         <BaseSwitch
@@ -83,7 +48,7 @@ const ReadySwitch = function ReadySwitch({
             onChange={onChangeState}
             value={value}
             defaultValue={value}
-            isDisabled={disabled}
+            isDisabled={isDisabled}
             size="lg"
             height="full"
         />

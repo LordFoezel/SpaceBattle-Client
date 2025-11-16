@@ -29,6 +29,13 @@ const FleetModal = function FleetModal(props: ModalProps) {
         void placeShips();
     }, [match]);
 
+    const dispatchFleetUpdate = () => {
+        if (typeof window === "undefined") {
+            return;
+        }
+        window.dispatchEvent(new Event("fleet:update"));
+    };
+
     async function placeShips() {
         try {
             const playerId = window.localStorage.getItem("spacebattle.playerId");
@@ -50,6 +57,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
             }));
 
             setDragEntity(temp);
+            dispatchFleetUpdate();
         } catch (error) {
             ErrorHelper.handleError(error);
         }
@@ -62,6 +70,7 @@ const FleetModal = function FleetModal(props: ModalProps) {
     async function updateShip(shipId: number, payload: FleetUpdate) {
         try {
             await updateOne(shipId, payload);
+            dispatchFleetUpdate();
         } catch (error) {
             ErrorHelper.handleError(error);
         }
