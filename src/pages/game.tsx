@@ -12,6 +12,8 @@ import { PlayerTurnStrip } from "../components/layout/game/PlayerTurnStrip";
 import { PlayerSelectionIndicator } from "../components/layout/game/PlayerSelectionIndicator";
 import { TransparentCard } from "../components/layout/TransparentCard";
 import { StopGameButton } from "../components/button/StopGameButton";
+import { Field } from "../components/game/Field";
+import { BaseButton } from "../components/base/button/BaseButton";
 
 export default function GamePage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -20,6 +22,8 @@ export default function GamePage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [showShips, setShowShips] = useState(true);
+  const [showShots, setShowShots] = useState(true);
 
   useEffect(() => {
     if (!matchId) {
@@ -81,8 +85,21 @@ export default function GamePage() {
     setSelectedIndex((prev) => (prev - 1 + players.length) % players.length);
   }
 
+  function handleToggleShips() {
+    setShowShips((prev) => !prev);
+  }
 
-  if(!match) return;
+  function handleToggleShots() {
+    setShowShots((prev) => !prev);
+  }
+
+  function onClick(e: any) {
+    console.log(e);
+
+  }
+
+
+  if (!match) return;
   return (
     <section className="game-page">
       <MainCard>
@@ -97,6 +114,21 @@ export default function GamePage() {
             onPrevious={handlePreviousPlayer}
             onNext={handleNextPlayer}
             isDisabled={disableNavigation}
+          />
+          <TransparentCard direction="row" gap="2" padding="0">
+            <BaseButton onClick={handleToggleShips} size="sm">
+              {showShips ? "Hide Ships" : "Show Ships"}
+            </BaseButton>
+            <BaseButton onClick={handleToggleShots} size="sm">
+              {showShots ? "Hide Shots" : "Show Shots"}
+            </BaseButton>
+          </TransparentCard>
+          <Field
+            playerId={currentPlayer?.id ?? 0}
+            matchId={match.id}
+            showShips={showShips}
+            showShots={showShots}
+            onClick={onClick}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">
             <StopGameButton match={match} players={players} />
