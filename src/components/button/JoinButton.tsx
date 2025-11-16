@@ -37,11 +37,9 @@ const JoinButton = function JoinButton({
         }
 
         const destinationPath = checkMatchState(match);
-
         const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
-
         try {
-          const player = await fetchPlayer({ where: { userId, matchId } });
+          const player = await fetchPlayer({ where: { user_id: userId, match_id: matchId } });
           if (player) {
             window.localStorage.setItem("spacebattle.playerId", `${player.id}`);
             const shipConfigs = await fetchConfig({ config_fleet_id: match.config.fleet_config_id });

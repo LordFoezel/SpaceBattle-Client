@@ -9,9 +9,8 @@ interface PlayerTurnStripProps {
 }
 
 export function PlayerTurnStrip({ players, currentIndex }: PlayerTurnStripProps) {
-  const safeIndex = players.length === 0
-    ? 0
-    : ((currentIndex % players.length) + players.length) % players.length;
+  const currentPosition = players.findIndex((player) => player.order === currentIndex);
+  const safeIndex = currentPosition >= 0 ? currentPosition : 0;
   const pickPlayer = (offset: number) => {
     if (players.length === 0) return null;
     const nextIndex = (safeIndex + offset + players.length) % players.length;

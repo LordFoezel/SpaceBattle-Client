@@ -13,8 +13,14 @@ import { PlayerSelectionIndicator } from "../components/layout/game/PlayerSelect
 import { TransparentCard } from "../components/layout/TransparentCard";
 import { StopGameButton } from "../components/button/StopGameButton";
 import { Field } from "../components/game/Field";
-import { BaseButton } from "../components/base/button/BaseButton";
-import { AuthTokenHelper } from "../helper/authToken";
+
+function readLocalPlayerId(): number | null {
+  if (typeof window === "undefined") return null;
+  const raw = window.localStorage.getItem("spacebattle.playerId");
+  if (!raw) return null;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : null;
+}
 
 export default function GamePage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -23,8 +29,8 @@ export default function GamePage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showShips, setShowShips] = useState(false);
-  const [showShots, setShowShots] = useState(true);
-  const [localPlayerId, setLocalPlayerId] = useState<number>();
+  const [showShots] = useState(true);
+  const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
 
   useEffect(() => {
     if (!matchId) {
@@ -62,15 +68,13 @@ export default function GamePage() {
         ErrorHelper.handleError(error);
         navigate("/lobby", { replace: true });
       } finally {
-        const { id: userId } = AuthTokenHelper.getUserIdentity();
-        setLocalPlayerId(userId);
+        setLocalPlayerId(readLocalPlayerId());
       }
     })();
   }, [matchId, navigate]);
 
   useEffect(() => {
-    const { id: userId } = AuthTokenHelper.getUserIdentity();
-    setLocalPlayerId(userId);
+    setLocalPlayerId(readLocalPlayerId());
   }, [players]);
 
   const currentPlayer = useMemo(() => {
@@ -80,16 +84,16 @@ export default function GamePage() {
   }, [players, selectedIndex]);
 
   useEffect(() => {
-    if (!currentPlayer) return;
+    if (!currentPlayer) {
+      setShowShips(false);
+      return;
+    }
     if (localPlayerId == null) {
-      console.log('showShips true, no player');
-
-      setShowShips(true);
+      setShowShips(false);
       return;
     }
     const isOwn = currentPlayer.id === localPlayerId;
-    console.log('isOwn ? false : true', isOwn ? false : true);
-    setShowShips(isOwn ? false : true);
+    setShowShips(isOwn ? true : false);
   }, [currentPlayer?.id, localPlayerId]);
 
   const disableNavigation = players.length <= 1;
@@ -105,17 +109,8 @@ export default function GamePage() {
     setSelectedIndex((prev) => (prev - 1 + players.length) % players.length);
   }
 
-  function handleToggleShips() {
-    setShowShips((prev) => !prev);
-  }
-
-  function handleToggleShots() {
-    setShowShots((prev) => !prev);
-  }
-
   function onClick(e: any) {
     console.log(e);
-
   }
 
 
@@ -135,14 +130,6 @@ export default function GamePage() {
             onNext={handleNextPlayer}
             isDisabled={disableNavigation}
           />
-          <TransparentCard direction="row" gap="2" padding="0">
-            <BaseButton onClick={handleToggleShips} size="sm">
-              {showShips ? "Hide Ships" : "Show Ships"}
-            </BaseButton>
-            <BaseButton onClick={handleToggleShots} size="sm">
-              {showShots ? "Hide Shots" : "Show Shots"}
-            </BaseButton>
-          </TransparentCard>
           <Field
             playerId={currentPlayer?.id ?? 0}
             matchId={match.id}
