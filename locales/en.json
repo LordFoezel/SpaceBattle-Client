@@ -154,7 +154,8 @@
   "game": {
     "previousPlayer": "Previous",
     "currentPlayer": "Current",
-    "nextPlayer": "Next"
+    "nextPlayer": "Next",
+    "stop": "Stop"
   },
   "page": {
     "admin": {

@@ -9,8 +9,9 @@ interface PlayerTurnStripProps {
 }
 
 export function PlayerTurnStrip({ players, currentIndex }: PlayerTurnStripProps) {
-
-  const safeIndex = Math.max(0, Math.min(currentIndex, players.length - 1));
+  const safeIndex = players.length === 0
+    ? 0
+    : ((currentIndex % players.length) + players.length) % players.length;
   const pickPlayer = (offset: number) => {
     if (players.length === 0) return null;
     const nextIndex = (safeIndex + offset + players.length) % players.length;
@@ -66,9 +67,6 @@ export function PlayerTurnStrip({ players, currentIndex }: PlayerTurnStripProps)
             justify="end"
             className="player-turn-strip__slot"
           >
-            {/* <BaseText fontSize="xs" fontWeight="light" color="gray-400" alligment={alligment}>
-              {label}
-            </BaseText> */}
             <BaseText fontSize={fontSize} fontWeight={fontWeight} color={color} alligment={alligment}>
               {player?.name}
             </BaseText>

@@ -11,8 +11,7 @@ import { checkMatchState } from "../helper/matchState";
 import { PlayerTurnStrip } from "../components/layout/game/PlayerTurnStrip";
 import { PlayerSelectionIndicator } from "../components/layout/game/PlayerSelectionIndicator";
 import { TransparentCard } from "../components/layout/TransparentCard";
-import { BaseCard } from "../components/base/layout/BaseCard";
-import { BaseText } from "../components/base/text/BaseText";
+import { StopGameButton } from "../components/button/StopGameButton";
 
 export default function GamePage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -82,6 +81,8 @@ export default function GamePage() {
     setSelectedIndex((prev) => (prev - 1 + players.length) % players.length);
   }
 
+
+  if(!match) return;
   return (
     <section className="game-page">
       <MainCard>
@@ -98,6 +99,7 @@ export default function GamePage() {
             isDisabled={disableNavigation}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">
+            <StopGameButton match={match} players={players} />
           </TransparentCard>
         </TransparentCard>
       </MainCard>
