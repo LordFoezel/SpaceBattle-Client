@@ -15,6 +15,7 @@ interface FieldProps {
   matchId: number;
   showShots?: boolean;
   showShips?: boolean;
+  disableInteraction?: boolean;
   onClick?: (payload: { position: number; items: FieldRenderableItem[] }) => void;
 }
 
@@ -124,6 +125,7 @@ export function Field({
   matchId,
   showShots = true,
   showShips = true,
+  disableInteraction = false,
   onClick,
 }: FieldProps) {
   const [fieldSize, setFieldSize] = useState<FieldSize>(DEFAULT_FIELD_SIZE);
@@ -221,22 +223,22 @@ export function Field({
 
   const handleCellClick = useCallback(
     (index: number) => {
-      if (!onClick) return;
+      if (!onClick || disableInteraction) return;
       const items = coverageMap.get(index) ?? [];
       onClick({ position: index, items });
     },
-    [coverageMap, onClick],
+    [coverageMap, disableInteraction, onClick],
   );
 
   const handleItemSelect = useCallback(
     (item: FieldRenderableItem) => {
-      if (!onClick) return;
+      if (!onClick || disableInteraction) return;
       const [firstCell] = computeCoverage(item, fieldSize.columns, fieldSize.rows);
       const primary = firstCell ?? item.startPosition;
       const items = coverageMap.get(primary) ?? [];
       onClick({ position: primary, items });
     },
-    [coverageMap, fieldSize.columns, fieldSize.rows, onClick],
+    [coverageMap, disableInteraction, fieldSize.columns, fieldSize.rows, onClick],
   );
 
   const gridTemplateColumns = `repeat(${fieldSize.columns}, ${cellSize}px)`;
@@ -306,7 +308,7 @@ export function Field({
               direction={item.direction}
               dimension={item.dimension}
               opacity={item.opacity}
-              selectable={item.selectable}
+            selectable={item.selectable && !disableInteraction}
               iconTag={item.iconTag}
               columns={fieldSize.columns}
               cellSize={cellSize}

@@ -14,6 +14,7 @@ import { TransparentCard } from "../components/layout/TransparentCard";
 import { StopGameButton } from "../components/button/StopGameButton";
 import { Field } from "../components/game/Field";
 import { BaseButton } from "../components/base/button/BaseButton";
+import { AuthTokenHelper } from "../helper/authToken";
 
 export default function GamePage() {
   const { matchId } = useParams<{ matchId: string }>();
@@ -21,9 +22,9 @@ export default function GamePage() {
   const [match, setMatch] = useState<Match | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showShips, setShowShips] = useState(true);
+  const [showShips, setShowShips] = useState(false);
   const [showShots, setShowShots] = useState(true);
+  const [localPlayerId, setLocalPlayerId] = useState<number>();
 
   useEffect(() => {
     if (!matchId) {
@@ -32,7 +33,6 @@ export default function GamePage() {
     }
     (async () => {
       try {
-        setIsLoading(true);
         const parsedMatchId = Number(matchId);
         if (!Number.isFinite(parsedMatchId) || parsedMatchId <= 0) {
           navigate("/lobby", { replace: true });
@@ -62,10 +62,16 @@ export default function GamePage() {
         ErrorHelper.handleError(error);
         navigate("/lobby", { replace: true });
       } finally {
-        setIsLoading(false);
+        const { id: userId } = AuthTokenHelper.getUserIdentity();
+        setLocalPlayerId(userId);
       }
     })();
   }, [matchId, navigate]);
+
+  useEffect(() => {
+    const { id: userId } = AuthTokenHelper.getUserIdentity();
+    setLocalPlayerId(userId);
+  }, [players]);
 
   const currentPlayer = useMemo(() => {
     if (!players.length) return null;
@@ -73,7 +79,21 @@ export default function GamePage() {
     return players[normalizedIndex];
   }, [players, selectedIndex]);
 
+  useEffect(() => {
+    if (!currentPlayer) return;
+    if (localPlayerId == null) {
+      console.log('showShips true, no player');
+
+      setShowShips(true);
+      return;
+    }
+    const isOwn = currentPlayer.id === localPlayerId;
+    console.log('isOwn ? false : true', isOwn ? false : true);
+    setShowShips(isOwn ? false : true);
+  }, [currentPlayer?.id, localPlayerId]);
+
   const disableNavigation = players.length <= 1;
+  const isOwnSelection = !!(currentPlayer && localPlayerId != null && currentPlayer.id === localPlayerId);
 
   function handleNextPlayer() {
     if (!players.length) return;
@@ -128,6 +148,7 @@ export default function GamePage() {
             matchId={match.id}
             showShips={showShips}
             showShots={showShots}
+            disableInteraction={isOwnSelection}
             onClick={onClick}
           />
           <TransparentCard direction="col" gap="3" width="full" padding="4">
