@@ -8,6 +8,7 @@ import ResetPasswordPage from "../pages/resetPassword";
 import NotFoundPage from "../pages/notFound";
 import AdminPage from "../pages/admin";
 import MatchPage from "../pages/match";
+import GamePage from "../pages/game";
 import VerifyPage from "../pages/verify";
 import TestPage from "../pages/test";
 import UserSettingPage from "../pages/userSetting";
@@ -50,6 +51,7 @@ export default function AppRouter() {
           {/* Core */}
           <Route path="/lobby" element={<ProtectedRoute><LobbyPage /></ProtectedRoute>} />
           <Route path="/match/:matchId" element={<ProtectedRoute><MatchPage /></ProtectedRoute>} />
+          <Route path="/game/:matchId" element={<ProtectedRoute><GamePage /></ProtectedRoute>} />
           {/* Auth */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -66,7 +68,6 @@ export default function AppRouter() {
     </BrowserRouter>
   );
 }
-
 
 
 

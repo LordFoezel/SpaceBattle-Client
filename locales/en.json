@@ -126,6 +126,7 @@
     "dimension": "Dimension",
     "turnTimeout": "Turn timeout",
     "hasPassword": "With password",
+    "play": "Play",
     "configFleet": {
       "info": "",
       "label": "Fleet-config"

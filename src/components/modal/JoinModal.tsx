@@ -13,6 +13,7 @@ import {
 } from "../../repositories/config_fleet_ship";
 import { fetchOne as fetchPlayer } from "../../repositories/players";
 import { ShipDirection } from "../../models/fleet";
+import { checkMatchState } from "../../helper/matchState";
 
 interface JoinModalProps {
     matchId: number;
@@ -40,6 +41,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                     globalThis.notify.error(globalThis.t("error.notFound", ["core.match"]));
                     return;
                 }
+                const destinationPath = checkMatchState(match);
                 if (match.password_hash && match.password_hash !== password) {
                     globalThis.notify.warning(globalThis.t("error.code.INVALID_CREDENTIALS"));
                     return;
@@ -64,7 +66,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                                 count++;
                             }
                         };
-                        navigate(`/match/${match.id}`, { replace: true });
+                        navigate(destinationPath, { replace: true });
                         return;
                     }
                 } catch (error) {
@@ -99,7 +101,7 @@ const JoinModal = function JoinModal(props: JoinModalProps) {
                         count++;
                     }
                 };
-                navigate(`/match/${match.id}`, { replace: true });
+                navigate(destinationPath, { replace: true });
             } catch (error) {
                 ErrorHelper.handleError(error);
             }

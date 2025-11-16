@@ -13,6 +13,7 @@ import {
 } from "../../repositories/config_fleet_ship";
 import { ShipDirection } from "../../models/fleet";
 import { PlayerRace } from "../../models/player";
+import { checkMatchState } from "../../helper/matchState";
 
 interface JoinButtonProps {
   isDisabled?: boolean;
@@ -35,6 +36,8 @@ const JoinButton = function JoinButton({
           return;
         }
 
+        const destinationPath = checkMatchState(match);
+
         const { id: userId, name: userName } = AuthTokenHelper.getUserIdentity();
 
         try {
@@ -54,7 +57,7 @@ const JoinButton = function JoinButton({
                 count++;
               }
             };
-            navigate(`/match/${match.id}`, { replace: true });
+            navigate(destinationPath, { replace: true });
             return;
           }
         } catch (error) {
@@ -90,7 +93,7 @@ const JoinButton = function JoinButton({
             count++;
           }
         };
-        navigate(`/match/${match.id}`, { replace: true });
+        navigate(destinationPath, { replace: true });
       } catch (error) {
         ErrorHelper.handleError(error);
       }
