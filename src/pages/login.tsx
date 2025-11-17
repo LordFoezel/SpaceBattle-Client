@@ -12,6 +12,7 @@ import { ToForgotButton } from "../components/button/ToForgotButton";
 import { TransparentCard } from "../components/layout/TransparentCard";
 import { AuthTokenHelper } from "../helper/authToken.js";
 import { ErrorHelper } from "../helper/errorHelper.js";
+import { CreateTestJob } from "../helper/jobs/testJob.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -64,6 +65,13 @@ export default function LoginPage() {
         /* ignore storage errors */
       }
 
+      try {
+        const jobPayload = auth?.user ? { user_id: auth.user.id } : {};
+        await new CreateTestJob(jobPayload).execute();
+      } catch (jobError) {
+        console.warn("Failed to create test job", jobError);
+      }
+
       navigate("/lobby", { replace: true });
 
     } catch (error) {
@@ -101,6 +109,4 @@ export default function LoginPage() {
     </section>
   );
 }
-
-
 
