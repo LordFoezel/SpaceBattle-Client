@@ -29,19 +29,23 @@ export abstract class BaseJobHelper {
 
 interface CreateJobHelperOptions extends BaseJobHelperOptions {
   payload?: Record<string, unknown>;
+  runAt?: Date;
+  jobKey?: string;
   state?: JobState;
 }
 
 export abstract class CreateJobHelper extends BaseJobHelper {
   private readonly payload: Record<string, unknown>;
   private readonly runAt: Date;
+  private readonly jobKey?: string;
   private readonly state?: JobState;
 
   protected constructor(jobType: string, opts: CreateJobHelperOptions = {}) {
-    const { repository, payload, state } = opts;
+    const { repository, payload, state, runAt, jobKey } = opts;
     super(jobType, { repository });
     this.payload = payload ?? {};
-    this.runAt = new Date();
+    this.runAt = runAt ?? new Date();
+    this.jobKey = jobKey;
     this.state = state;
   }
 
@@ -51,6 +55,7 @@ export abstract class CreateJobHelper extends BaseJobHelper {
       payload: this.payload,
       run_at: this.runAt,
     };
+    if (this.jobKey) jobPayload.job_key = this.jobKey;
     if (this.state) jobPayload.state = this.state;
     return this.repository.createOne(jobPayload);
   }

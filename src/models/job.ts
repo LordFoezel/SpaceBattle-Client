@@ -3,6 +3,7 @@ export type JobState = "pending" | "running" | "done" | "failed";
 export interface Job {
   id: number;
   job_type: string;
+  job_key?: string | null;
   payload: Record<string, unknown>;
   run_at: Date;
   state: JobState;
@@ -13,12 +14,14 @@ export interface Job {
 
 export interface JobCreate {
   job_type: string;
+  job_key?: string | null;
   payload?: Record<string, unknown>;
   run_at?: Date;
   state?: JobState;
 }
 
 export interface JobUpdate {
+  job_key?: string | null;
   payload?: Record<string, unknown> | null;
   run_at?: Date | null;
   state?: JobState | null;
@@ -29,6 +32,7 @@ export function adaptJob(raw: any): Job {
   return {
     id: raw.id,
     job_type: raw.job_type,
+    job_key: raw.job_key ?? null,
     payload: raw.payload ?? {},
     run_at: new Date(raw.run_at),
     state: raw.state,

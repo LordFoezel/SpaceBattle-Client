@@ -56,20 +56,12 @@ export default function LoginPage() {
 
     try {
       const auth = await loginRequest({ email, password });
-
       try {
         window.localStorage.setItem("spacebattle.access_token", auth.access_token);
         window.localStorage.setItem("spacebattle.user", JSON.stringify(auth.user));
         window.localStorage.setItem("spacebattle.default_email", email);
       } catch {
         /* ignore storage errors */
-      }
-
-      try {
-        const jobPayload = auth?.user ? { user_id: auth.user.id } : {};
-        await new CreateTestJob(jobPayload).execute();
-      } catch (jobError) {
-        console.warn("Failed to create test job", jobError);
       }
 
       navigate("/lobby", { replace: true });
