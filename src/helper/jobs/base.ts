@@ -2,7 +2,7 @@ import type { Job, JobCreate, JobState } from "../../models/job.js";
 import type { QueryInterface, QueryWhere } from "../../models/queryInterface.js";
 import * as JobRepository from "../../repositories/jobs.js";
 
-type JobRepositoryContract = Pick<typeof JobRepository, "createOne" | "fetchOne" | "deleteOne">;
+type JobRepositoryContract = Pick<typeof JobRepository, "createOne" | "fetchOne">;
 
 interface BaseJobHelperOptions {
   repository?: JobRepositoryContract;
@@ -71,20 +71,5 @@ export abstract class CheckJobHelper extends BaseJobHelper {
 
   async execute(): Promise<Job | null> {
     return this.repository.fetchOne(this.buildQuery(this.where));
-  }
-}
-
-interface RemoveJobHelperOptions extends CheckJobHelperOptions {}
-
-export abstract class RemoveJobHelper extends CheckJobHelper {
-  protected constructor(jobType: string, opts: RemoveJobHelperOptions = {}) {
-    super(jobType, opts);
-  }
-
-  async execute(): Promise<boolean> {
-    const job = await super.execute();
-    if (!job) return false;
-    await this.repository.deleteOne(job.id);
-    return true;
   }
 }
