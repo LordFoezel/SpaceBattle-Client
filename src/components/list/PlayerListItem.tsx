@@ -9,11 +9,12 @@ import { ReadySwitch } from "../checkbox/ReadySwitch";
 import { SelfCheck } from "../../helper/SelfCheck";
 import { fetchAll as fetchFleet } from "../../repositories/fleet";
 import { ErrorHelper } from "../../helper/errorHelper";
+import { Match } from "src/models/match";
 
 interface ListItemProps {
     player: Player;
     key: number;
-    matchId: number;
+    match: Match;
     onDeleted?: (id: number) => void;
     onChangeState?: () => void;
 }
@@ -21,7 +22,7 @@ interface ListItemProps {
 const PlayerListItem = function PlayerListItem(props: ListItemProps) {
     const {
         player,
-        matchId,
+        match,
         onDeleted,
         onChangeState,
     } = props;
@@ -36,7 +37,7 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
         try {
             const fleets = await fetchFleet({
                 player_id: player.id,
-                match_id: matchId,
+                match_id: match.id,
             });
             const allPlaced = fleets.length > 0 && fleets.every((fleet) => typeof fleet.position === "number");
             setHasAllShipsPlaced(allPlaced);
@@ -44,7 +45,7 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
             ErrorHelper.handleError(error);
             setHasAllShipsPlaced(false);
         }
-    }, [isSelfPlayer, matchId, player.id]);
+    }, [isSelfPlayer, match.id, player.id]);
 
     useEffect(() => {
         checkPlacementStatus();
@@ -78,7 +79,9 @@ const PlayerListItem = function PlayerListItem(props: ListItemProps) {
                             isDisabled={readyDisabled}
                         />
                     )}
-                    <DeletePlayerButton playerId={player.id} onDeleted={onDeleted} matchId={matchId} />
+                    {SelfCheck({ userId: match?.created_by }) && (
+                        <DeletePlayerButton playerId={player.id} onDeleted={onDeleted} matchId={match.id} />
+                    )}
                 </TransparentCard>
             </TransparentCard>
         </BaseCard>

@@ -32,13 +32,15 @@ const LeaveButton = function LeaveButton({
   async function onClick() {
     const { id: userId } = AuthTokenHelper.getUserIdentity();
     try {
-      const player = await fetchPlayer({ where: { userId, matchId } });
-      deletePlayer(player.id);
-      onLeave();
-      const fleets = await fetchAll({ match_id: matchId, player_id: player.id });
-      fleets.forEach((fleet) => {
-        deleteOne(fleet.id);
-      });
+      const player = await fetchPlayer({ where: { user_id: userId, match_id: matchId } });
+      if (!player) {
+        globalThis.notify?.warning(globalThis.t?.("match.playerNotFound") ?? "Player not found");
+        return;
+      }
+      await deletePlayer(player.id);
+      onLeave?.();
+      const fleets = await fetchAll({ where: { match_id: matchId, player_id: player.id } });
+      await Promise.all(fleets.map((fleet) => deleteOne(fleet.id)));
       navigate("/lobby", { replace: true });
     } catch (error) {
       ErrorHelper.handleError(error);

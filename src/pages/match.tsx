@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchById as fetchMatchById, updateOne as updateMatchById } from "../repositories/matches";
 import { fetchAll as fetchAllPlayer, updateOne as updatePlayerById } from "../repositories/players";
@@ -17,6 +17,7 @@ import { FleetModal } from "../components/modal/FleetModal";
 import { BaseButton } from "../components/base/button/BaseButton";
 import { autoplaceFleet, fetchAll as fetchAllFleet } from "../repositories/fleet";
 import { checkMatchState } from "../helper/matchState";
+import { MatchRealtimeChannel } from "../helper/realtime";
 
 interface PlayButtonProps {
   match: Match;
@@ -95,23 +96,18 @@ export default function MatchPage() {
   const currentPlayer = players.find((player) => SelfCheck({ playerId: player.id }));
   const isCurrentPlayerReady = currentPlayer?.state === PlayerState.READY;
 
-  useEffect(() => {
+  const loadMatch = useCallback(async () => {
     if (!matchId) {
       navigate("/lobby", { replace: true });
       return;
     }
-    loadMatch();
-    loadPlayer();
-  }, [matchId, navigate]);
-
-  async function loadMatch() {
     try {
       const parsedMatchId = Number(matchId);
-      setNumericMatchId(parsedMatchId);
       if (!Number.isFinite(parsedMatchId) || parsedMatchId <= 0) {
         navigate("/lobby", { replace: true });
         return;
       }
+      setNumericMatchId(parsedMatchId);
       const match = await fetchMatchById(parsedMatchId);
       if (!match) {
         globalThis.notify.error(globalThis.t("error.notFound", ["core.match"]));
@@ -128,17 +124,58 @@ export default function MatchPage() {
       ErrorHelper.handleError(error);
       navigate("/lobby", { replace: true });
     }
-  }
+  }, [matchId, navigate]);
 
-  async function loadPlayer() {
+  const loadPlayer = useCallback(async () => {
+    if (!matchId) {
+      navigate("/lobby", { replace: true });
+      return;
+    }
     try {
-      const players = await fetchAllPlayer({ where: { match_id: matchId } });
+      const parsedMatchId = Number(matchId);
+      if (!Number.isFinite(parsedMatchId) || parsedMatchId <= 0) {
+        navigate("/lobby", { replace: true });
+        return;
+      }
+      const players = await fetchAllPlayer({ where: { match_id: parsedMatchId } });
       setPlayers(players);
     } catch (error) {
       ErrorHelper.handleError(error);
       navigate("/lobby", { replace: true });
     }
-  }
+  }, [matchId, navigate]);
+
+  useEffect(() => {
+    if (!matchId) {
+      navigate("/lobby", { replace: true });
+      return;
+    }
+    loadMatch();
+    loadPlayer();
+  }, [matchId, navigate, loadMatch, loadPlayer]);
+
+  useEffect(() => {
+    if (!numericMatchId) return undefined;
+    const channel = new MatchRealtimeChannel(numericMatchId, {
+      onMessage: (event) => {
+        if (!event || typeof event !== "object") return;
+        switch (event.type) {
+          case "players_changed":
+          case "player_joined":
+          case "player_left":
+            loadPlayer();
+            break;
+          case "match_updated":
+            loadMatch();
+            break;
+          default:
+            break;
+        }
+      },
+    });
+    channel.connect();
+    return () => channel.disconnect();
+  }, [numericMatchId, loadMatch, loadPlayer]);
 
   function onDeletedPlayer(playerId: number) {
     if (SelfCheck({ playerId })) navigate("/lobby", { replace: true });
@@ -163,7 +200,7 @@ export default function MatchPage() {
       <MainCard>
         <PageHeader title={match.name} info={match.description} />
         <TransparentCard direction='col' gap='2'>
-          <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} matchId={Number(matchId)} />
+          <PlayerList players={players} onDeleted={onDeletedPlayer} onChangeState={onChangeState} match={match} />
           <MatchConfigDisplay match={match} />
           <TransparentCard direction='row' gap='2'>
             {SelfCheck({ userId: match?.created_by }) && (

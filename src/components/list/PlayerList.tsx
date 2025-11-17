@@ -1,10 +1,11 @@
 import { Player } from "src/models/player";
 import { TransparentCard } from "../layout/TransparentCard";
 import { PlayerListItem } from "./PlayerListItem";
+import { Match } from "src/models/match";
 
 interface ListProps {
   players: Player[];
-  matchId: number;
+  match: Match;
   onDeleted?: (id: number) => void;
   onChangeState: () => void;
 }
@@ -12,7 +13,7 @@ interface ListProps {
 const PlayerList = function PlayerList(props: ListProps) {
   const {
     players,
-    matchId,
+    match,
     onDeleted,
     onChangeState,
   } = props;
@@ -20,7 +21,7 @@ const PlayerList = function PlayerList(props: ListProps) {
   return (
     <TransparentCard gap="2" direction="col">
       {players.map((player) => (
-        <PlayerListItem player={player} key={player.id} onDeleted={onDeleted} onChangeState={onChangeState} matchId={matchId} />
+        <PlayerListItem player={player} key={player.id} onDeleted={onDeleted} onChangeState={onChangeState} match={match} />
       ))}
     </TransparentCard>
   );
