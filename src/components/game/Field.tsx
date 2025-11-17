@@ -171,9 +171,9 @@ export function Field({
           {sortedItems.map((item, index) => {
             const hidden = item.visible === false;
             const selectable = interactable && (item.selectable ?? true) && !hidden;
+            const flipped = index % 2 === 0;
             return (
               <FieldItem
-              // todo: drehe alle bilder um 180 grad bei denen der index durch 2 teilbar ist, gleiche logik wie beim dragDropItem
                 key={item.id}
                 {...item}
                 selectable={selectable}
@@ -181,6 +181,7 @@ export function Field({
                 cellSize={cellSize}
                 cellGap={CELL_GAP}
                 hidden={hidden}
+                flipped={flipped}
                 onSelect={selectable ? () => handleItemSelect(item) : undefined}
               />
             );

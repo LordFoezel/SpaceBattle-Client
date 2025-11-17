@@ -7,6 +7,7 @@ interface FieldItemProps {
   selectable?: boolean;
   type: FieldItemType;
   startPosition: number;
+  id?: string | number;
   direction: FieldDirection;
   dimension: number;
   columns: number;
@@ -14,6 +15,7 @@ interface FieldItemProps {
   cellGap: number;
   iconTag?: string | null;
   hidden?: boolean;
+  flipped?: boolean;
   onSelect?: () => void;
 }
 
@@ -49,6 +51,7 @@ export function FieldItem(props: FieldItemProps) {
     cellGap,
     iconTag,
     hidden = false,
+    flipped = false,
     onSelect,
   } = props;
 
@@ -116,6 +119,7 @@ export function FieldItem(props: FieldItemProps) {
         height: `${cellSize}px`,
         pointerEvents: "none",
       }}
+      flipped={flipped}
     />
   ) : (
     <div
@@ -174,4 +178,3 @@ export function FieldItem(props: FieldItemProps) {
     </div>
   );
 }
-
