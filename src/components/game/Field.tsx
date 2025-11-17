@@ -168,11 +168,12 @@ export function Field({
             pointerEvents: "none",
           }}
         >
-          {sortedItems.map((item) => {
+          {sortedItems.map((item, index) => {
             const hidden = item.visible === false;
             const selectable = interactable && (item.selectable ?? true) && !hidden;
             return (
               <FieldItem
+              // todo: drehe alle bilder um 180 grad bei denen der index durch 2 teilbar ist, gleiche logik wie beim dragDropItem
                 key={item.id}
                 {...item}
                 selectable={selectable}

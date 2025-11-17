@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { BaseButton } from "../base/button/BaseButton";
 import { Match, MatchState } from "../../models/match";
 import { Player, PlayerState } from "../../models/player";
-import { updateOne as updateMatchById } from "../../repositories/matches";
 import { updateOne as updatePlayerById } from "../../repositories/players";
+import { updateOne as updateMatchById } from "../../repositories/matches";
 import { ErrorHelper } from "../../helper/errorHelper";
 import { ButtonText } from "../text/ButtonText";
 
@@ -54,4 +54,3 @@ export function StopGameButton({ match, players }: StopGameButtonProps) {
     </BaseButton>
   );
 }
-
