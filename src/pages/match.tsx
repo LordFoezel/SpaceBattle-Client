@@ -162,9 +162,13 @@ export default function MatchPage() {
         switch (event.type) {
           case "players_changed":
           case "player_joined":
-          case "player_left":
+          case "player_left": {
             loadPlayer();
+            if (event.data?.player_id && SelfCheck({ playerId: Number(event.data.player_id) })) {
+              navigate("/lobby", { replace: true });
+            }
             break;
+          }
           case "match_updated":
             loadMatch();
             break;

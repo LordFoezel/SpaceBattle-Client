@@ -2,7 +2,6 @@ import { BaseButton } from "../base/button/BaseButton";
 import { IconCross } from "../icon/IconCross";
 import { deleteOne as deletePlayer } from "../../repositories/players";
 import { ErrorHelper } from "../../helper/errorHelper";
-import { AdminRoleChecker } from "../roleChecker/AdminRoleChecker";
 import { deleteOne, fetchAll } from "../../repositories/fleet";
 
 interface ButtonProps {
@@ -40,6 +39,4 @@ const DeletePlayerButton = function DeletePlayerButton({
 };
 
 export { DeletePlayerButton };
-
-
 
